@@ -22,7 +22,7 @@
         // 音楽の輪が限りなく広がりますように
     })
     window.addEventListener('resize', () => {
-      document.getElementById('video-frame').offsetHeight = window.innerHeight
+      document.getElementById('video-frame').style.height = window.innerHeight
       videoAdjust()
     })
   </script>
@@ -142,7 +142,7 @@
       fill-opacity: 0;
       stroke: #fff;
       stroke-opacity: 0;
-      stroke-width: .1px;
+      stroke-width: .5px;
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-dasharray: 60;
@@ -161,7 +161,7 @@
       }
       60% {
         stroke-dashoffset: 0;
-        stroke-width: .1px;
+        stroke-width: .5px;
         stroke-opacity: 1;
         fill-opacity: 0;
       }
@@ -175,7 +175,7 @@
     }
     @keyframes draw {
       30% {
-        stroke-width: .1px;
+        stroke-width: .5px;
         stroke-opacity: 1;
       }
       60% {
@@ -191,12 +191,11 @@
         fill-opacity: 1;
       }
     }
-
   </style>
   </head>
   <body>
     <div class='video' id='video-frame'>
-      <video src='image/003.mp4' id='video' autoload autoplay loop muted controles='false'></video>
+      <video src='image/010.mp4' id='video' autoload autoplay loop muted controles='false' playsinline></video>
       <div class='overlay'>
         <div class='main-logo'>
           <div class='pc'>
@@ -489,7 +488,6 @@
             </svg> -->
             <q id='quote'></q>
           </div>
-
           </div>
         </div>
       </div>

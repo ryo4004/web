@@ -1,0 +1,151 @@
+.top-background {
+  overflow: hidden;
+  position: relative;
+  
+  video {
+    position: absolute;
+    background: #000;
+  }
+
+  .overlay {
+    /* left: 50%; */
+    position: absolute;
+    /* top: 50%; */
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.6);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    
+    .main-logo {
+      width: 75vw;
+      max-width: 1200px;
+      text-align: right;
+    }
+
+    @media (min-width: 768px) {
+      svg#svg-logo {
+        width: 75vw;
+        max-width: 1200px;
+        fill: url(#gradient);
+      }
+      svg#svg-logo-mobile {
+        display: none;
+      }
+    }
+
+    @media (max-width: 920px) {
+      svg#svg-logo-mobile {
+        width: 80vw;
+        max-height: 40vh;
+        path {
+          fill: url(#gradient2);
+        }
+      }
+      svg#svg-logo {
+        display: none;
+      }
+    }
+
+    svg {
+      path {
+        fill-opacity: 0;
+        stroke: #fff;
+        stroke-opacity: 0;
+        stroke-width: .2px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 60;
+        stroke-dashoffset: 100;
+      
+        animation-name: draw;
+        animation-duration: 5s;
+        animation-delay: .5s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-timing-function: linear;
+
+        @-webkit-keyframes draw {
+          30% {
+            stroke-opacity: 1;
+          }
+          60% {
+            stroke-dashoffset: 0;
+            stroke-width: .2px;
+            stroke-opacity: 1;
+            fill-opacity: 0;
+          }
+          80% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-width: 0;
+            fill-opacity: 1;
+          }
+        }
+        @keyframes draw {
+          30% {
+            stroke-width: .2px;
+            stroke-opacity: 1;
+          }
+          60% {
+            stroke-opacity: 1;
+            fill-opacity: 0;
+          }
+          80% {
+            stroke-dashoffset: 0;
+          }
+          100% {
+            stroke-opacity: 0;
+            stroke-width: 0;
+            fill-opacity: 1;
+          }
+        }
+      }
+    }
+
+    q {
+      display: block;
+      text-align: right;
+      font-size: 1.2em;
+      color: rgba(255,255,255,.8);
+      font-family:"游明朝" , "Yu Mincho" , "游明朝体" , "YuMincho" , "ヒラギノ明朝 Pro W3" , "Hiragino Mincho Pro" , "HiraMinProN-W3" , "HGS明朝E" , "ＭＳ Ｐ明朝" , "MS PMincho" , serif;
+
+      @media (max-width: 767px) {
+        & {
+          font-size: 0.7em;
+        }
+      }     
+
+      span {
+        /* animation: fade-in 2s ease-out infinite;
+        animation-delay: 6.0s; */
+        opacity: 0;
+        animation-name: fade-in;
+        animation-duration: 2s;
+        animation-delay: 6s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-out;
+              
+        @for $i from 1 through 18 {
+          &:nth-child(#{$i}) {
+            animation-delay: #{5.9 + ($i / 10.0)}s;
+          }
+        }
+      }
+
+      @-webkit-keyframes fade-in {
+        0% {opacity: 0;}
+        100% {opacity:1;}
+      }
+      @keyframes fade-in {
+        0% {opacity: 0;}
+        100% {opacity:1;}
+      }
+    }
+  }
+}
