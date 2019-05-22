@@ -16,7 +16,7 @@ function videoAdjust () {
 function setQuote () {
   const quote = document.getElementById('quote')
   '音楽の輪が限りなく広がりますように'.split('').forEach(each => quote.innerHTML += '<span>' + each + '</span>')
-  quote.innerHTML += '<span>&mdash;&mdash;</span>'
+  quote.innerHTML += '<span class="dash">&mdash;&mdash;</span>'
 }
 function loadingClose () {
   document.getElementById('loading').classList.add('hide')
@@ -30,5 +30,8 @@ window.addEventListener('load', () => {
   setQuote()
 })
 window.addEventListener('resize', () => {
+  /iP(hone|(o|a)d)/.test(navigator.userAgent) ? false : videoAdjust()
+})
+window.addEventListener('orientationchange', () => {
   videoAdjust()
 })
