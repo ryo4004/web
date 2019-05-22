@@ -451,6 +451,14 @@ a.button {
         stroke: none;
         filter: drop-shadow(0 0 10px rgba(0,0,0,.2));
       }
+
+      g#svg-horn {
+        transform: translate(368px, 353px) scale(.5);
+        path {
+          stroke: none;
+          fill: #b60005;
+        }
+      }
     }
   }
 
@@ -479,6 +487,7 @@ a.button {
 
 .concert {
   background: #333;
+  align-items: flex-start;
 
   .background.photo {
     overflow: hidden;
@@ -504,23 +513,78 @@ a.button {
   }
 
   .contents {
+    width: 100%;
     color: #fff;
 
-    h2.title {
-      margin-bottom: 24px;
-      font-size: 2.4rem;
+    & > div {
+      max-width: 800px;
+      padding: 48px 24px;
+      box-sizing: border-box;
+      margin: 0 auto;
+      font-size: 14px;
+  
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
 
-      &::before {
-        content: attr(data-subttl)'';
-        display: block;
-        font-size: 1.2rem;
-        color: #ccc;
+      & > .title {
+        margin-right: 48px;
+
+        h2.title {
+          margin-bottom: 24px;
+          font-size: 2.4rem;
+    
+          &::before {
+            content: attr(data-subttl)'';
+            display: block;
+            font-size: 1.2rem;
+            color: #ccc;
+          }
+        }
       }
-    }
-    a {
-      margin-top: 24px;
-      padding: 6px 24px;
-      font-size: 16px;
+
+      & > .list {
+        .each-concert {
+          margin: 12px 0 0 0;
+
+          a {
+            // padding: 6px 12px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+
+
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;// default
+
+            div:first-child {
+              flex-grow: 1;
+              padding: 6px 0 6px 12px;
+              background: rgba(255,255,255,.2);
+            }
+
+            div:last-child {
+              padding: 6px 12px;
+              background: rgba(255,255,255,.4);
+
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+
+            &:hover {
+              div:first-child {
+                background: rgba(255,255,255,.4);
+              }
+  
+              div:last-child {
+                background: rgba(255,255,255,.4);
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

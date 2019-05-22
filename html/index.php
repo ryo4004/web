@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/index.css">
   <link rel="shortcut icon" href="image/favicon.ico">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <script>
     ((d) => {
       var config = { kitId: 'wxw0kpr', scriptTimeout: 3000, async: true },
@@ -41,7 +42,7 @@
     </div>
     <div class='block introduction' id="introduction">
       <div class='background map'>
-        <?php require('image/svg/japan-niigata3_2.svg'); ?>
+        <?php require('image/svg/japan-niigata3_3.svg'); ?>
       </div>
       <div class='contents'>
         <h2 class='location' data-subttl="Location">拠点</h2>
@@ -67,8 +68,23 @@
         <div class='overlay'></div>
       </div>
       <div class='contents'>
-        <h2 class='title' data-subttl="Concert">演奏会</h2>
-        <p>主に年2回、演奏会を行っております</p>
+        <div>
+          <div class='title'>
+            <h2 class='title' data-subttl="Concert">演奏会</h2>
+          </div>
+          <div class='list'>
+            <p>主に年2回、演奏会を行っております</p>
+            <div class='each-concert'>
+              <a href='#'>
+                <div>
+                  <p>2019年10月13日(日)</p>
+                  <h3>第32回定期演奏会</h3>
+                </div>
+                <div><i class="fas fa-chevron-right"></i></div>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class='block schedule'>
