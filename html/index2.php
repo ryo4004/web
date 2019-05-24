@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
   <title>ザ・ウィンド・アンサンブルへようこそ！</title>
   <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/index2.css">
   <link rel="shortcut icon" href="image/favicon.ico">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <script>
@@ -17,29 +17,24 @@
 </head>
 <body>
   <div>
-    <div class='top-background' id='video-frame'>
-      <video id='video' preload='auto' autoplay loop muted playsinline>
-        <source src='image/video/top.mp4' type='video/mp4'>
-        <source src='image/video/top.webm' type='video/webm'>
-      </video>
-      <div class='overlay'></div>
-      <div class='contents'>
-        <div class='main-logo'>
+    <header id="top">
+      <section id="background">
+        <div id="first-background"></div>
+        <div id="second-background"></div>
+        <div class="filter"></div>
+      </section>
+      <section id="main-logo">
+        <main>
           <?php require('image/logo/logo.svg'); ?>
           <?php require('image/logo/logo_mobile.svg'); ?>
-          <q id='quote'></q>
-          <div class='direct-link'><a href="#" class="tap">第32回定期演奏会のご案内</a></div>
-        </div>
-        <span><a href="#introduction" class="guide-scroll tap">Scroll</a></span>
-      </div>
-      <div id='loading'>
-        <div class="loading">
-          <div class="loading1"></div>
-          <div class="loading2"></div>
-          <div class="loading3"></div>
-        </div>
-      </div>
-    </div>
+          <q>音楽の輪が限りなく広がりますように <span>&mdash;&mdash;</span></q>
+          <!-- <div><a href="mini2019" class="tap">春のミニコンサート2019を開催します！</a></div> -->
+        </main>
+        <span class='scroll-guide'></span>
+      </section>
+
+    </header>
+
     <div class='block introduction' id="introduction">
       <div class='background map'>
         <?php require('image/svg/japan-niigata3_3.svg'); ?>
@@ -110,6 +105,6 @@
       </div>
     </div>
   </footer>
-  <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="js/index2.js"></script>
 </body>
 </html>
