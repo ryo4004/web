@@ -81,13 +81,13 @@ header#top {
       left: 0;
       width: 100%;
       height: 100vh;
-      background: rgba(0,0,0,.5);
+      background: rgba(0,0,0,.4);
     }
   }
 
   // section#member {
   //   z-index: 3;
-    
+
   //   position: absolute;
   //   top: 0;
   //   left: 0;
@@ -255,11 +255,11 @@ header#top {
       // text-align: right;
       font-size: 24px;
       color: rgba(255,255,255,.6);
-      font-family:"游明朝" , "Yu Mincho" , "游明朝体" , "YuMincho" , "ヒラギノ明朝 Pro W3" , "Hiragino Mincho Pro" , "HiraMinProN-W3" , "HGS明朝E" , "ＭＳ Ｐ明朝" , "MS PMincho" , serif;
+      font-family: "游明朝", "Yu Mincho", "游明朝体", "YuMincho", "ヒラギノ明朝 Pro W3", "Hiragino Mincho Pro", "HiraMinProN-W3", "HGS明朝E", "ＭＳ Ｐ明朝", "MS PMincho", serif;
       -webkit-writing-mode: vertical-rl;
       -ms-writing-mode: tb-rl;
       writing-mode: vertical-rl;
-      
+
       @media (max-width: 767px) {
         & {
           font-size: 14px;
@@ -384,6 +384,25 @@ header#top {
   }
 }
 
+.not-block {
+  // position: -webkit-sticky;
+  // position: sticky;
+  // top: 0;
+
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .contents {
+    z-index: 1;
+  }
+}
+
 a.button {
   display: inline-block;
 
@@ -399,90 +418,209 @@ a.button {
   }
 }
 
-.concert {
-  background: #333;
-  align-items: flex-start;
+.introduction {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+  background: #fff;
 
-  .background.photo {
+  .background.map {
     overflow: hidden;
+    opacity: .6;
 
-    // img {
-    //   position: absolute;
-    //   width: 80%;
-    //   height: 50%;
-
-    //   &.spring {
-    //     // filter: blur(2px);
-    //     top: 0;
-    //     left: 20%;
-    //     object-fit: cover;
-    //   }
-
-    //   &.autumn {
-    //     // filter: blur(2px);
-    //     top: 50%;
-    //     object-fit: cover;
-    //   }
-
-    //   // @media (max-width: 767px) {
-    //   //   &.spring {
-
-    //   //   }
-
-    //   //   &.autumn {
-
-    //   //   }
-    //   // }
-    // }
-
-    div.cover {
-      position: absolute;
-      width: 100%;
-      height: 50%;
-
-      &.spring {
-        top: 0;
-        // background: rgba(247,207,225,1);
-        // background: linear-gradient(to right, rgba(247,207,225,1), rgba(247,207,225,1) 40%, rgba(247,207,225,0));
-        // 001 Warm Flame
-        background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-      }
-
-      &.autumn {
-        top: 50%;
-        // background: rgba(214,94,67,1);
-        // background: linear-gradient(to left, rgba(214,94,67,1), rgba(214,94,67,1) 40%, rgba(247,207,225,0));
-        background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%);
-      }
-    }
-
-    .overlay {
+    svg.japan-map {
+      // filter: blur(2px);
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100vh;
-      // background: rgba(0,0,0,.6);
-      // 102 Happy Memories
-      background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
-      opacity: .2;
+      width: 140%;
+      fill: rgba(255,255,255,.8);
+      stroke-width: .1px;
+      stroke: #666;
+
+      @media (max-width: 767px) {
+        & {
+          width: 240%;
+        }
+      }
+
+      path {
+        opacity: .8;
+        fill: none;
+      }
+
+      polygon {
+        opacity: .8;
+      }
+
+      path#niigata {
+        stroke: #333;
+        // fill: rgba(255,255,255,.6);
+        // fill: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+        fill: #eee;
+      }
+
+      g#svg-horn {
+        transform: translate(368px, 353px) scale(.5);
+        path {
+          stroke: none;
+          // fill: #b60005;
+          fill: #fff;
+        }
+      }
     }
   }
 
   .contents {
-    width: 100%;
-    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+    
+    @media (max-width: 767px) {
+      & {
+        width: 100%;
+      }
+    }
 
     & > div {
+      padding: 0 24px;
+      box-sizing: border-box;
+
+      h2.location {
+        margin-bottom: 24px;
+        font-size: 2.4rem;
+  
+        &::before {
+          content: attr(data-subttl)'';
+          display: block;
+          font-size: 1.2rem;
+          color: #666;
+        }
+      }
+      p {
+        color: #333;
+        font-size: 13px;
+      }
+  
+      a {
+        margin-top: 24px;
+        padding: 6px 24px;
+        font-size: 16px;
+        border: 2px solid #333;
+        color: #333;
+      }
+    }
+  }
+}
+
+.concert {
+  // background: #333;
+  align-items: flex-start;
+
+  // .background {
+  //   overflow: hidden;
+
+  //   .cover {
+  //     position: absolute;
+  //     width: 100%;
+  //     height: 100vh;
+  //     // // 111 Elegance
+  //     // background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%);
+  //     // background-blend-mode: screen;
+  //   }
+
+  //   // img {
+  //   //   position: absolute;
+  //   //   width: 80%;
+  //   //   height: 50%;
+
+  //   //   &.spring {
+  //   //     // filter: blur(2px);
+  //   //     top: 0;
+  //   //     left: 20%;
+  //   //     object-fit: cover;
+  //   //   }
+
+  //   //   &.autumn {
+  //   //     // filter: blur(2px);
+  //   //     top: 50%;
+  //   //     object-fit: cover;
+  //   //   }
+
+  //   //   // @media (max-width: 767px) {
+  //   //   //   &.spring {
+
+  //   //   //   }
+
+  //   //   //   &.autumn {
+
+  //   //   //   }
+  //   //   // }
+  //   // }
+
+  //   // div.cover {
+  //   //   position: absolute;
+  //   //   width: 100%;
+  //   //   height: 100%;
+
+  //   //   &.spring {
+  //   //     top: 0;
+  //   //     // background: rgba(247,207,225,1);
+  //   //     // background: linear-gradient(to right, rgba(247,207,225,1), rgba(247,207,225,1) 40%, rgba(247,207,225,0));
+  //   //     // 001 Warm Flame
+  //   //     background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+  //   //   }
+
+  //   //   &.autumn {
+  //   //     top: 50%;
+  //   //     // background: rgba(214,94,67,1);
+  //   //     // background: linear-gradient(to left, rgba(214,94,67,1), rgba(214,94,67,1) 40%, rgba(247,207,225,0));
+  //   //     background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%);
+  //   //   }
+  //   // }
+
+  //   // .overlay {
+  //   //   position: absolute;
+  //   //   top: 0;
+  //   //   left: 0;
+  //   //   width: 100%;
+  //   //   height: 100vh;
+  //   //   // background: rgba(0,0,0,.6);
+  //   //   // 102 Happy Memories
+  //   //   background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
+  //   //   opacity: .2;
+  //   // }
+  // }
+
+  .contents {
+    width: 100%;
+    font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+    // 076 Premium Dark
+    // background-image: linear-gradient(to right, #434343 0%, black 100%);
+    background-image: linear-gradient(to right, rgb(30,30,30) 0%, black 100%);
+
+    div.concert-introduction {
       max-width: 800px;
-      padding: 48px 24px;
+      padding: 96px 24px;
       box-sizing: border-box;
       margin: 0 auto;
       font-size: 14px;
+      color: #ccc;
 
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
+      // display: flex;
+      // justify-content: flex-start;
+      // align-items: center;
 
       @media (max-width: 767px) {
         & {
@@ -502,48 +640,175 @@ a.button {
             content: attr(data-subttl)'';
             display: block;
             font-size: 1.2rem;
-            color: #ccc;
+            color: #aaa;
           }
         }
       }
 
-      & > .list {
-        .each-concert {
-          margin: 12px 0 0 0;
+      // & > .list {
+      //   .each-concert {
+      //     margin: 12px 0 0 0;
 
-          a {
-            // padding: 6px 12px;
-            font-size: 16px;
-            text-decoration: none;
-            color: #fff;
+      //     a {
+      //       // padding: 6px 12px;
+      //       font-size: 16px;
+      //       text-decoration: none;
+      //       color: #fff;
 
 
-            display: flex;
-            justify-content: space-between;
-            align-items: stretch;// default
+      //       display: flex;
+      //       justify-content: space-between;
+      //       align-items: stretch;// default
 
-            div:first-child {
-              flex-grow: 1;
-              padding: 6px 0 6px 12px;
-              background: rgba(255,255,255,.2);
+      //       div:first-child {
+      //         flex-grow: 1;
+      //         padding: 6px 0 6px 12px;
+      //         background: rgba(255,255,255,.2);
+      //       }
+
+      //       div:last-child {
+      //         padding: 6px 12px;
+      //         background: rgba(255,255,255,.4);
+
+      //         display: flex;
+      //         justify-content: center;
+      //         align-items: center;
+      //       }
+
+      //       &:hover {
+      //         div:first-child {
+      //           background: rgba(255,255,255,.4);
+      //         }
+
+      //         div:last-child {
+      //           background: rgba(255,255,255,.4);
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
+    }
+
+    div.concert-box {
+      display: flex;
+      align-items: stretch;
+      font-size: 14px;
+      color: #ccc;
+
+      @media (max-width: 767px) {
+        & {
+          flex-direction: column;
+        }
+      }
+
+      & > div {
+        flex: 1;
+
+        &.main-concert {
+          background-clip: content-box;
+          background-color: rgba(0,0,0,.6);
+          background-position: 50% 50%;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-image: url('../image/photo/autumn3.jpg');
+        }
+
+        &.mini-concert {
+          background-clip: content-box;
+          background-color: rgba(0,0,0,.6);
+          background-position: 50% 50%;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-image: url('../image/photo/spring3.jpg');
+        }
+
+        .content {
+          max-width: 500px;
+          margin: 0 auto;
+
+          h3.title {
+            margin: 96px 24px 24px;
+            // margin-bottom: 24px;
+            font-size: 2.4rem;
+
+            &::before {
+              content: attr(data-subttl)'';
+              display: block;
+              font-size: 1.2rem;
+              color: #ccc;
             }
+          }
 
-            div:last-child {
-              padding: 6px 12px;
-              background: rgba(255,255,255,.4);
+          .text {
+            margin: 0 24px 24px;
+            // padding-bottom: 300px;
+          }
 
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            }
+          ul {
+            margin: 0 24px 96px;
 
-            &:hover {
-              div:first-child {
-                background: rgba(255,255,255,.4);
-              }
+            li {
+              a {
+                position: relative;
+                display: block;
+                padding: 6px 12px;
+                border: .55px solid #fff;
+                text-decoration: none;
+                color: #fff;
+                background: rgba(255,255,255,.1);
+                transition: all .2s ease-out;
 
-              div:last-child {
-                background: rgba(255,255,255,.4);
+                &:hover {
+                  background: rgba(255,255,255,.2);
+                }
+
+                div.concert-detail {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: stretch;
+
+                  p {
+                    font-size: 13px;
+                  }
+
+                  h3 {
+                    font-size: 16px;
+                  }
+
+                  .link-arrow {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  }
+                }
+
+                div.concert-close {
+                  display: none;
+                }
+
+                &.close {
+                  border: .55px solid rgba(255,255,255,.6);
+                  color: rgba(255,255,255,.6);
+
+                  &:hover {
+                    background: rgba(255,255,255,.1);
+                  }
+
+                  div.concert-close {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 18px;
+                    color: #fff;
+                    border: .55px solid rgba(255,255,255,.2);
+                    background: rgba(0,0,0,.6);
+                  }
+                }
               }
             }
           }
@@ -597,98 +862,6 @@ a.button {
       font-size: 16px;
     }
   }
-}
-
-.introduction {
-  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
-
-  .background.map {
-    overflow: hidden;
-
-    svg.japan-map {
-      // filter: blur(2px);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 140%;
-      fill: rgba(255,255,255,.8);
-      stroke-width: .1px;
-      stroke: #666;
-
-      @media (max-width: 767px) {
-        & {
-          width: 240%;
-        }
-      }
-
-      path {
-        opacity: .8;
-        fill: none;
-      }
-
-      polygon {
-        opacity: .8;
-      }
-
-      path#niigata {
-        stroke: #333;
-        fill: rgba(255,255,255,.6);
-      }
-
-      rect#lyric-hall {
-        fill: #fda085;
-        stroke: none;
-        filter: drop-shadow(0 0 10px rgba(0,0,0,.2));
-      }
-
-      g#svg-horn {
-        transform: translate(368px, 353px) scale(.5);
-        path {
-          stroke: none;
-          fill: #b60005;
-        }
-      }
-    }
-  }
-
-  .contents {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  // .contents {
-  //   padding: 0 12px;
-  //   box-sizing: border-box;
-
-    h2.location {
-      margin-bottom: 24px;
-      font-size: 2.4rem;
-
-      &::before {
-        content: attr(data-subttl)'';
-        display: block;
-        font-size: 1.2rem;
-        color: #666;
-      }
-    }
-    p {
-      color: #333;
-      font-size: 13px;
-    }
-
-    a {
-      margin-top: 24px;
-      padding: 6px 24px;
-      font-size: 16px;
-    }
-  // }
 }
 
 footer {
