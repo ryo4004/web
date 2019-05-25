@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/index2.css">
   <link rel="shortcut icon" href="image/favicon.ico">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <script src="https://unpkg.com/ionicons@4.5.5/dist/ionicons.js"></script>
   <script>
     ((d) => {
       var config = { kitId: 'wxw0kpr', scriptTimeout: 3000, async: true },
@@ -16,51 +17,39 @@
   </script>
 </head>
 <body>
+
+  <header id="top">
+    <section id="background">
+      <div id="first-background"></div>
+      <div id="second-background"></div>
+      <div class="filter"></div>
+    </section>
+    <!-- <section id="member">
+      <a href='https://member.winds-n.com'><ion-icon name="ios-log-in"></ion-icon>ログイン</a>
+    </section> -->
+    <section id="main-logo">
+      <main>
+        <?php require('image/logo/logo.svg'); ?>
+      </main>
+    </section>
+    <section class="quote">
+      <q id='quote'></q>
+    </section>
+    <!-- <section id="direct-link">
+      <div><a href="mini2019" class="tap">春のミニコンサート2019を開催します！</a></div>
+    </section> -->
+    <span class='scroll-guide'></span>
+  </header>
+
   <div>
-    <header id="top">
-      <section id="background">
-        <div id="first-background"></div>
-        <div id="second-background"></div>
-        <div class="filter"></div>
-      </section>
-      <section id="main-logo">
-        <main>
-          <?php require('image/logo/logo.svg'); ?>
-          <?php require('image/logo/logo_mobile.svg'); ?>
-          <q>音楽の輪が限りなく広がりますように <span>&mdash;&mdash;</span></q>
-          <!-- <div><a href="mini2019" class="tap">春のミニコンサート2019を開催します！</a></div> -->
-        </main>
-        <span class='scroll-guide'></span>
-      </section>
 
-    </header>
-
-    <div class='block introduction' id="introduction">
-      <div class='background map'>
-        <?php require('image/svg/japan-niigata3_3.svg'); ?>
-      </div>
-      <div class='contents'>
-        <h2 class='location' data-subttl="Location">拠点</h2>
-        <!-- <p>拠点
-          私たちザ・ウィンド・アンサンブル(ウィンズ)は、新潟県長岡市を中心に活動しています。<br />
-          「音楽の輪が限りなく広がりますように」を標語として、年2回開かれる演奏会を通して吹奏楽の楽しさを広めて行きたいと思っております。
-        </p>
-        <p>
-          アマチュアバンドにとって月数回の練習こそ活動目的ですが、その他の主な活動として定期演奏会、ミニコンサートを行っております。<br />
-          定期演奏会では、吹奏楽のオリジナル作品やクラシックのアレンジ作品を、野外コンサートでは、アニメソング、ポップス、映画音楽などを主体に音楽を楽しんでいます。
-        </p>
-        <p>
-          またこれらの演奏会の他に、出張、依頼演奏なども随時受け付けております。
-          お気軽にお問い合わせからご連絡ください。
-        </p> -->
-        <p>新潟県長岡市を中心に活動しています</p>
-        <a href='#' class='button'>More</a>
-      </div>
-    </div>
     <div class='block concert'>
       <div class='background photo'>
-        <img src='image/photo/sax.jpg'>
-        <div class='overlay'></div>
+        <!-- <img src='image/photo/spring.jpg' class='spring'> -->
+        <div class='cover spring'></div>
+        <!-- <img src='image/photo/autumn.jpg' class='autumn'> -->
+        <div class='cover autumn'></div>
+        <!-- <div class='overlay'></div> -->
       </div>
       <div class='contents'>
         <div>
@@ -82,6 +71,7 @@
         </div>
       </div>
     </div>
+    
     <div class='block schedule'>
       <div class='background'>
         <img src='image/photo/drum.jpg'>
@@ -90,6 +80,29 @@
       <div class='contents'>
         <h2 class='title' data-subttl="Schedule">練習日程</h2>
         <p>リリックホールにて毎週練習しております</p>
+        <a href='#' class='button'>More</a>
+      </div>
+    </div>
+
+    <div class='block introduction' id="introduction">
+      <div class='background map'>
+        <?php require('image/svg/japan-niigata3_3.svg'); ?>
+      </div>
+      <div class='contents'>
+        <h2 class='location' data-subttl="About us">私たちについて</h2>
+        <!-- <p>拠点
+          私たちザ・ウィンド・アンサンブル(ウィンズ)は、新潟県長岡市を中心に活動しています。<br />
+          「音楽の輪が限りなく広がりますように」を標語として、年2回開かれる演奏会を通して吹奏楽の楽しさを広めて行きたいと思っております。
+        </p>
+        <p>
+          アマチュアバンドにとって月数回の練習こそ活動目的ですが、その他の主な活動として定期演奏会、ミニコンサートを行っております。<br />
+          定期演奏会では、吹奏楽のオリジナル作品やクラシックのアレンジ作品を、野外コンサートでは、アニメソング、ポップス、映画音楽などを主体に音楽を楽しんでいます。
+        </p>
+        <p>
+          またこれらの演奏会の他に、出張、依頼演奏なども随時受け付けております。
+          お気軽にお問い合わせからご連絡ください。
+        </p> -->
+        <p>ザ・ウィンド・アンサンブル(ウィンズ)は、新潟県長岡市を中心に活動している社会人吹奏楽団です</p>
         <a href='#' class='button'>More</a>
       </div>
     </div>

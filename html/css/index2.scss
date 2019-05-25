@@ -1,14 +1,21 @@
+// body {
+//   overflow-x: hidden;
+// }
+
 header#top {
   width: 100%;
   height: 100vh;
+  z-index: 1;
 
   section#background {
-    position: fixed;
+    // position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
     background: #000;
+    z-index: 0;
 
     div#first-background {
       animation-name: first;
@@ -34,6 +41,10 @@ header#top {
       height: 100vh;
       background-size: cover;
       opacity: 0;
+
+      &.not-ios {
+        background-attachment: fixed;
+      }
 
       @-webkit-keyframes first {
         0% {opacity: 1;}
@@ -74,120 +85,259 @@ header#top {
     }
   }
 
+  // section#member {
+  //   z-index: 3;
+    
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 100vh;
+  //   display: flex;
+  //   justify-content: flex-end;
+  //   align-items: flex-start;
+
+  //   a {
+  //     margin-top: 8px;
+  //     margin-right: 8px;
+  //     padding: 4px 12px;
+  //     border: .55px solid rgba(255,255,255,.8);
+  //     border-radius: 14px;
+  //     line-height: 22px;
+  //     color: rgba(255,255,255,.8);
+  //     text-decoration: none;
+  //     display: flex;
+  //     justify-content: center;
+  //     align-items: center;
+  //     font-size: 13px;
+
+  //     ion-icon {
+  //       font-size: 1.2em;
+  //       margin-right: 4px;
+  //     }
+
+  //     &:hover {
+  //       background: rgba(255,255,255,.8);
+  //       color: #333;
+  //     }
+  //   }
+  // }
+
   section#main-logo {
+    z-index: 2;
+
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+
+    main {
+      flex-grow: 2;
+      padding: 24px;
+
+      @media (max-width: 767px) {
+        & {
+          padding: 24px 24px 96px;
+        }
+      }
+
+      svg#svg-logo {
+        width: 80%;
+        max-width: 450px;
+        fill: #fff;
+
+        path {
+          fill-opacity: 0;
+          stroke: #fff;
+          stroke-opacity: 0;
+          stroke-width: .2px;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          stroke-dasharray: 60;
+          stroke-dashoffset: 100;
+
+          animation-name: draw;
+          animation-duration: 5s;
+          animation-delay: .5s;
+          animation-iteration-count: 1;
+          animation-fill-mode: forwards;
+          animation-timing-function: linear;
+
+          @-webkit-keyframes draw {
+            30% {
+              stroke-opacity: 1;
+            }
+            60% {
+              stroke-dashoffset: 0;
+              stroke-width: .2px;
+              stroke-opacity: 1;
+              fill-opacity: 0;
+            }
+            80% {
+              stroke-dashoffset: 0;
+            }
+            100% {
+              stroke-width: 0;
+              fill-opacity: 1;
+            }
+          }
+          @keyframes draw {
+            30% {
+              stroke-width: .2px;
+              stroke-opacity: 1;
+            }
+            60% {
+              stroke-opacity: 1;
+              fill-opacity: 0;
+            }
+            80% {
+              stroke-dashoffset: 0;
+            }
+            100% {
+              stroke-opacity: 0;
+              stroke-width: 0;
+              fill-opacity: 1;
+            }
+          }
+        }
+      }
+
+      // & > div {
+      //   display: block;
+      //   margin: 3em auto 0;
+      //   text-align: center;
+
+      //   & a {
+      //     position: relative;
+      //     display: inline-block;
+      //     font-weight: normal;
+      //     text-decoration: none;
+      //     background: rgba(182,0,5,0.6);
+      //     color: #ffffff!important;
+      //     padding: 1.2em 2em;
+      //     border: 1px solid rgba(255,29,35,1);
+      //     border-radius: 24px;
+      //     transition: all ease-in-out .2s;
+      //     font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", sans-serif;
+      //     opacity: 1;
+      //   }
+      //   & a:hover {
+      //     background: #ff1d23;
+      //     background: rgba(255,29,35,.8);
+      //     text-decoration: none;
+      //   }
+      //   @media (max-width: 767px) {
+      //     & a {
+      //       font-size: 0.7em;
+      //     }
+      //   }
+      // }
+    }
+  }
+
+  section.quote {
+    z-index: 2;
+
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-end;
 
-    main {
-
-      svg {
-        @media (min-width: 768px) {
-          &#svg-logo {
-            width: 75vw;
-            max-width: 1200px;
-            fill: url(#gradient);
-          }
-          &#svg-logo-mobile {
-            display: none;
-          }
-        }
-        @media (max-width: 767px) {
-          &#svg-logo-mobile {
-            width: 80vw;
-            max-height: 40vh;
-            fill: url(#gradient2);
-          }
-          &#svg-logo {
-            display: none;
-          }
-        }
-      }
-
-      & > q {
-        display: block;
-        text-align: right;
-        font-size: 1.2em;
-        color: rgba(255,255,255,.8);
-        font-family:"游明朝" , "Yu Mincho" , "游明朝体" , "YuMincho" , "ヒラギノ明朝 Pro W3" , "Hiragino Mincho Pro" , "HiraMinProN-W3" , "HGS明朝E" , "ＭＳ Ｐ明朝" , "MS PMincho" , serif;
-      }
-      & > q span {
-        letter-spacing: 0px;
-      }
+    & > q {
+      display: block;
+      padding: 24px;
+      box-sizing: border-box;
+      // text-align: right;
+      font-size: 24px;
+      color: rgba(255,255,255,.6);
+      font-family:"游明朝" , "Yu Mincho" , "游明朝体" , "YuMincho" , "ヒラギノ明朝 Pro W3" , "Hiragino Mincho Pro" , "HiraMinProN-W3" , "HGS明朝E" , "ＭＳ Ｐ明朝" , "MS PMincho" , serif;
+      -webkit-writing-mode: vertical-rl;
+      -ms-writing-mode: tb-rl;
+      writing-mode: vertical-rl;
+      
       @media (max-width: 767px) {
-        & > q {
-          font-size: 0.7em;
+        & {
+          font-size: 14px;
         }
       }
 
-      & > div {
-        display: block;
-        margin: 3em auto 0;
-        text-align: center;
-      }
-      & a {
-        position: relative;
-        display: inline-block;
-        font-weight: normal;
-        text-decoration: none;
-        background: rgba(182,0,5,0.6);
-        color: #ffffff!important;
-        padding: 1.2em 2em;
-        border: 1px solid rgba(255,29,35,1);
-        border-radius: 24px;
-        transition: all ease-in-out .2s;
-        font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", sans-serif;
-        opacity: 1;
-      }
-      & a:hover {
-        background: #ff1d23;
-        background: rgba(255,29,35,.8);
-        text-decoration: none;
-      }
-      @media (max-width: 767px) {
-        & a {
-          font-size: 0.7em;
+      span {
+        letter-spacing: 2px;
+        opacity: 0;
+        animation-name: fade-in;
+        animation-duration: 2s;
+        animation-delay: 6s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-out;
+
+        &.dash {
+          letter-spacing: 0px;
+        }
+
+        @for $i from 1 through 18 {
+          &:nth-child(#{$i}) {
+            animation-delay: #{5.9 + ($i / 10.0)}s;
+          }
+        }
+
+        @-webkit-keyframes fade-in {
+          0% {opacity: 0;}
+          100% {opacity:1;}
+        }
+        @keyframes fade-in {
+          0% {opacity: 0;}
+          100% {opacity:1;}
         }
       }
     }
+  }
 
-    .scroll-guide {
+  .scroll-guide {
+    z-index: 2;
+
+    // position: absolute;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 100%;
+    display: block;
+    margin: auto;
+    text-align: center;
+
+    opacity: 0;
+    animation-name: fade-in;
+    animation-duration: 1s;
+    animation-delay: 8s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+
+    &::before {
+      content: '';
       position: absolute;
-      top: auto;
-      left: 0;
-      right: 0;
-      bottom: 40px;
-      display: block;
-      margin: auto;
-      text-align: center;
+      top: -60px;
+      left: 50%;
+      width: 24px;
+      height: 24px;
+      margin-left: -12px;
+      border-left: 1px solid #fff;
+      border-bottom: 1px solid #fff;
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      box-sizing: border-box;
+      -webkit-animation: scroll_move_down 2s ease-in-out infinite;
+      -moz-animation:    scroll_move_down 2s ease-in-out infinite;
+      animation:         scroll_move_down 2s ease-in-out infinite;
+    }
 
-      &::before {
-        content: '';
-        position: absolute;
-        top: -60px;
-        left: 50%;
-        width: 24px;
-        height: 24px;
-        margin-left: -12px;
-        border-left: 1px solid #fff;
-        border-bottom: 1px solid #fff;
-        -webkit-transform: rotate(-45deg);
-        transform: rotate(-45deg);
-        box-sizing: border-box;
-        -webkit-animation: scroll_move_down 2s ease-in-out infinite;
-        -moz-animation:    scroll_move_down 2s ease-in-out infinite;
-        animation:         scroll_move_down 2s ease-in-out infinite;
-      }
-
-      @media screen and (orientation: landscape) {
-        & {
-          bottom: 20px;
-        }
+    @media screen and (orientation: landscape) {
+      & {
+        bottom: 20px;
       }
     }
 
@@ -249,81 +399,6 @@ a.button {
   }
 }
 
-.introduction {
-  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
-
-  .background.map {
-    overflow: hidden;
-
-    svg.japan-map {
-      // filter: blur(2px);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 140%;
-      fill: rgba(255,255,255,.8);
-      stroke-width: .1px;
-      stroke: #666;
-
-      @media (max-width: 767px) {
-        & {
-          width: 240%;
-        }
-      }
-
-      path {
-        opacity: .8;
-        fill: none;
-      }
-
-      polygon {
-        opacity: .8;
-      }
-
-      path#niigata {
-        stroke: #333;
-        fill: #fff;
-      }
-
-      rect#lyric-hall {
-        fill: #fda085;
-        stroke: none;
-        filter: drop-shadow(0 0 10px rgba(0,0,0,.2));
-      }
-
-      g#svg-horn {
-        transform: translate(368px, 353px) scale(.5);
-        path {
-          stroke: none;
-          fill: #b60005;
-        }
-      }
-    }
-  }
-
-  .contents {
-    h2.location {
-      margin-bottom: 24px;
-      font-size: 2.4rem;
-
-      &::before {
-        content: attr(data-subttl)'';
-        display: block;
-        font-size: 1.2rem;
-        color: #666;
-      }
-    }
-    p {
-      color: #333;
-    }
-    a {
-      margin-top: 24px;
-      padding: 6px 24px;
-      font-size: 16px;
-    }
-  }
-}
-
 .concert {
   background: #333;
   align-items: flex-start;
@@ -331,11 +406,54 @@ a.button {
   .background.photo {
     overflow: hidden;
 
-    img {
-      // filter: blur(2px);
+    // img {
+    //   position: absolute;
+    //   width: 80%;
+    //   height: 50%;
+
+    //   &.spring {
+    //     // filter: blur(2px);
+    //     top: 0;
+    //     left: 20%;
+    //     object-fit: cover;
+    //   }
+
+    //   &.autumn {
+    //     // filter: blur(2px);
+    //     top: 50%;
+    //     object-fit: cover;
+    //   }
+
+    //   // @media (max-width: 767px) {
+    //   //   &.spring {
+
+    //   //   }
+
+    //   //   &.autumn {
+
+    //   //   }
+    //   // }
+    // }
+
+    div.cover {
+      position: absolute;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: 50%;
+
+      &.spring {
+        top: 0;
+        // background: rgba(247,207,225,1);
+        // background: linear-gradient(to right, rgba(247,207,225,1), rgba(247,207,225,1) 40%, rgba(247,207,225,0));
+        // 001 Warm Flame
+        background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+      }
+
+      &.autumn {
+        top: 50%;
+        // background: rgba(214,94,67,1);
+        // background: linear-gradient(to left, rgba(214,94,67,1), rgba(214,94,67,1) 40%, rgba(247,207,225,0));
+        background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%);
+      }
     }
 
     .overlay {
@@ -365,6 +483,13 @@ a.button {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+
+      @media (max-width: 767px) {
+        & {
+          flex-direction: column;
+          align-items: normal;
+        }
+      }
 
       & > .title {
         margin-right: 48px;
@@ -474,10 +599,103 @@ a.button {
   }
 }
 
+.introduction {
+  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+
+  .background.map {
+    overflow: hidden;
+
+    svg.japan-map {
+      // filter: blur(2px);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 140%;
+      fill: rgba(255,255,255,.8);
+      stroke-width: .1px;
+      stroke: #666;
+
+      @media (max-width: 767px) {
+        & {
+          width: 240%;
+        }
+      }
+
+      path {
+        opacity: .8;
+        fill: none;
+      }
+
+      polygon {
+        opacity: .8;
+      }
+
+      path#niigata {
+        stroke: #333;
+        fill: rgba(255,255,255,.6);
+      }
+
+      rect#lyric-hall {
+        fill: #fda085;
+        stroke: none;
+        filter: drop-shadow(0 0 10px rgba(0,0,0,.2));
+      }
+
+      g#svg-horn {
+        transform: translate(368px, 353px) scale(.5);
+        path {
+          stroke: none;
+          fill: #b60005;
+        }
+      }
+    }
+  }
+
+  .contents {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  // .contents {
+  //   padding: 0 12px;
+  //   box-sizing: border-box;
+
+    h2.location {
+      margin-bottom: 24px;
+      font-size: 2.4rem;
+
+      &::before {
+        content: attr(data-subttl)'';
+        display: block;
+        font-size: 1.2rem;
+        color: #666;
+      }
+    }
+    p {
+      color: #333;
+      font-size: 13px;
+    }
+
+    a {
+      margin-top: 24px;
+      padding: 6px 24px;
+      font-size: 16px;
+    }
+  // }
+}
 
 footer {
+  position: relative;
   width: 100%;
   background: #eee;
+  z-index: 2;
 
   & > div {
     max-width: 1200px;
