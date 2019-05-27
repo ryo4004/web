@@ -43,7 +43,7 @@
 
   <div>
 
-    <div class='not-block introduction' id="introduction">
+    <div class='block introduction' id="introduction">
       <div class='background map'>
         <?php require('image/svg/japan-niigata3_3.svg'); ?>
       </div>
@@ -62,7 +62,7 @@
             またこれらの演奏会の他に、出張、依頼演奏なども随時受け付けております。
             お気軽にお問い合わせからご連絡ください。
           </p> -->
-          <p>ザ・ウィンド・アンサンブル(ウィンズ)は、新潟県長岡市を中心に活動している社会人吹奏楽団です</p>
+          <p>ザ・ウィンド・アンサンブルは、新潟県長岡市を中心に活動している社会人吹奏楽団です</p>
           <a href='#' class='button'>More</a>
         </div>
       </div>
@@ -135,12 +135,25 @@
 
     <div class='block schedule'>
       <div class='background'>
-        <img src='image/photo/drum.jpg'>
+        <!-- <img src='image/photo/drum.jpg'> -->
         <div class='overlay'></div>
       </div>
       <div class='contents'>
         <h2 class='title' data-subttl="Schedule">練習日程</h2>
         <p>リリックホールにて毎週練習しております</p>
+        <a href='#' class='button'>More</a>
+      </div>
+    </div>
+
+    <div class='block contact'>
+      <div class='background'>
+        <!-- <img src='image/photo/drum.jpg'> -->
+        <div class='overlay'></div>
+      </div>
+      <div class='contents'>
+        <h2 class='title' data-subttl="Contact">お問い合わせ</h2>
+        <p>ザ・ウィンド・アンサンブルに関するご意見、ご質問、メッセージ等々お気軽にお問い合わせください。</p>
+        <p>また、出張、依頼演奏なども随時受け付けております。</p>
         <a href='#' class='button'>More</a>
       </div>
     </div>

@@ -1,6 +1,6 @@
-// body {
-//   overflow-x: hidden;
-// }
+body {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+}
 
 header#top {
   width: 100%;
@@ -407,7 +407,7 @@ a.button {
   display: inline-block;
 
   text-decoration: none;
-  border: 2px solid #fff;
+  border: .55px solid #fff;
   background: rgba(255,255,255,0);
   color: #fff;
   transition: all ease-in-out .1s;
@@ -419,7 +419,7 @@ a.button {
 }
 
 .introduction {
-  position: relative;
+  // position: relative;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -440,7 +440,7 @@ a.button {
       width: 140%;
       fill: rgba(255,255,255,.8);
       stroke-width: .1px;
-      stroke: #666;
+      stroke: #ccc;
 
       @media (max-width: 767px) {
         & {
@@ -458,10 +458,10 @@ a.button {
       }
 
       path#niigata {
-        stroke: #333;
+        stroke: #ccc;
         // fill: rgba(255,255,255,.6);
         // fill: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
-        fill: #eee;
+        fill: #efefef;
       }
 
       g#svg-horn {
@@ -479,14 +479,14 @@ a.button {
     position: absolute;
     top: 0;
     right: 0;
-    width: 50%;
+    width: 70%;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
     font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
-    
+
     @media (max-width: 767px) {
       & {
         width: 100%;
@@ -494,13 +494,19 @@ a.button {
     }
 
     & > div {
-      padding: 0 24px;
+      padding: 0 48px 0 24px;
       box-sizing: border-box;
+
+      @media (max-width: 767px) {
+        & {
+          padding: 0 24px;
+        }
+      }
 
       h2.location {
         margin-bottom: 24px;
         font-size: 2.4rem;
-  
+
         &::before {
           content: attr(data-subttl)'';
           display: block;
@@ -512,12 +518,12 @@ a.button {
         color: #333;
         font-size: 13px;
       }
-  
+
       a {
         margin-top: 24px;
         padding: 6px 24px;
         font-size: 16px;
-        border: 2px solid #333;
+        border: .55px solid #333;
         color: #333;
       }
     }
@@ -525,7 +531,9 @@ a.button {
 }
 
 .concert {
-  // background: #333;
+  position: relative;
+  z-index: 2;
+  background: #fff;
   align-items: flex-start;
 
   // .background {
@@ -608,7 +616,13 @@ a.button {
     font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
     // 076 Premium Dark
     // background-image: linear-gradient(to right, #434343 0%, black 100%);
-    background-image: linear-gradient(to right, rgb(30,30,30) 0%, black 100%);
+    // background-image: linear-gradient(to right, rgba(30,30,30,.8) 0%, rgba(0,0,0,.8) 100%);
+    background: rgb(239,234,227);
+    // background: rgb(240,239,235);
+    // background: rgb(228,226,223);
+    // background: rgb(240,235,219);
+    // background: rgb(231,227,229);
+    // background: rgb(250,236,221);
 
     div.concert-introduction {
       max-width: 800px;
@@ -616,7 +630,7 @@ a.button {
       box-sizing: border-box;
       margin: 0 auto;
       font-size: 14px;
-      color: #ccc;
+      color: #333;
 
       // display: flex;
       // justify-content: flex-start;
@@ -640,7 +654,7 @@ a.button {
             content: attr(data-subttl)'';
             display: block;
             font-size: 1.2rem;
-            color: #aaa;
+            color: #666;
           }
         }
       }
@@ -796,8 +810,8 @@ a.button {
 
                   div.concert-close {
                     position: absolute;
-                    top: 0;
-                    left: 0;
+                    top: -.55;
+                    left: -.55;
                     width: 100%;
                     height: 100%;
                     display: flex;
@@ -843,6 +857,8 @@ a.button {
   }
 
   .contents {
+    padding: 0 24px;
+    font-size: 14px;
     color: #333;
 
     h2.title {
@@ -860,6 +876,55 @@ a.button {
       margin-top: 24px;
       padding: 6px 24px;
       font-size: 16px;
+    }
+  }
+}
+
+.contact {
+  background: #ccc;
+
+  .background {
+
+    img {
+      // filter: blur(2px);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #fff;
+    }
+  }
+
+  .contents {
+    padding: 0 24px;
+    font-size: 14px;
+    color: #333;
+
+    h2.title {
+      margin-bottom: 24px;
+      font-size: 2.4rem;
+
+      &::before {
+        content: attr(data-subttl)'';
+        display: block;
+        font-size: 1.2rem;
+        color: #666;
+      }
+    }
+
+    a {
+      margin-top: 24px;
+      padding: 6px 24px;
+      border: 2px solid #333;;
+      font-size: 16px;
+      color: #333;
     }
   }
 }
