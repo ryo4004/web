@@ -1,4 +1,39 @@
-<html lang="ja">
+<?php
+  // 初期設定
+  date_default_timezone_set('Asia/Tokyo');
+  $dir['data'] = DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+
+  // データ取得
+  $list = file(dirname(__FILE__).$dir['data'].'schedule.inc',FILE_IGNORE_NEW_LINES);
+
+  //コンテンツ処理(schedule)
+  $weekjp = ['日', '月', '火', '水', '木', '金', '土'];
+  $weeken = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+  $timestamp['present'] = date('Y/m/d H:i');
+  $timestamp['today'] = date('Y/m/d');
+  $contents['next'] = '直近の練習予定はありません。';
+  $nextflag = FALSE;
+  $todayflag = '';
+  for($i=0;$i<count($list);$i++) {
+    $timestamp['end'] = date('Y/m/d H:i',strtotime(explode('<>',$list[$i]) [0].' '. explode('-', explode('<>',$list[$i])[1] ) [1] ));
+    $date = explode('<>',$list[$i])[0];
+    $start = explode('-',explode('<>',$list[$i])[1])[0];
+    $end = explode('-',explode('<>',$list[$i])[1])[1];
+    $place = explode('<>',$list[$i])[2];
+    $studio = explode('<>',$list[$i])[3];
+    $studio = preg_replace('/第(.*)スタジオ/','第<span>$1</span>スタジオ',$studio);
+    $memo = explode('<>',$list[$i])[4];
+    if($timestamp['end'] >= $timestamp['present'] && $nextflag == FALSE) {
+      if(strtotime($timestamp['today']) === strtotime($date)){
+        $todayflag = '<p class="todayflag">本日です</p>';
+      }
+      $contents['next'] = $todayflag . '<p><span class="frame"><span class="month">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[1]).'</span><span class="month-text">月</span><span class="date">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[2]).'</span><span class="date-text">日</span><span class="day '.$weeken[date('w',strtotime($date))].'">'.$weekjp[date('w',strtotime($date))].'</span><span class="time">'.$start.'～'.$end.'</span></span>'
+      .'<span class="frame"><span class="place">長岡リリックホール</span><span class="studio">'.$studio.'</span></span></p>';
+      $nextflag = explode('-',$date)[1];
+    }
+  }
+
+?><html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -142,6 +177,7 @@
       <div class='contents'>
         <h2 class='title' data-subttl="Schedule">練習日程</h2>
         <p>リリックホールにて毎週練習しております</p>
+        <p><?php echo $contents['next']; ?></p>
         <a href='#' class='button'>More</a>
       </div>
     </div>
