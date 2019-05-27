@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
   <title>ザ・ウィンド・アンサンブルへようこそ！</title>
   <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/index2.css">
   <link rel="shortcut icon" href="image/favicon.ico">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
@@ -63,7 +64,7 @@
             お気軽にお問い合わせからご連絡ください。
           </p> -->
           <p>ザ・ウィンド・アンサンブルは、新潟県長岡市を中心に活動している社会人吹奏楽団です</p>
-          <a href='#' class='button'>More</a>
+          <a href='about.php' class='button'>More</a>
         </div>
       </div>
     </div>

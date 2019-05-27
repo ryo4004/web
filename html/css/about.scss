@@ -1,0 +1,86 @@
+body {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+}
+
+header {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  section#main-logo {
+    margin: 24px;
+
+    a {
+      svg#svg-logo {
+        width: 80%;
+        max-width: 450px;
+        fill: rgba(204,148,37,1);
+      }
+
+      &:hover {
+        svg#svg-logo {
+          fill: rgba(204,148,37,.8);
+        }
+      }
+    }
+  }
+}
+
+.top-title {
+  padding: 24px 0;
+  // background: #eee;
+  border-bottom: .55px solid #eee;
+
+  & > div {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    h1 {
+      display: block;
+      margin: 0 24px;
+      font-size: 2.4rem;
+      font-weight: normal;
+
+      &::before {
+        content: attr(data-subttl)'';
+        display: block;
+        font-size: 1.2rem;
+        color: #666;
+      }
+    }
+    
+    .bread {
+      margin: 0 24px;
+      font-size: 13px;
+      
+      a {
+        text-decoration: none;
+        color: #333;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      i {
+        color: #666;
+        margin: 0 8px;
+      }
+    }
+  }
+}
+
+.block.introduction {
+  width: 100%;
+  max-width: 1200px;
+  margin: 24px auto;
+
+  .contents {
+    margin: 0 24px;
+
+    .text {
+      font-size: 13px;
+    }  
+  }
+}

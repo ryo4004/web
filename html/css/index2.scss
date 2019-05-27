@@ -85,44 +85,6 @@ header#top {
     }
   }
 
-  // section#member {
-  //   z-index: 3;
-
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   height: 100vh;
-  //   display: flex;
-  //   justify-content: flex-end;
-  //   align-items: flex-start;
-
-  //   a {
-  //     margin-top: 8px;
-  //     margin-right: 8px;
-  //     padding: 4px 12px;
-  //     border: .55px solid rgba(255,255,255,.8);
-  //     border-radius: 14px;
-  //     line-height: 22px;
-  //     color: rgba(255,255,255,.8);
-  //     text-decoration: none;
-  //     display: flex;
-  //     justify-content: center;
-  //     align-items: center;
-  //     font-size: 13px;
-
-  //     ion-icon {
-  //       font-size: 1.2em;
-  //       margin-right: 4px;
-  //     }
-
-  //     &:hover {
-  //       background: rgba(255,255,255,.8);
-  //       color: #333;
-  //     }
-  //   }
-  // }
-
   section#main-logo {
     z-index: 2;
 
@@ -405,17 +367,13 @@ header#top {
 
 a.button {
   display: inline-block;
-
+  padding: 6px 36px;
+  border-width: .55px;
+  border-style: solid;
+  font-size: 16px;
+  letter-spacing: 2px;
   text-decoration: none;
-  border: .55px solid #fff;
-  background: rgba(255,255,255,0);
-  color: #fff;
-  transition: all ease-in-out .1s;
-
-  &:hover {
-    background: #fff;
-    color: #333;
-  }
+  transition: all ease-in-out .2s;
 }
 
 .introduction {
@@ -519,12 +477,16 @@ a.button {
         font-size: 13px;
       }
 
-      a {
+      a.button {
         margin-top: 24px;
-        padding: 6px 24px;
-        font-size: 16px;
-        border: .55px solid #333;
+        border-color: #333;
         color: #333;
+        background: rgba(0,0,0,0);
+        transition: all .2s ease-out;
+
+        &:hover {
+          background: rgba(0,0,0,.1);
+        }
       }
     }
   }
@@ -535,81 +497,6 @@ a.button {
   z-index: 2;
   background: #fff;
   align-items: flex-start;
-
-  // .background {
-  //   overflow: hidden;
-
-  //   .cover {
-  //     position: absolute;
-  //     width: 100%;
-  //     height: 100vh;
-  //     // // 111 Elegance
-  //     // background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%);
-  //     // background-blend-mode: screen;
-  //   }
-
-  //   // img {
-  //   //   position: absolute;
-  //   //   width: 80%;
-  //   //   height: 50%;
-
-  //   //   &.spring {
-  //   //     // filter: blur(2px);
-  //   //     top: 0;
-  //   //     left: 20%;
-  //   //     object-fit: cover;
-  //   //   }
-
-  //   //   &.autumn {
-  //   //     // filter: blur(2px);
-  //   //     top: 50%;
-  //   //     object-fit: cover;
-  //   //   }
-
-  //   //   // @media (max-width: 767px) {
-  //   //   //   &.spring {
-
-  //   //   //   }
-
-  //   //   //   &.autumn {
-
-  //   //   //   }
-  //   //   // }
-  //   // }
-
-  //   // div.cover {
-  //   //   position: absolute;
-  //   //   width: 100%;
-  //   //   height: 100%;
-
-  //   //   &.spring {
-  //   //     top: 0;
-  //   //     // background: rgba(247,207,225,1);
-  //   //     // background: linear-gradient(to right, rgba(247,207,225,1), rgba(247,207,225,1) 40%, rgba(247,207,225,0));
-  //   //     // 001 Warm Flame
-  //   //     background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-  //   //   }
-
-  //   //   &.autumn {
-  //   //     top: 50%;
-  //   //     // background: rgba(214,94,67,1);
-  //   //     // background: linear-gradient(to left, rgba(214,94,67,1), rgba(214,94,67,1) 40%, rgba(247,207,225,0));
-  //   //     background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%);
-  //   //   }
-  //   // }
-
-  //   // .overlay {
-  //   //   position: absolute;
-  //   //   top: 0;
-  //   //   left: 0;
-  //   //   width: 100%;
-  //   //   height: 100vh;
-  //   //   // background: rgba(0,0,0,.6);
-  //   //   // 102 Happy Memories
-  //   //   background-image: linear-gradient(-60deg, #ff5858 0%, #f09819 100%);
-  //   //   opacity: .2;
-  //   // }
-  // }
 
   .contents {
     width: 100%;
@@ -658,49 +545,6 @@ a.button {
           }
         }
       }
-
-      // & > .list {
-      //   .each-concert {
-      //     margin: 12px 0 0 0;
-
-      //     a {
-      //       // padding: 6px 12px;
-      //       font-size: 16px;
-      //       text-decoration: none;
-      //       color: #fff;
-
-
-      //       display: flex;
-      //       justify-content: space-between;
-      //       align-items: stretch;// default
-
-      //       div:first-child {
-      //         flex-grow: 1;
-      //         padding: 6px 0 6px 12px;
-      //         background: rgba(255,255,255,.2);
-      //       }
-
-      //       div:last-child {
-      //         padding: 6px 12px;
-      //         background: rgba(255,255,255,.4);
-
-      //         display: flex;
-      //         justify-content: center;
-      //         align-items: center;
-      //       }
-
-      //       &:hover {
-      //         div:first-child {
-      //           background: rgba(255,255,255,.4);
-      //         }
-
-      //         div:last-child {
-      //           background: rgba(255,255,255,.4);
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
     }
 
     div.concert-box {
@@ -872,10 +716,17 @@ a.button {
         color: #666;
       }
     }
-    a {
+
+    a.button {
       margin-top: 24px;
-      padding: 6px 24px;
-      font-size: 16px;
+      border-color: #333;
+      color: #333;
+      background: rgba(0,0,0,0);
+      transition: all .2s ease-out;
+
+      &:hover {
+        background: rgba(0,0,0,.1);
+      }
     }
   }
 }
@@ -919,67 +770,16 @@ a.button {
       }
     }
 
-    a {
+    a.button {
       margin-top: 24px;
-      padding: 6px 24px;
-      border: 2px solid #333;;
-      font-size: 16px;
+      border-color: #333;
       color: #333;
-    }
-  }
-}
-
-footer {
-  position: relative;
-  width: 100%;
-  background: #eee;
-  z-index: 2;
-
-  & > div {
-    max-width: 1200px;
-    padding: 48px 24px;
-    box-sizing: border-box;
-    margin: 0 auto;
-    font-size: 14px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    @media (max-width: 767px) {
-      & {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    a {
-      text-decoration: none;
-      color: #333;
+      background: rgba(0,0,0,0);
+      transition: all .2s ease-out;
 
       &:hover {
-        color: #666;
-        text-decoration: underline;
+        background: rgba(0,0,0,.1);
       }
-    }
-
-    .author {
-      margin-top: 12px;
-
-      h2 {
-        font-weight: normal;
-        font-size: 16px;
-        color: #333;
-      }
-
-      small {
-        font-size: 12px;
-        color: #666;
-      }
-    }
-
-    .link {
-      margin-top: 12px;
     }
   }
 }
