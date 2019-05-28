@@ -21,7 +21,7 @@
 
   <header>
     <section id="main-logo">
-      <a href='index2.php'>
+      <a href='index.php'>
         <?php require('image/logo/logo.svg'); ?>
       </a>
     </section>
@@ -29,41 +29,96 @@
 
   <div class='top-title'>
     <div>
-      <h1 data-subttl="About us">ウィンズについて</h1>
-      <div class='bread'><a href='index2.php'>ホーム</a><i class="fas fa-chevron-right"></i><a href='index2.php'>ウィンズについて</a></div>
+      <h1 data-subttl="About us">楽団紹介</h1>
+      <div class='bread'><a href='index.php'>ホーム</a><i class="fas fa-chevron-right"></i><a href='about.php'>楽団紹介</a></div>
     </div>
   </div>
 
   <div>
 
     <div class='block introduction' id="introduction">
+      <div class='title'>
+        <h2 data-subttl="The Wind Ensemble">ウィンズについて</h2>
+      </div>
       <div class='contents'>
         <div class='text'>
           <p>
-            私たちザ・ウィンド・アンサンブル(ウィンズ)は、新潟県長岡市を中心に活動しています。<br />
+            ザ・ウィンド・アンサンブル(ウィンズ)は、新潟県長岡市を活動拠点とした社会人吹奏楽団です。
+            1986年11月に長岡交響楽団金管奏者を中心とした長岡ブラスアンサンブルが母体となり新潟県内外の音楽好きの有志が集まって結成されました。
             「音楽の輪が限りなく広がりますように」を標語として、年2回開かれる演奏会を通して吹奏楽の楽しさを広めて行きたいと思っております。
           </p>
           <p>
-            アマチュアバンドにとって月数回の練習こそ活動目的ですが、その他の主な活動として定期演奏会、ミニコンサートを行っております。<br />
-            定期演奏会では、吹奏楽のオリジナル作品やクラシックのアレンジ作品を、野外コンサートでは、アニメソング、ポップス、映画音楽などを主体に音楽を楽しんでいます。
-          </p>
-          <p>
+            アマチュアバンドにとって月数回の練習こそ活動目的ですが、その他の主な活動として定期演奏会、ミニコンサートを行っております。
             またこれらの演奏会の他に、出張、依頼演奏なども随時受け付けております。
-            お気軽にお問い合わせからご連絡ください。
+            お気軽にお問い合わせください。
           </p>
         </div>
       </div>
     </div>
 
-    <div class='back-to-top'>
-      <h1 data-subttl="About us">トップへ戻る</h1>
+    <div class='block location' id="location">
+      <div class='title'>
+        <h2 data-subttl="Location">活動拠点</h2>
+      </div>
+      <div class='contents'>
+        <div class='text'>
+          <p>ウィンズは新潟県長岡市に位置する<a href="http://www.nagaoka-caf.or.jp/" target="_blank">長岡リリックホール</a>を主な拠点としています。</p>
+          <p>長岡在住のメンバーを中心とした総勢50名ほどで活動しております。</p>
+        </div>
+        <div id="map"></div>
+        <!-- <div class='access'>
+          <h3 class="access-title">JR長岡駅大手口より</h3>
+          <ul class="access-list">
+            <li>
+              <ul class="route">
+                <li class="circle">8番線 中央環状線(内回り・外回り)</li>
+                <li class="circle">内回り: 近代美術館<br>外回り: ハイブ長岡</li>
+                <li>徒歩3分</li>
+                <li class="circle goal">長岡リリックホール</li>
+              </ul>
+            </li>
+            <li>
+              <ul class="route">
+                <li class="circle">2番線 日赤病院経由 江陽団地行</li>
+                <li class="circle">ハイブ長岡</li>
+                <li>徒歩3分</li>
+                <li class="circle goal">長岡リリックホール</li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="access-list">
+            <li>
+              <ul class="route">
+                <li class="circle">2番線 江陽環状線</li>
+                <li class="circle">大手大橋先回り ハイブ長岡</li>
+                <li>徒歩3分</li>
+                <li class="circle goal">長岡リリックホール</li>
+              </ul>
+            </li>
+            <li>
+              <ul class="route">
+                <li class="circle">2番線 日赤病院経由 出雲崎行きバス</li>
+                <li class="circle">近代美術館</li>
+                <li>徒歩3分</li>
+                <li class="circle goal">長岡リリックホール</li>
+              </ul>
+            </li>
+          </ul>
+        </div> -->
+      </div>
+    </div>
+
+    <div class='block back-to-top'>
+      <div>
+        <a href='index.php'>トップへ戻る</a>
+      </div>
     </div>
 
   </div>
   <footer>
     <div>
       <div class='author'>
-        <a href='#'><h2>ザ・ウィンド・アンサンブル</h2></a>
+        <a href='index.php'><h2>ザ・ウィンド・アンサンブル</h2></a>
         <small>&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</small>
       </div>
       <div class='link'>
@@ -71,5 +126,7 @@
       </div>
     </div>
   </footer>
+  <script type="text/javascript" src="js/about.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV0-BnYAJ4B3a7GG6sTh2lIh4PCtb5qZc&callback=initMap" async defer></script>
 </body>
 </html>

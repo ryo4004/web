@@ -4,7 +4,7 @@ body {
 
 header {
   width: 100%;
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
 
   section#main-logo {
@@ -27,13 +27,11 @@ header {
 }
 
 .top-title {
-  padding: 24px 0;
-  // background: #eee;
-  border-bottom: .55px solid #eee;
+  padding: 24px 0 48px;
 
   & > div {
     width: 100%;
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
 
     h1 {
@@ -71,16 +69,196 @@ header {
   }
 }
 
-.block.introduction {
+.block {
   width: 100%;
-  max-width: 1200px;
-  margin: 24px auto;
+  // padding-top: 48px;
+  border-top: .55px solid #eee;
+
+  & > div {
+    width: 100%;    
+    max-width: 800px;
+    margin: 48px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+
+  .title {
+    // margin: 0 24px 24px;
+
+    h2 {
+      display: block;
+
+      font-size: 2rem;
+      font-weight: normal;
+  
+      &::before {
+        content: attr(data-subttl)'';
+        display: block;
+        font-size: 1rem;
+        color: #666;
+      }
+    }
+  }
 
   .contents {
-    margin: 0 24px;
+  }
+}
+
+.introduction {
+
+  .contents {
+    // margin: 0 24px;
 
     .text {
-      font-size: 13px;
+      font-size: 16px;
+      line-height: 2;
+
+      p {
+        text-indent: 1em;
+      }
     }  
+  }
+}
+
+.location {
+
+  .contents {
+    // margin: 0 24px;
+
+    .text {
+      font-size: 16px;
+      line-height: 2;
+
+      p {
+        text-indent: 1em;
+
+        a {
+          text-decoration: none;
+          color: #333;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    #map {
+      position: relative;
+      margin: 24px 0 0 0;
+      height: 300px;
+      border-radius: 10px;
+
+      .info {
+        font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+        font-size: 16px;
+
+        a {
+          text-decoration: none;
+          color: #333;
+          font-size: 14px;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    @media (max-width: 767px) {
+      #map {
+        height: 150px;
+      }
+    }
+
+    // .access {
+    //   .access-title {
+    //     margin: 12px 0 0 0;
+    //     padding: 6px 0;
+    //     text-align: center;
+    //     background: #eee;
+    //   }
+        
+    //   ul.access-list {
+    //     display: flex;
+
+    //     @media (max-width: 767px) {
+    //       & {
+    //         flex-direction: column;
+    //       }
+    //     }
+
+    //     li {
+    //       flex: 1;
+    //     }
+        
+    //     .route-title {
+    //       margin: 0 0 16px;
+    //       padding: 16px 0;
+    //     }
+    //     .route {
+    //       margin: 0 0 3rem;
+    //       padding: 0 0 0 4rem;
+    //       position: relative;
+
+    //       &::before {
+    //         background: #ccc;
+    //         content: "";
+    //         margin: auto;
+    //         width: 6px;
+    //         height: 80%;
+    //         position: absolute;
+    //         left: 14px;
+    //         top: 0;
+    //         bottom: 0;
+    //       }
+    //       & li {
+    //         padding: 16px 0;
+    //         position: relative;
+
+    //         &:not(:last-child) {
+    //           border-bottom: .55px solid #ddd;
+    //         }
+    //         &.circle::before {
+    //           background: url(../image/svg/circle_route.svg) no-repeat 0 0;
+    //           background-size: contain;
+    //           content: "";
+    //           width: 32px;
+    //           height: 32px;
+    //           position: absolute;
+    //           left: -64px;
+    //         }
+    //         &.goal::before {
+    //           background-image: url(../image/svg/circle_goal.svg);
+    //         }
+    //       }
+    //     }
+    //   }
+    // }        
+  }
+}
+
+.back-to-top {
+
+  & > div {
+    margin: 96px auto;
+    
+    a {
+      display: inline-block;
+      padding: 6px 36px;
+      border-width: .55px;
+      border-style: solid;
+      border-color: #333;
+      font-size: 16px;
+      letter-spacing: 2px;
+      text-decoration: none;
+      color: #333;
+      background: rgba(0,0,0,0);
+      transition: all ease-in-out .2s;
+  
+      &:hover {
+        background: rgba(0,0,0,.1);
+      }
+    }
+  
   }
 }
