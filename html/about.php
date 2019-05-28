@@ -3,9 +3,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
-  <title>ザ・ウィンド・アンサンブルへようこそ！</title>
+  <title>楽団紹介｜ザ・ウィンド・アンサンブル</title>
   <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/about.css">
   <link rel="shortcut icon" href="image/favicon.ico">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
@@ -108,9 +108,21 @@
       </div>
     </div>
 
-    <div class='block back-to-top'>
+    <div class='block recruit' id="recruit">
+      <div class='title'>
+        <h2 data-subttl="Recruit">会員募集</h2>
+      </div>
+      <div class='contents'>
+        <div class='text'>
+          <p>ウィンズは共に演奏できる仲間を募集しています。</p>
+          <p>パートごとに募集状況は異なるため、一度お問い合わせください。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class='block back-to-home'>
       <div>
-        <a href='index.php'>トップへ戻る</a>
+        <a href='index.php'>ホームへ戻る</a>
       </div>
     </div>
 

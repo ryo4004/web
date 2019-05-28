@@ -318,7 +318,7 @@ header#top {
   }
 }
 
-.block {
+.home-block {
 
   // position: -webkit-sticky;
   // position: sticky;
@@ -364,7 +364,7 @@ a.button {
   font-size: 16px;
   letter-spacing: 2px;
   text-decoration: none;
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .1s;
 }
 
 .introduction {
@@ -462,10 +462,9 @@ a.button {
 
       a.button {
         margin-top: 24px;
-        border-color: #333;
+        border-color: #666;
         color: #333;
-        background: rgba(0,0,0,0);
-
+        background: #fff;
         &:hover {
           background: rgba(0,0,0,.1);
         }
@@ -475,10 +474,10 @@ a.button {
 }
 
 .concert {
-  position: relative;
+  // position: relative;
   z-index: 2;
   background: #fff;
-  align-items: flex-start;
+  // align-items: flex-start;
 
   .contents {
     width: 100%;
@@ -602,7 +601,7 @@ a.button {
                 text-decoration: none;
                 color: #fff;
                 background: rgba(255,255,255,.1);
-                transition: all .2s ease-out;
+                transition: all .1s ease-out;
 
                 &:hover {
                   background: rgba(255,255,255,.2);
@@ -665,189 +664,193 @@ a.button {
 }
 
 .schedule {
+  background: rgb(239,234,227);
 
-  .background {
+  h2.title-large {
+    font-size: 2.4rem;
 
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      // background: rgba(0,0,0,.6);
-      // background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);
-      background: rgb(239,234,227);
+    &::before {
+      font-size: 1.2rem;
     }
   }
-
+  
   .contents {
-    width: 100%;
-    max-width: 800px;
 
-    & > div {
-      margin: 0 24px;
+    .schedule-next {
+      display: block;
+      margin: 24px 0;
+      background: #fff;
+      border: .55px solid #eee;
+      position: relative;
+      padding: 24px;
+      max-width: 350px;
+
+      .todayflag {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: 10px;
+        margin: 0;
+        padding: 2 0 0;
+        z-index: 2;
+        width: 40px;
+        text-align: center;
+        color: white;
+        font-size: 13px;
+        background: #b60005;
         
-      h2.title {
-        margin-bottom: 24px;
-        font-size: 2.4rem;
-
-        &::before {
-          content: attr(data-subttl)'';
-          display: block;
-          font-size: 1.2rem;
-          color: #666;
-        }
-      }
-
-      .text {
-        margin-bottom: 24px;
-      }
-
-      .schedule-next {
-        display: block;
-        background: #fff;
-        border: .55px solid #eee;
-        position: relative;
-        padding: 24px;
-        max-width: 350px;
-
-        // .todayflag {
-        //   display: inline-block;
-        //   padding: 6px 12px;
-        //   border-radius: 5px;
-        //   background: #b60005;
-        //   color: #fff;
-        // }
-
-        .todayflag {
-          display: inline-block;
+        &:after {
+          content: '';
           position: absolute;
-          top: 0;
-          right: 10px;
-          margin: 0;
-          padding: 2 0 0;
-          z-index: 2;
-          width: 40px;
-          text-align: center;
-          color: white;
-          font-size: 13px;
-          background: #b60005;
-         
-          &:after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 100%;
-            height: 0;
-            width: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 5px solid #b60005;
-          }
+          left: 0;
+          top: 100%;
+          height: 0;
+          width: 0;
+          border-left: 20px solid transparent;
+          border-right: 20px solid transparent;
+          border-top: 5px solid #b60005;
         }
-
-        .frame {
-          display: block;
-          font-size: 16px;
-
-          .month-date {
-            margin-right: 8px;
-
-            .text {
-              font-size: .9em;
-              margin-right: 2px;
-            }
-
-            .day {
-              margin: 0 4px;
-              padding: 4px 8px;
-              border-radius: 2px;
-              background: #eee;
-            }
-          }
-
-          .time {
-          }
-
-          .place {
-            color: #666;
-            display: block;
-            font-size: 13px;
-          }
-          .studio {
-            font-size: 24px;
-
-            span {
-              margin: 0 4px;
-            }
-          }
-        }
-
       }
 
-      a.button {
-        margin-top: 24px;
-        border-color: #333;
-        color: #333;
-        background: rgba(0,0,0,0);
-        transition: all .2s ease-out;
+      .frame {
+        display: block;
+        font-size: 16px;
 
-        &:hover {
-          background: rgba(0,0,0,.1);
+        .month-date {
+          margin-right: 8px;
+
+          .text {
+            font-size: .9em;
+            margin-right: 2px;
+          }
+
+          .day {
+            margin: 0 4px;
+            padding: 4px 8px;
+            border-radius: 2px;
+            background: #eee;
+          }
+        }
+
+        .time {
+        }
+
+        .place {
+          color: #666;
+          display: block;
+          font-size: 13px;
+        }
+        .studio {
+          font-size: 24px;
+
+          span {
+            margin: 0 4px;
+          }
         }
       }
     }
+
+
   }
 }
 
 .contact {
-  background: #ccc;
+  background: #fff;
+  
+  h2.title-large {
+    font-size: 2.4rem;
 
-  .background {
-
-    img {
-      // filter: blur(2px);
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: #fff;
+    &::before {
+      font-size: 1.2rem;
     }
   }
 
   .contents {
-    padding: 0 24px;
-    font-size: 14px;
-    color: #333;
-
-    h2.title {
-      margin-bottom: 24px;
-      font-size: 2.4rem;
-
-      &::before {
-        content: attr(data-subttl)'';
-        display: block;
-        font-size: 1.2rem;
-        color: #666;
-      }
-    }
-
-    a.button {
+      
+    form {
       margin-top: 24px;
-      border-color: #333;
-      color: #333;
-      background: rgba(0,0,0,0);
-      transition: all .2s ease-out;
 
-      &:hover {
-        background: rgba(0,0,0,.1);
+      label {
+        display: block;
+        margin-top: 12px;
+        font-size: 16px;
+
+        span {
+          display: block;
+        }
+      }
+
+      // Forms
+      input[type="text"],
+      input[type="address"],
+      textarea {
+        -webkit-appearance: none;
+      }
+
+      input[type="text"],
+      input[type="address"] {
+        -webkit-appearance: none;
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0;
+        padding: 8px 10px;
+        border: .55px solid #666;
+        border-radius: .25rem;
+        color: #333;
+        font-size: 16px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+        &:focus {
+          border: solid 1px rgba(182,0,5,1);
+          box-shadow: 0 0 0 0.2rem rgba(182,0,5,.25);
+          outline: 0;
+        }
+
+        &:active {
+          border: solid 1px rgba(182,0,5,1);
+        }
+      }
+
+      textarea {
+        -webkit-appearance: none;
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100px;
+        margin: 0 auto;
+        padding: 8px 10px;
+        border: .55px solid #666;
+        border-radius: .25rem;
+        color: #333;
+        font-size: 16px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+        &:focus {
+          border: solid 1px rgba(182,0,5,.6);
+          box-shadow: 0 0 0 0.2rem rgba(182,0,5,.25);
+          outline: 0;
+        }
+      }
+
+      button {
+        display: inline-block;
+        margin-top: 24px;
+        padding: 6px 36px;
+        border: .55px solid #666;
+        background: #fff;
+        color: #333;
+        font-size: 16px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        outline: none;
+        transition: all ease-in-out .1s;
+
+        &:hover {
+          background: rgba(0,0,0,.1);
+        }
       }
     }
   }

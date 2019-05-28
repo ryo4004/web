@@ -1,0 +1,169 @@
+body {
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  outline: none;
+}
+
+::selection {
+  background: rgba(182,0,5,.2);
+  color: #ffffff;
+}
+::-moz-selection {
+	background: rgba(182,0,5,.2);
+	color: #ffffff;
+}
+
+.block {
+  width: 100%;
+  border-top: .55px solid #eee;
+
+  & > div {
+    width: 100%;    
+    max-width: 800px;
+    margin: 48px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+
+    &:first-child {
+
+    }
+
+    &:last-child {
+      padding-bottom: 48px;
+    }
+  }
+
+  .title {
+
+    h2 {
+      display: block;
+
+      font-size: 2rem;
+      font-weight: normal;
+  
+      &::before {
+        content: attr(data-subttl)'';
+        display: block;
+        font-size: 1rem;
+        color: #666;
+      }
+    }
+  }
+
+  .contents {
+    margin: 48px auto 0;
+
+    .text {
+      font-size: 16px;
+      line-height: 2;
+
+      p {
+        text-indent: 1em;
+
+        a {
+          text-decoration: none;
+          color: #333;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }  
+    
+    a.button {
+      margin-top: 24px;
+      border-color: #666;
+      color: #333;
+      background: rgba(0,0,0,0);
+      transition: all .2s ease-out;
+
+      &:hover {
+        background: rgba(0,0,0,.1);
+      }
+    }
+  }
+}
+
+.back-to-home {
+
+  & > div {
+    margin: 96px auto;
+    
+    a {
+      display: inline-block;
+      padding: 6px 36px;
+      border-width: .55px;
+      border-style: solid;
+      border-color: #333;
+      font-size: 16px;
+      letter-spacing: 2px;
+      text-decoration: none;
+      color: #333;
+      background: rgba(0,0,0,0);
+      transition: all ease-in-out .1s;
+  
+      &:hover {
+        background: rgba(0,0,0,.1);
+      }
+    }
+  }
+}
+
+footer {
+  position: relative;
+  width: 100%;
+  background: #eee;
+  z-index: 2;
+
+  & > div {
+    max-width: 1200px;
+    padding: 48px 24px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    font-size: 14px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 767px) {
+      & {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+
+      &:hover {
+        color: #666;
+        text-decoration: underline;
+      }
+    }
+
+    .author {
+      margin-top: 12px;
+
+      h2 {
+        font-weight: normal;
+        font-size: 16px;
+        color: #333;
+      }
+
+      small {
+        font-size: 12px;
+        color: #666;
+      }
+    }
+
+    .link {
+      margin-top: 12px;
+    }
+  }
+}

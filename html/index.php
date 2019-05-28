@@ -38,9 +38,9 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
-  <title>ザ・ウィンド・アンサンブルへようこそ！</title>
+  <title>ザ・ウィンド・アンサンブル</title>
   <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/index.css">
   <link rel="shortcut icon" href="image/favicon.ico">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
@@ -79,9 +79,9 @@
 
   <div>
 
-    <div class='block full introduction' id="introduction">
+    <div class='home-block full introduction' id="introduction">
       <div class='background map'>
-        <?php require('image/svg/japan-niigata3_3.svg'); ?>
+        <?php require('image/svg/japan-niigata.svg'); ?>
       </div>
       <div class='contents'>
         <div>
@@ -94,7 +94,7 @@
       </div>
     </div>
 
-    <div class='block concert'>
+    <div class='home-block concert'>
       <div class='contents'>
         <div>
           <div class='concert-introduction'>
@@ -104,7 +104,7 @@
             <div class='text'>
               <p>ザ・ウィンド・アンサンブルは年2回、演奏会を主催しております。</p>
               <p>これらの演奏会の他に出張依頼演奏も随時受け付けております。</p>
-              <p>お気軽にお問合せからご連絡ください。</p>
+              <p>お気軽にお問合せください。</p>
             </div>
           </div>
           <div class='concert-box'>
@@ -151,41 +151,40 @@
       </div>
     </div>
 
-    <div class='block full schedule'>
-      <div class='background'>
-        <!-- <img src='image/photo/drum.jpg'> -->
-        <div class='overlay'></div>
+    <div class='block schedule'>
+      <div class='title'>
+        <h2 class='title-large' data-subttl="Schedule">練習日程</h2>
       </div>
       <div class='contents'>
-        <div>
-          <h2 class='title' data-subttl="Schedule">練習日程</h2>
-          <div class='text'>
-            <p>主に長岡リリックホールのスタジオにて練習しております。</p>
-            <p>基本的に第5スタジオにて毎週土曜日18時から22時まで練習を行います。</p>
-            <p>本番が近くなると、第1スタジオやコンサートホールなどを利用して練習しています。</p>
-          </div>
-          <div class='schedule-next'>
-            <div>
-              <?php echo $contents['next']; ?>
-            </div>
-          </div>
-          <a href='#' class='button'>More</a>
+        <div class='text'>
+          <p>主に長岡リリックホールのスタジオにて練習しております。</p>
+          <p>基本的に第5スタジオにて毎週土曜日18時から22時まで合奏や個人練習しています。</p>
+          <p>本番が近くなると、第1スタジオやコンサートホールなどを利用します。</p>
         </div>
+        <div class='schedule-next'>
+          <div>
+            <?php echo $contents['next']; ?>
+          </div>
+        </div>
+        <a href='#' class='button'>More</a>
       </div>
     </div>
 
-    <div class='block full contact'>
-      <div class='background'>
-        <!-- <img src='image/photo/drum.jpg'> -->
-        <div class='overlay'></div>
+    <div class='block contact' id="contact">
+      <div class='title'>
+        <h2 class='title-large' data-subttl="Contact">お問い合わせ</h2>
       </div>
       <div class='contents'>
-        <h2 class='title' data-subttl="Contact">お問い合わせ</h2>
         <div class='text'>
-          <p>ザ・ウィンド・アンサンブルに関するご意見、ご質問、メッセージ等々お気軽にお問い合わせください。</p>
-          <p>また、出張、依頼演奏なども随時受け付けております。</p>
+          <p>ザ・ウィンド・アンサンブルに関するご意見、ご質問、メッセージ等お気軽にお問い合わせください。</p>
+          <p>また、出張、依頼演奏などもこちらから受け付けております。</p>
         </div>
-        <a href='#' class='button'>More</a>
+        <form method="post" action="contact" id="contact">
+          <label><span>お名前</span><input type="text" name="name" value="" class="name" required></label>
+          <label><span>メールアドレス</span><input type="address" autocorrect="off" autocapitalize="off" name="email" value="" class="email" placeholder="連絡可能なメールアドレスを入力してください" required></label>
+          <label><span>お問い合わせ内容</span><textarea name="message" class="text" required></textarea></label> 
+          <button type="submit" name="send" class="sendbutton" value="send">確認</button>
+        </form>
       </div>
     </div>
 
