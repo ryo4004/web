@@ -37,7 +37,7 @@ class History extends React.Component {
     const reHasRegExp = new RegExp(reRegExp.source)
     return (string && reHasRegExp.test(string)) ? string.replace(reRegExp, '\\$&') : string
   }
-    
+
   search (value) {
     if (value === '' || !value) return this.resetSearch()
     const result = this.state.list.map((item) => {
@@ -135,9 +135,8 @@ class History extends React.Component {
 
   showGuide (item) {
     if ('guide' in item) {
-      console.log(item)
       return <div className='item'><div className='guide'><a href={item.guide}>案内ページ</a></div></div>
-    }  
+    }
   }
 
   showMusic (item) {
@@ -220,7 +219,7 @@ class History extends React.Component {
             <div onClick={() => this.resetSearch()} className={searchBarButtonClass}><i className='fas fa-times-circle'></i></div>
           </div>
         </div>
-        {concertButton}        
+        {concertButton}
       </div>
     )
   }
@@ -247,7 +246,7 @@ class History extends React.Component {
           <div class='loading'>読み込み中</div>
         </React.Fragment>
       )
-    } 
+    }
     const concertList = this.renderConcertList()
     const searchResult = this.renderSearchResult()
     const notice = this.renderNotice()

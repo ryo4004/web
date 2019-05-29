@@ -38,12 +38,32 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+  <meta name="description" content="新潟県長岡市で活動している吹奏楽団ザ・ウィンド・アンサンブルのホームページです。年2回、長岡リリックホール周辺にて演奏会を企画・開催しています。">
+  <meta name="keywords" content="ウィンズ,ウインズ,長岡市,nagaoka,リリックホール,新潟県,吹奏楽,winds,ザ・ウィンド・アンサンブル,ザ・ウインド・アンサンブル,ザウィンドアンサンブル,ザウインドアンサンブル,ウィンドアンサンブル,ウインドアンサンブル,thewindensemble, the wind ensemble, wind ensemble">
+  <meta name="author" content="The Wind Ensemble">
+  <meta property="fb:app_id" content="1477708412318886" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:url" content="https://winds-n.com/" />
+  <meta property="og:title" content="ザ・ウィンド・アンサンブルは新潟県長岡市の吹奏楽団です" />
+  <meta property="og:description" content="長岡市で活動している吹奏楽団ザ・ウィンド・アンサンブルのホームページです。年2回、長岡リリックホール周辺にて演奏会を企画・開催しています。" />
+  <meta property="og:image" content="https://winds-n.com/image/social/square.png" />
+  <meta property="og:image:alt" content="The Wind Ensemble" />
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@winds_nagaoka">
+  <meta name="twitter:domain" content="winds-n.com">
+  <meta name="twitter:creator" content="@winds_nagaoka">
+  <meta name="twitter:title" content="ザ・ウィンド・アンサンブルは新潟県長岡市の吹奏楽団です">
+  <meta name="twitter:description" content="長岡市で活動している吹奏楽団のホームページです。年2回リリックホール周辺にて演奏会を企画・開催しています。">
+  <meta name="twitter:image" content="https://winds-n.com/image/social/wide.png">
   <title>ザ・ウィンド・アンサンブル</title>
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/index.css">
-  <link rel="shortcut icon" href="image/favicon.ico">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link rel="shortcut icon" href="image/favicon.ico">
+  <link rel="apple-touch-icon" href="image/icon/apple-icon.png">
+  <link rel="icon" type="image/png" href="image/icon/android-chrome.png">
 </head>
 <body>
 
@@ -112,9 +132,19 @@
               </div>
               <ul>
                 <li>
-                  <a href='' class='prepare'>
+                  <a href='#' class='prepare' onclick='return false'>
                     <div class='concert-detail'>
                       <div><p>2019年10月13日(日)</p><h3>第32回定期演奏会</h3></div>
+                      <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class='concert-prepare'>準備中</div>
+                    <div class='concert-close'>終了しました</div>
+                  </a>
+                </li>
+                <li>
+                  <a href='31stconcert' class='close'>
+                    <div class='concert-detail'>
+                      <div><p>2018年10月7日(日)</p><h3>第31回定期演奏会</h3></div>
                       <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
                     </div>
                     <div class='concert-prepare'>準備中</div>
@@ -132,11 +162,22 @@
               </div>
               <ul>
                 <li>
+                  <a href='#' class='prepare' onclick='return false'>
+                    <div class='concert-detail'>
+                      <div><p>2020年5月吉日(土)</p><h3>春のミニコンサート</h3></div>
+                      <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class='concert-prepare'>準備中</div>
+                    <div class='concert-close'>終了しました</div>
+                  </a>
+                </li>
+                <li>
                   <a href='mini2019' class='close'>
                     <div class='concert-detail'>
                       <div><p>2019年5月11日(土)</p><h3>春のミニコンサート</h3></div>
                       <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
                     </div>
+                    <div class='concert-prepare'>準備中</div>
                     <div class='concert-close'>終了しました</div>
                   </a>
                 </li>
@@ -178,7 +219,7 @@
         <form method="post" action="contact" id="contact-form">
           <label><span>お名前</span><input type="text" name="name" value="" class="name" id='form-name' required></label>
           <label><span>メールアドレス</span><input type="address" autocorrect="off" autocapitalize="off" name="email" value="" class="email" placeholder="連絡可能なメールアドレスを入力してください" id='form-email' required></label>
-          <label><span>お問い合わせ内容</span><textarea name="message" class="text" id='form-message' required></textarea></label> 
+          <label><span>お問い合わせ内容</span><textarea name="message" class="text" id='form-message' required></textarea></label>
           <button type="submit" name="send" class="sendbutton" value="send">確認</button>
         </form>
       </div>
