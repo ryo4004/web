@@ -1,5 +1,7 @@
 body {
   font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
@@ -14,6 +16,74 @@ body {
 ::-moz-selection {
 	background: rgba(182,0,5,.2);
 	color: #ffffff;
+}
+
+header#top {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+
+  section#main-logo {
+    margin: 24px;
+
+    a {
+      svg#svg-logo {
+        width: 80%;
+        max-width: 450px;
+        fill: rgba(204,148,37,1);
+      }
+
+      &:hover {
+        svg#svg-logo {
+          fill: rgba(204,148,37,.8);
+        }
+      }
+    }
+  }
+}
+
+.top-title {
+  padding: 24px 0 48px;
+
+  & > div {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+
+    h1 {
+      display: block;
+      margin: 0 24px;
+      font-size: 2.4rem;
+      font-weight: normal;
+
+      &::before {
+        content: attr(data-subttl)'';
+        display: block;
+        font-size: 1.2rem;
+        color: #666;
+      }
+    }
+    
+    .bread {
+      margin: 0 24px;
+      font-size: 13px;
+      
+      a {
+        text-decoration: none;
+        color: #999;
+
+        &:hover {
+          text-decoration: underline;
+          color: #666;
+        }
+      }
+
+      i {
+        color: #ccc;
+        margin: 0 8px;
+      }
+    }
+  }
 }
 
 .block {
@@ -88,10 +158,11 @@ body {
   }
 }
 
-.back-to-home {
+.block.back-to-home {
 
   & > div {
     margin: 96px auto;
+    padding-bottom: 0;
     
     a {
       display: inline-block;
@@ -150,13 +221,22 @@ footer {
     .author {
       margin-top: 12px;
 
-      h2 {
-        font-weight: normal;
-        font-size: 16px;
-        color: #333;
+      // h2 {
+      //   font-weight: normal;
+      //   font-size: 16px;
+      //   color: #333;
+      // }
+
+      svg {
+        display: block;
+        width: 100%;
+        max-width: 450px;
+        fill: #666;
       }
 
       small {
+        display: block;
+        margin-top: 8px;
         font-size: 12px;
         color: #666;
       }
@@ -164,6 +244,31 @@ footer {
 
     .link {
       margin-top: 12px;
+
+      ul {
+        display: flex;
+
+        @media (max-width: 767px) {
+          & {
+            margin-top: 16px;
+            flex-direction: column;
+          }
+        }
+
+        li {
+          margin-right: 16px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+          
+          @media (max-width: 767px) {
+            & {
+              margin-top: 8px;
+            }
+          }
+        }
+      }
     }
   }
 }

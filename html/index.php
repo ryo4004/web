@@ -35,9 +35,9 @@
 
 ?><html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
   <title>ザ・ウィンド・アンサンブル</title>
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
@@ -54,7 +54,7 @@
 </head>
 <body>
 
-  <header id="top">
+  <header id="home">
     <section id="background">
       <div id="first-background"></div>
       <div id="second-background"></div>
@@ -94,57 +94,59 @@
       </div>
     </div>
 
-    <div class='home-block concert'>
+    <div class='block concert'>
+      <div class='title'>
+        <h2 class='title-large' data-subttl="Concert">演奏会</h2>
+      </div>
       <div class='contents'>
-        <div>
-          <div class='concert-introduction'>
-            <div class='title'>
-              <h2 class='title' data-subttl="Concert">演奏会</h2>
-            </div>
-            <div class='text'>
-              <p>ザ・ウィンド・アンサンブルは年2回、演奏会を主催しております。</p>
-              <p>これらの演奏会の他に出張依頼演奏も随時受け付けております。</p>
-              <p>お気軽にお問合せください。</p>
+        <div class='text'>
+          <p>ザ・ウィンド・アンサンブルは年2回、演奏会を主催しております。</p>
+          <p>これらの演奏会の他に出張依頼演奏も随時受け付けております。</p>
+          <p>お気軽にお問合せください。</p>
+        </div>
+        <a href='history.php' class='button'>過去の演奏会</a>
+      </div>
+    </div>
+
+    <div class='home-block concert-introduction'>
+      <div class='contents'>
+        <div class='concert-box'>
+          <div class='main-concert' style='order:1'>
+            <div class='content'>
+              <h3 class='title' data-subttl="Annual Concert">定期演奏会</h3>
+              <div class='text'>
+                <p>秋に開催する定期演奏会では、吹奏楽のオリジナル作品やクラシックのアレンジ作品をメインに演奏いたします。</p>
+              </div>
+              <ul>
+                <li>
+                  <a href='#' class='open'>
+                    <div class='concert-detail'>
+                      <div><p>2019年10月13日(日)</p><h3>第32回定期演奏会</h3></div>
+                      <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class='concert-close'>終了しました</div>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
-          <div class='concert-box'>
-            <div class='main-concert' style='order:1'>
-              <div class='content'>
-                <h3 class='title' data-subttl="Annual Concert">定期演奏会</h3>
-                <div class='text'>
-                  <p>秋に開催する定期演奏会では、吹奏楽のオリジナル作品やクラシックのアレンジ作品をメインに演奏いたします。</p>
-                </div>
-                <ul>
-                  <li>
-                    <a href='#' class='open'>
-                      <div class='concert-detail'>
-                        <div><p>2019年10月13日(日)</p><h3>第32回定期演奏会</h3></div>
-                        <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
-                      </div>
-                      <div class='concert-close'>終了しました</div>
-                    </a>
-                  </li>
-                </ul>
+          <div class='mini-concert' style='order:2'>
+            <div class='content'>
+              <h3 class='title' data-subttl="Mini Concert">ミニコンサート</h3>
+              <div class='text'>
+                <p>春に開催するミニコンサートでは、アニメソングやポップス、映画音楽などをメインに演奏いたします。</p>
               </div>
-            </div>
-            <div class='mini-concert' style='order:2'>
-              <div class='content'>
-                <h3 class='title' data-subttl="Mini Concert">ミニコンサート</h3>
-                <div class='text'>
-                  <p>春に開催するミニコンサートでは、アニメソングやポップス、映画音楽などをメインに演奏いたします。</p>
-                </div>
-                <ul>
-                  <li>
-                    <a href='#' class='close'>
-                      <div class='concert-detail'>
-                        <div><p>2019年5月11日(土)</p><h3>春のミニコンサート</h3></div>
-                        <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
-                      </div>
-                      <div class='concert-close'>終了しました</div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
+              <ul>
+                <li>
+                  <a href='#' class='close'>
+                    <div class='concert-detail'>
+                      <div><p>2019年5月11日(土)</p><h3>春のミニコンサート</h3></div>
+                      <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class='concert-close'>終了しました</div>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -192,14 +194,18 @@
   <footer>
     <div>
       <div class='author'>
-        <a href='index.php'><h2>ザ・ウィンド・アンサンブル</h2></a>
+        <a href='index.php'><?php require('image/logo/logo.svg'); ?></a>
         <small>&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</small>
       </div>
       <div class='link'>
-        <a href='policy'>個人情報保護方針</a>
+        <ul>
+          <li><a href='https://member.winds-n.com'>団員専用ページ</a></li>
+          <li><a href='policy'>個人情報保護方針</a></li>
+        </ul>
       </div>
     </div>
   </footer>
   <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>

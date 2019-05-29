@@ -1,4 +1,4 @@
-header#top {
+header#home {
   width: 100%;
   height: 100vh;
   z-index: 1;
@@ -474,6 +474,20 @@ a.button {
 }
 
 .concert {
+  padding: 48px 0;
+  border: none;
+  background: #fcf9ec;
+  
+  h2.title-large {
+    font-size: 2.4rem;
+
+    &::before {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.concert-introduction {
   // position: relative;
   z-index: 2;
   background: #fff;
@@ -481,58 +495,48 @@ a.button {
 
   .contents {
     width: 100%;
-    font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
-    // 076 Premium Dark
-    // background-image: linear-gradient(to right, #434343 0%, black 100%);
-    // background-image: linear-gradient(to right, rgba(30,30,30,.8) 0%, rgba(0,0,0,.8) 100%);
-    // background: rgb(239,234,227);
-    // background: rgb(240,239,235);
-    // background: rgb(228,226,223);
-    // background: rgb(240,235,219);
-    // background: rgb(231,227,229);
-    // background: rgb(250,236,221);
-    background: #fcf9ec;
 
-    div.concert-introduction {
-      width: 100%;
-      max-width: 800px;
-      padding: 96px 0;
-      box-sizing: border-box;
-      margin: 0 auto;
-      font-size: 14px;
-      color: #333;
+    // div.concert-introduction {
+    //   width: 100%;
+    //   max-width: 800px;
+    //   padding: 96px 0;
+    //   box-sizing: border-box;
+    //   margin: 0 auto;
+    //   font-size: 14px;
+    //   color: #333;
 
-      // display: flex;
-      // justify-content: flex-start;
-      // align-items: center;
+    //   .title {
+    //     margin: 0 24px;
 
-      @media (max-width: 767px) {
-        & {
-          flex-direction: column;
-          align-items: normal;
-        }
-      }
+    //     h2 {
+    //       margin-bottom: 24px;
+    //       font-size: 2.4rem;
 
-      & > .title {
-        margin: 0 24px;
+    //       &::before {
+    //         content: attr(data-subttl)'';
+    //         display: block;
+    //         font-size: 1.2rem;
+    //         color: #666;
+    //       }
+    //     }
+    //   }
 
-        h2.title {
-          margin-bottom: 24px;
-          font-size: 2.4rem;
+    //   .text {
+    //     margin: 0 24px;
+    //   }
 
-          &::before {
-            content: attr(data-subttl)'';
-            display: block;
-            font-size: 1.2rem;
-            color: #666;
-          }
-        }
-      }
-
-      & > .text {
-        margin: 0 24px;
-      }
-    }
+    //   a.button {
+    //     margin-top: 24px;
+    //     border-color: #666;
+    //     color: #333;
+    //     background: rgba(0,0,0,0);
+    //     transition: all .2s ease-out;
+  
+    //     &:hover {
+    //       background: rgba(0,0,0,.1);
+    //     }
+    //   }
+    // }
 
     div.concert-box {
       display: flex;
@@ -664,6 +668,8 @@ a.button {
 }
 
 .schedule {
+  padding: 48px 0;
+  border: none;
   background: rgb(239,234,227);
 
   h2.title-large {
@@ -755,6 +761,8 @@ a.button {
 }
 
 .contact {
+  padding: 48px 0;
+  border: none;
   background: #fff;
   
   h2.title-large {
@@ -803,13 +811,13 @@ a.button {
         transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
         &:focus {
-          border: solid 1px rgba(182,0,5,1);
+          border: .55px solid rgba(182,0,5,1);
           box-shadow: 0 0 0 0.2rem rgba(182,0,5,.25);
           outline: 0;
         }
 
         &:active {
-          border: solid 1px rgba(182,0,5,1);
+          border: .55px solid rgba(182,0,5,1);
         }
       }
 
@@ -829,7 +837,7 @@ a.button {
         transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
         &:focus {
-          border: solid 1px rgba(182,0,5,.6);
+          border: .55px solid rgba(182,0,5,.6);
           box-shadow: 0 0 0 0.2rem rgba(182,0,5,.25);
           outline: 0;
         }
@@ -846,6 +854,7 @@ a.button {
         letter-spacing: 2px;
         cursor: pointer;
         outline: none;
+        font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
         transition: all ease-in-out .1s;
 
         &:hover {
