@@ -1,0 +1,58 @@
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+  <title>ページがみつかりません｜ザ・ウィンド・アンサンブル</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/err.css">
+  <link rel="shortcut icon" href="image/favicon.ico">
+</head>
+<body>
+
+  <header id='top'>
+    <section id="main-logo">
+      <a href='/'>
+        <?php require('image/logo/logo.svg'); ?>
+      </a>
+    </section>
+  </header>
+
+  <div class='top-title'>
+    <div>
+      <h1 data-subttl="Not Found">ページがみつかりません</h1>
+    </div>
+  </div>
+
+  <div class='block not-found' id="not-found">
+    <div class='contents'>
+      <div class='not-found-error'>
+        <div>404</div>
+      </div>
+    </div>
+  </div>
+
+  <div class='block back-to-home'>
+    <div>
+      <a href='/'>ホームへ戻る</a>
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      <div class='author'>
+        <a href='/'><?php require('image/logo/logo.svg'); ?></a>
+        <small>&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</small>
+      </div>
+      <div class='link'>
+        <ul>
+          <li><a href='https://member.winds-n.com'>団員専用ページ</a></li>
+          <li><a href='policy'>個人情報保護方針</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  <script type="text/javascript" src="js/script.js"></script>
+</body>
+</html>
