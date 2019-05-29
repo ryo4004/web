@@ -28,7 +28,7 @@
         $todayflag = '<p class="todayflag">本日</p>';
       }
       $contents['next'] = $todayflag . '<p><span class="frame"><span class="month-date"><span class="month">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[1]).'</span><span class="month text">月</span><span class="date">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[2]).'</span><span class="date text">日</span><span class="day '.$weeken[date('w',strtotime($date))].'">'.$weekjp[date('w',strtotime($date))].'</span></span><span class="time">'.$start.'～'.$end.'</span></span>'
-      .'<span class="frame"><span class="place">長岡リリックホール</span><span class="studio">'.$studio.'</span></span></p>';
+      .'<span class="frame"><span class="place">'.$place.'</span><span class="studio">'.$studio.'</span></span></p>';
       $nextflag = explode('-',$date)[1];
     }
   }
@@ -169,7 +169,7 @@
             <?php echo $contents['next']; ?>
           </div>
         </div>
-        <a href='#' class='button'>More</a>
+        <a href='schedule.php' class='button'>More</a>
       </div>
     </div>
 

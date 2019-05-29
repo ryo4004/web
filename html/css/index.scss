@@ -717,8 +717,17 @@ a.button {
           .day {
             margin: 0 4px;
             padding: 4px 8px;
-            border-radius: 2px;
+            border-radius: 8px;
             background: #eee;
+
+            &.saturday {
+              color: #fff;
+              background: rgba(0,103,192,.6);
+            }
+            &.sunday {
+              color: #fff;
+              background: rgba(237,26,61,.6);
+            }
           }
         }
 
