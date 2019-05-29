@@ -8,6 +8,8 @@ class History extends React.Component {
       result: null,
       err: false
     }
+    'displayMain' in window.localStorage ? false : window.localStorage['displayMain'] = '1'
+    'displayMini' in window.localStorage ? false : window.localStorage['displayMini'] = '0'
     this.searchRef = React.createRef()
   }
 
@@ -67,6 +69,7 @@ class History extends React.Component {
       if (!item) return // <div key={i}></div>
       return item.map((each, j) => {
         if (!each) return // <div key={i + j}></div>
+        if (each.concert.type === 'other') return
         // const concertType = ' ' + each.concert.type
         // const composer = each.track.composer ? each.track.composer : ''
         const composer = each.track.composer ? each.track.arranger ? <span className='composer'>{each.track.composer}{each.track.composer.match(/民謡/) ? '' : '作曲'}<span>/</span>{each.track.arranger}編曲</span> : <span className='composer'>{each.track.composer}</span> : each.track.arranger ? <span className='composer'>{each.track.arranger}編曲</span> : ''
@@ -130,6 +133,13 @@ class History extends React.Component {
     }
   }
 
+  showGuide (item) {
+    if ('guide' in item) {
+      console.log(item)
+      return <div className='item'><div className='guide'><a href={item.guide}>案内ページ</a></div></div>
+    }  
+  }
+
   showMusic (item) {
     var data = item.data
     return item.contents.map((list, i) => {
@@ -153,6 +163,8 @@ class History extends React.Component {
       // if (each.type === 'main' && !this.props.displayMain) return
       // if (each.type === 'mini' && !this.props.displayMini) return
       // if (each.type === 'other' && !this.props.displayOther) return
+      if (each.type === 'main' && window.localStorage.displayMain === '0') return
+      if (each.type === 'mini' && window.localStorage.displayMini === '0') return
       if (each.type === 'other') return
       const poster = each.detail['poster'] ? <img src={each.detail.poster} /> : <div className='no-poster'><div><span>NO IMAGE</span></div></div>
       return (
@@ -169,6 +181,7 @@ class History extends React.Component {
                   {this.showPlace(each.detail)}
                   {this.showConductor(each.detail)}
                   {this.showGuest(each.detail)}
+                  {this.showGuide(each.detail)}
                 </div>
                 <ol className='music-list'>{this.showMusic(each.detail)}</ol>
               </div>
@@ -179,9 +192,25 @@ class History extends React.Component {
     })
   }
 
-  renderSearch () {
+  toggleConcert (target) {
+    window.localStorage[target] = window.localStorage[target] === '1' ? '0' : '1'
+    // 状態更新
+    this.setState({})
+  }
+
+  renderConcertButton () {
+    return (
+      <div className='controller'>
+        <div className={'switch main ' + (window.localStorage.displayMain === '1' ? 'on' : 'off')} onClick={() => this.toggleConcert('displayMain')}>定期演奏会</div>
+        <div className={'switch mini ' + (window.localStorage.displayMini === '1' ? 'on' : 'off')} onClick={() => this.toggleConcert('displayMini')}>ミニコンサート</div>
+      </div>
+    )
+  }
+
+  renderTopBar () {
     const searchBarButtonClass = this.state.text ? 'search-bar-button' : 'search-bar-button hidden'
     const searchModeClass = this.state.text ? ' search-mode' : ''
+    const concertButton = !this.state.text ? this.renderConcertButton() : false
     return (
       <div className={'search-bar' + searchModeClass}>
         <div className='search-frame'>
@@ -191,29 +220,45 @@ class History extends React.Component {
             <div onClick={() => this.resetSearch()} className={searchBarButtonClass}><i className='fas fa-times-circle'></i></div>
           </div>
         </div>
+        {concertButton}        
       </div>
     )
   }
 
+  renderNotice () {
+    if (window.localStorage['displayMain'] === '0' && window.localStorage['displayMini'] === '0') {
+      return (
+        <div className='notice'>
+          <i className="fas fa-arrow-up"></i>
+          <span>定期演奏会かミニコンサートを選んでください</span>
+        </div>
+      )
+    } else {
+      return <div className='notice'><span>これ以上はありません</span></div>
+    }
+  }
+
   render () {
-    const search = this.renderSearch()
+    const topBar = this.renderTopBar()
     if (this.state.loading || !this.state.list) {
       return (
         <React.Fragment>
-          {search}
+          {topBar}
           <div class='loading'>読み込み中</div>
         </React.Fragment>
       )
     } 
     const concertList = this.renderConcertList()
     const searchResult = this.renderSearchResult()
+    const notice = this.renderNotice()
     // const reverseButton = this.state.text ? false : <div onClick={() => this.reverseList()}>逆順にする</div>
     return (
       <React.Fragment>
-        {search}
+        {topBar}
         {/* {reverseButton} */}
         {concertList}
         {searchResult}
+        {notice}
       </React.Fragment>
     )
   }
