@@ -804,13 +804,13 @@ a.button {
         transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
         &:focus {
-          border: .55px solid rgba(182,0,5,1);
-          box-shadow: 0 0 0 0.2rem rgba(182,0,5,.25);
+          border: .55px solid rgba(204,148,37,1);
+          box-shadow: 0 0 0 0.2rem rgba(204,148,37,.25);
           outline: 0;
         }
 
         &:active {
-          border: .55px solid rgba(182,0,5,1);
+          border: .55px solid rgba(204,148,37,1);
         }
       }
 
@@ -830,9 +830,13 @@ a.button {
         transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 
         &:focus {
-          border: .55px solid rgba(182,0,5,.6);
-          box-shadow: 0 0 0 0.2rem rgba(182,0,5,.25);
+          border: .55px solid rgba(204,148,37,1);
+          box-shadow: 0 0 0 0.2rem rgba(204,148,37,.25);
           outline: 0;
+        }
+        
+        &:active {
+          border: .55px solid rgba(204,148,37,1);
         }
       }
 
@@ -852,6 +856,13 @@ a.button {
 
         &:hover {
           background: rgba(0,0,0,.1);
+        }
+
+        &:disabled {
+          border: .55px solid #ccc;
+          color: #ccc;
+          background: #f8f8f8;
+          cursor: default;
         }
       }
     }

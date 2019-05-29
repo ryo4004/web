@@ -182,10 +182,10 @@
           <p>ザ・ウィンド・アンサンブルに関するご意見、ご質問、メッセージ等お気軽にお問い合わせください。</p>
           <p>また、出張、依頼演奏などもこちらから受け付けております。</p>
         </div>
-        <form method="post" action="contact" id="contact">
-          <label><span>お名前</span><input type="text" name="name" value="" class="name" required></label>
-          <label><span>メールアドレス</span><input type="address" autocorrect="off" autocapitalize="off" name="email" value="" class="email" placeholder="連絡可能なメールアドレスを入力してください" required></label>
-          <label><span>お問い合わせ内容</span><textarea name="message" class="text" required></textarea></label> 
+        <form method="post" action="contact.php" id="contact-form">
+          <label><span>お名前</span><input type="text" name="name" value="" class="name" id='form-name' required></label>
+          <label><span>メールアドレス</span><input type="address" autocorrect="off" autocapitalize="off" name="email" value="" class="email" placeholder="連絡可能なメールアドレスを入力してください" id='form-email' required></label>
+          <label><span>お問い合わせ内容</span><textarea name="message" class="text" id='form-message' required></textarea></label> 
           <button type="submit" name="send" class="sendbutton" value="send">確認</button>
         </form>
       </div>
