@@ -119,11 +119,12 @@
               </div>
               <ul>
                 <li>
-                  <a href='#' class='open'>
+                  <a href='' class='prepare'>
                     <div class='concert-detail'>
                       <div><p>2019年10月13日(日)</p><h3>第32回定期演奏会</h3></div>
                       <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
                     </div>
+                    <div class='concert-prepare'>準備中</div>
                     <div class='concert-close'>終了しました</div>
                   </a>
                 </li>
@@ -138,7 +139,7 @@
               </div>
               <ul>
                 <li>
-                  <a href='#' class='close'>
+                  <a href='mini2019' class='close'>
                     <div class='concert-detail'>
                       <div><p>2019年5月11日(土)</p><h3>春のミニコンサート</h3></div>
                       <div class='link-arrow'><i class="fas fa-chevron-right"></i></div>
