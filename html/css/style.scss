@@ -1,5 +1,5 @@
 body {
-  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+  font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "Sawarabi Mincho", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -63,11 +63,11 @@ header#top {
         color: #666;
       }
     }
-    
+
     .bread {
       margin: 0 24px;
       font-size: 13px;
-      
+
       a {
         text-decoration: none;
         color: #999;
@@ -91,7 +91,7 @@ header#top {
   border-top: .55px solid #eee;
 
   & > div {
-    width: 100%;    
+    width: 100%;
     max-width: 800px;
     margin: 48px auto;
     padding: 0 24px;
@@ -113,7 +113,7 @@ header#top {
 
       font-size: 2rem;
       font-weight: normal;
-  
+
       &::before {
         content: attr(data-subttl)'';
         display: block;
@@ -142,8 +142,8 @@ header#top {
           }
         }
       }
-    }  
-    
+    }
+
     a.button {
       margin-top: 24px;
       border-color: #666;
@@ -163,7 +163,7 @@ header#top {
   & > div {
     margin: 96px auto;
     padding-bottom: 0;
-    
+
     a {
       display: inline-block;
       padding: 6px 36px;
@@ -176,7 +176,7 @@ header#top {
       color: #333;
       background: rgba(0,0,0,0);
       transition: all ease-in-out .1s;
-  
+
       &:hover {
         background: rgba(0,0,0,.1);
       }
@@ -261,7 +261,7 @@ footer {
           &:last-child {
             margin-right: 0;
           }
-          
+
           @media (max-width: 767px) {
             & {
               margin-top: 8px;
