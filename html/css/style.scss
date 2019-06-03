@@ -88,7 +88,7 @@ header#top {
 
 .block {
   width: 100%;
-  border-top: .55px solid #eee;
+  // border-top: .55px solid #eee;
 
   & > div {
     width: 100%;
@@ -233,32 +233,6 @@ header#top {
           margin-right: .2em;
           color: #666;
         }
-      }
-    }
-  }
-}
-
-.block.back-to-home {
-
-  & > div {
-    margin: 96px auto;
-    padding-bottom: 0;
-
-    a {
-      display: inline-block;
-      padding: 6px 36px;
-      border-width: .55px;
-      border-style: solid;
-      border-color: #333;
-      font-size: 16px;
-      letter-spacing: 2px;
-      text-decoration: none;
-      color: #333;
-      background: rgba(0,0,0,0);
-      transition: all ease-in-out .1s;
-
-      &:hover {
-        background: rgba(0,0,0,.1);
       }
     }
   }
