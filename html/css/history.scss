@@ -157,26 +157,42 @@
     }
   }
 
-  .concert-item {
+  details.concert-item {
     width: 100%;
-    border-top: .55px solid #eee;
+    // border-top: .55px solid #eee;
+    margin: 0 auto;
+
+    summary {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 12px 0;
+      list-style: none;
+      cursor: pointer;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &:hover {
+        background: #eee;
+      }
+      
+      h2 {
+        padding: 0 12px;
+        box-sizing: border-box;
+        font-size: 1.6rem;
+      }
+    }
 
     & > div {
       width: 100%;
       max-width: 800px;
-      margin: 48px auto;
-
-      h2 {
-        display: block;
-        margin-bottom: 24px;
-        padding: 0 24px;
-        box-sizing: border-box;
-        font-size: 1.6rem;
-      }
+      margin: 12px auto 48px;
 
       .detail {
         width: 100%;
-        padding: 0 24px;
+        padding: 0 12px;
         box-sizing: border-box;
 
         display: flex;

@@ -167,9 +167,9 @@ class History extends React.Component {
       if (each.type === 'other') return
       const poster = each.detail['poster'] ? <img src={each.detail.poster} /> : <div className='no-poster'><div><span>NO IMAGE</span></div></div>
       return (
-        <div key={each.id + i} className={'concert-item ' + each.type}>
+        <details key={each.id + i} className={'concert-item ' + each.type}>
+          <summary><h2>{each.detail.title}</h2></summary>
           <div>
-            <h2>{each.detail.title}</h2>
             <div class='detail'>
               <div className='poster'>
                 {poster}
@@ -186,7 +186,7 @@ class History extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+        </details>
       )
     })
   }
@@ -229,7 +229,7 @@ class History extends React.Component {
       return (
         <div className='notice'>
           <i className="fas fa-arrow-up"></i>
-          <span>定期演奏会かミニコンサートを選んでください</span>
+          <span>演奏会のジャンルを選んでください</span>
         </div>
       )
     } else {
