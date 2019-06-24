@@ -96,7 +96,7 @@
 
   <div class='block next-schedule' id="next-schedule">
     <div class='title'>
-      <h2 data-subttl="Next">次回の練習日</h2>
+      <h2 data-subttl="Next Practice">次回の練習日</h2>
     </div>
     <div class='contents'>
       <div class='schedule-next'>
@@ -120,10 +120,40 @@
     </div>
   </div>
 
+<?php if (preg_match('/iPhone|iPod|iPad/ui', $_SERVER['HTTP_USER_AGENT'])): ?>
+  <div class='block schedule-guide' id="schedule-guide">
+    <div class='title'>
+      <h2 data-subttl="Synchronize">アプリと同期する</h2>
+    </div>
+    <div class='contents'>
+      <div class='text'>
+        <p>iPhoneのカレンダーアプリと同期することができます。</p>
+      </div>
+      <a href='webcal://api.winds-n.com/schedule/cal.ics' class='button'>同期する</a>
+      <div class='sub-text'>
+        <p>同期したカレンダーの設定および削除は設定アプリを開き、<span>パスワードとアカウント</span><i class="fas fa-chevron-right"></i><span>照会したカレンダー</span>から行ってください。</p>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
+
+<?php if (preg_match('/Android/ui', $_SERVER['HTTP_USER_AGENT'])): ?>
+  <div class='block schedule-guide' id="schedule-guide">
+    <div class='title'>
+      <h2 data-subttl="Add Schedule">アプリに追加する</h2>
+    </div>
+    <div class='contents'>
+      <div class='text'>
+        <p>Androidのカレンダーアプリに予定を追加できます。</p>
+      </div>
+      <a href='https://api.winds-n.com/schedule/cal.ics' class='button'>追加する</a>
+    </div>
+  </div>
+<?php endif; ?>
   <!-- <div>
-    <a href='webcal://api.winds-n.com/schedule/cal.ics'>iPhone</a>
+    
     <a href='https://www.google.com/calendar/render?cid=webcal://api.winds-n.com/schedule/cal.ics'>PC</a>
-    <a href='https://api.winds-n.com/schedule/cal.ics'>Android</a>
+    
   </div> -->
 
   <div class='block back-navigation'>

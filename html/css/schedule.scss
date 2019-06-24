@@ -7,8 +7,8 @@ body {
     .schedule-next {
       display: block;
       margin: 24px 0;
-      background: #fff;
-      border: .55px solid #eee;
+      background: rgba(239,234,227,.2);
+      border: .55px solid rgba(239,234,227,.2);
       position: relative;
       padding: 24px;
       max-width: 350px;
@@ -95,7 +95,7 @@ body {
       display: block;
       margin: 24px 0;
       background: #fff;
-      border: .55px solid #eee;
+      border: .55px solid rgba(239,234,227,.2);
       position: relative;
       // padding: 16px 24px;
       // max-width: 350px;
@@ -112,7 +112,7 @@ body {
         }
         
         &:hover {
-          background: rgba(239,234,227,.6);
+          background: rgba(239,234,227,.2);
         }
 
         .frame {
@@ -179,4 +179,27 @@ body {
       }
     }
   }
+}
+
+.schedule-guide {
+  .contents {
+    .sub-text {
+      margin-top: 24px;
+      color: #666;
+
+      span {
+        display: inline-block;
+        margin: 2px;
+        padding: 2px 6px;
+        border-radius: 2px;
+        background: #eee;
+        color: #333;
+      }
+
+      i {
+        color: #ccc;
+        margin: 0 8px;
+      }
+    }
+  } 
 }

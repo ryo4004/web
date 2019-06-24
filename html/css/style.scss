@@ -86,6 +86,17 @@ header#top {
   }
 }
 
+a.button {
+  display: inline-block;
+  padding: 6px 36px;
+  border-width: .55px;
+  border-style: solid;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  transition: all ease-in-out .1s;
+}
+
 .block {
   width: 100%;
   // border-top: .55px solid #eee;
@@ -140,6 +151,10 @@ header#top {
           &:hover {
             text-decoration: underline;
           }
+        }
+
+        i {
+          text-indent: 0;
         }
       }
     }
