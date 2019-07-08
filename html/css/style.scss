@@ -88,13 +88,39 @@ header#top {
 
 a.button {
   display: inline-block;
-  padding: 6px 36px;
-  border-width: .55px;
-  border-style: solid;
+  padding: 8px 12px;
+  border: .55px solid #666;
   font-size: 16px;
+  color: #333;
+  background: rgba(0,0,0,0);
   letter-spacing: 2px;
   text-decoration: none;
   transition: all ease-in-out .1s;
+
+  &:hover {
+    background: rgba(0,0,0,.1);
+  }
+
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+
+    .text {
+      margin: 0 36px;
+    }
+
+    .link-arrow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+        
+      i {
+        // margin-left: .2em;
+        color: #666;
+      }
+    }
+  }
 }
 
 .block {
@@ -161,14 +187,6 @@ a.button {
 
     a.button {
       margin-top: 24px;
-      border-color: #666;
-      color: #333;
-      background: rgba(0,0,0,0);
-      transition: all .2s ease-out;
-
-      &:hover {
-        background: rgba(0,0,0,.1);
-      }
     }
   }
 }
@@ -192,7 +210,7 @@ a.button {
     & > div {
 
       a {
-        padding: 6px 12px;
+        padding: 8px 12px;
         border-width: .55px;
         border-style: solid;
         border-color: #333;
@@ -218,7 +236,7 @@ a.button {
       }
 
       div#scrollTop {
-        padding: 6px 12px;
+        padding: 8px 12px;
         border-width: .55px;
         border-style: solid;
         border-color: #333;
