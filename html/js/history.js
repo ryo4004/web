@@ -1,3 +1,6 @@
+// npm i -g react-tools
+// jsx --harmony jsx/ js/
+// jsx --harmony *input* *output*
 class History extends React.Component {
   constructor (props) {
     super(props)
