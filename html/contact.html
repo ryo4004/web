@@ -111,8 +111,8 @@
         <input type="hidden" name="message" value="<?php echo $_POST['message']; ?>">
         <div class="message"><p>この内容でよろしければ、送信ボタンを押してください。</p></div>
         <div class='button'>
-          <button type="submit" name="modify" class="send-button" value="modify">修正する</button>
-          <button type="submit" name="confirm" class="send-button confirm" value="confirm">送信</button>
+          <button type="submit" name="modify" class="send-button" value="modify" ontouchstart=''>修正する</button>
+          <button type="submit" name="confirm" class="send-button confirm" value="confirm" ontouchstart=''>送信</button>
         </div>
       </form>
 <?php }elseif($mode == 'modify') { ?>
@@ -120,7 +120,7 @@
         <label>お名前</label><input type="text" name="name" value="<?php echo $_POST['name']; ?>" class="name" required>
         <label>メールアドレス</label><input type="address" autocorrect="off" autocapitalize="off" name="email" value="<?php echo $_POST['email']; ?>" class="email" required>
         <label>お問い合わせ内容</label><textarea name="message" class="text" required><?php echo $_POST['message']; ?></textarea>
-        <button type="submit" name="send" class="sendbutton" value="send">確認</button>
+        <button type="submit" name="send" class="sendbutton" value="send" ontouchstart=''>確認</button>
       </form>
 <?php }elseif($mode == 'error') { ?>
       <div class='error'>
@@ -134,7 +134,7 @@
         <label>お名前</label><input type="text" name="name" value="<?php echo $_POST['name']; ?>" class="name" required>
         <label>メールアドレス</label><input type="address" autocorrect="off" autocapitalize="off" name="email" value="<?php echo $_POST['email']; ?>" class="email" required>
         <label>お問い合わせ内容</label><textarea name="message" class="text" required><?php echo $_POST['message']; ?></textarea>
-        <button type="submit" name="send" class="sendbutton" value="send">確認</button>
+        <button type="submit" name="send" class="sendbutton" value="send" ontouchstart=''>確認</button>
       </form>
 <?php }elseif($mode == 'confirm') { ?>
       <div class='text'>
@@ -152,8 +152,8 @@
 
   <div class='block back-navigation'>
     <div>
-      <div><a href='/'><i class="fas fa-chevron-left"></i><span>ホームへ戻る</span></a></div>
-      <div class='scrollTop'><div id='scrollTop'><i class="fas fa-chevron-up"></i><span>トップへ</span></div></div>
+      <div><a href='/' ontouchstart=''><i class="fas fa-chevron-left"></i><span>ホームへ戻る</span></a></div>
+      <div class='scrollTop' ontouchstart=''><div id='scrollTop'><i class="fas fa-chevron-up"></i><span>トップへ</span></div></div>
     </div>
   </div>
 

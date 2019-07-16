@@ -171,7 +171,7 @@ class History extends React.Component {
       const poster = each.detail['poster'] ? <img src={each.detail.poster} /> : <div className='no-poster'><div><span>NO IMAGE</span></div></div>
       return (
         <details key={each.id + i} className={'concert-item ' + each.type}>
-          <summary><h2>{each.detail.title}</h2></summary>
+          <summary onTouchStart={() => {}}><h2>{each.detail.title}</h2></summary>
           <div>
             <div class='detail'>
               <div className='poster'>

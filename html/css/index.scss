@@ -455,7 +455,8 @@ header#home {
         border-color: #666;
         color: #333;
         background: #fff;
-        &:hover {
+      
+        &:hover, &:focus, &:active {
           background: rgba(0,0,0,.1);
         }
       }
