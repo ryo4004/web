@@ -1,0 +1,146 @@
+<?php
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  //データパス
+	$datapath = dirname(__FILE__).$dir['data']."schedule.inc";
+  // データ取得
+  $list = file($datapath,FILE_IGNORE_NEW_LINES);
+
+  //コンテンツ処理(schedule)
+  $weekjp = ['日', '月', '火', '水', '木', '金', '土'];
+  $weeken = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+  $contents['next'] = '直近の練習予定はありません。';
+  $contents['article'] = '';
+  $timestamp['present'] = date('Y/m/d H:i');
+  $timestamp['today'] = date('Y/m/d');
+
+  $nextflag = FALSE;
+  $todayflag = '';
+
+  for($i=0;$i<count($list);$i++) {
+    //explode('<>',$list[$i])[0];
+    // 2017-02-18<>18:00-22:00<>第5スタジオ<>
+    // date<>start-end<>place(studio)<>memo
+    $timestamp['end'] = date('Y/m/d H:i',strtotime(explode('<>',$list[$i]) [0].' '. explode('-', explode('<>',$list[$i])[1] ) [1] ));
+
+    $date = explode('<>',$list[$i])[0];
+    $start = explode('-',explode('<>',$list[$i])[1])[0];
+    $end = explode('-',explode('<>',$list[$i])[1])[1];
+    $place = explode('<>',$list[$i])[2];
+    $studio = explode('<>',$list[$i])[3];
+    $studio = preg_replace('/第(.*)スタジオ/','第<span>$1</span>スタジオ',$studio);
+    $memo = (isset(explode('<>',$list[$i])[4]) && explode('<>',$list[$i])[4] !== '') ? '<span class="memo">'.explode('<>',$list[$i])[4].'</span>' : '';
+
+    if($timestamp['end'] >= $timestamp['present'] && $nextflag == FALSE) {
+      if(strtotime($timestamp['today']) === strtotime($date)){
+        $todayflag = '<p class="todayflag">本日です</p>';
+      }
+  		$contents['next'] = $todayflag . $memo . '<p><span class="frame"><span class="month">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[1]).'</span><span class="month-text">月</span><span class="date">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[2]).'</span><span class="date-text">日</span><span class="day '.$weeken[date('w',strtotime($date))].'">'.$weekjp[date('w',strtotime($date))].'</span>'
+      .'<span class="time">'.$start.'～'.$end.'</span></span><span class="frame">'
+      .'<span class="place">'.$place.'</span><span class="studio">'.$studio.'</span></span></p>';
+      $nextflag = explode('-',$date)[1];
+      $contents['article'] .= '<p class="month-title"><span class="year">'.explode('-',$date)[0].'</span><span class="year-text">年</span><span class="month">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[1]).'</span><span class="month-text">月</span></p>';
+  	}
+    if($nextflag) {
+      if(explode('-',$date)[1] > $nextflag || ($nextflag == '12' && explode('-',$date)[1] < $nextflag)) {
+        $contents['article'] .= '<p class="month-title"><span class="year">'.explode('-',$date)[0].'</span><span class="year-text">年</span><span class="month">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[1]).'</span><span class="month-text">月</span></p>';
+        $nextflag = preg_replace('/0([1-9])/','$1',explode('-',$date)[1]);
+      }
+      $contents['article'] .= '<p class="each"><span class="frame"><span class="date">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[2]).'</span><span class="date-text">日</span><span class="day '.$weeken[date('w',strtotime($date))].'">'.$weekjp[date('w',strtotime($date))].'</span><span class="time">'.$start.'～'.$end.'</span></span><span class="frame"><span class="studio">'.$studio.'</span></span>'.$memo.'</p>';
+
+      // $contents['article'] .= '<p><span class="month">'.explode('-',$date)[1].'</span><span class="month-text">月</span><span class="date">'.explode('-',$date)[2].'</span><span class="date-text">日</span><span class="day saturday">'.$weekjp[date('w',strtotime($date))].'</span>'
+      // .'<span class="time">'.$start.' ～ '.$end.'</span><br>'
+      // .'<span class="place">長岡リリックホール</span><span class="studio">'.$studio.'</span></p>';
+    }
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>練習日程｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/schedule.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../" target="_top"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">練習日程</span>
+</div>
+
+<div class="bread"><a href="member">団員専用ページ</a> &gt; <span>練習日程</span></div>
+
+<article class="card">
+
+  <div class="card tap" id="schedule-next">
+    <div class="card-header">
+      <h2><i class="fa fa-calendar-check-o" aria-hidden="true"></i>次回の練習日</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        <?php echo $contents['next']; ?>
+      </p>
+    </div>
+  </div>
+
+  <div class="card tap" id="schedule-after">
+    <div class="card-header">
+      <h2><i class="fa fa-calendar" aria-hidden="true"></i>今後の練習日程</h2>
+    </div>
+    <div class="card-text">
+      <?php echo $contents['article']; ?>
+    </div>
+  </div>
+
+  <div class="card tap" id="back">
+    <div class="card-link wide">
+      <a href="member"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>団員専用トップへ</a>
+    </div>
+  </div>
+
+</article>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<?php
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>楽譜管理方法について｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/schedule.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../" target="_top"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">楽譜管理方法について</span>
+</div>
+
+<div class="bread"><a href="member">団員専用ページ</a> &gt; <span>楽譜管理方法について</span></div>
+
+<article class="card">
+
+  <div class="card tap" id="score">
+    <div class="card-header">
+      <h2><i class="fa fa-info-circle" aria-hidden="true"></i>楽譜について</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        ウィンズでは、吹奏楽オリジナルからアレンジ、ポップスに至るまで数々の楽譜を所有しています。<br>
+        楽譜が必要になりましたら、いつでもお声かけください。<br>
+        <br>
+        楽譜係 島田優佑
+      </p>
+    </div>
+  </div>
+
+  <div class="card tap" id="score">
+    <div class="card-header">
+      <h2><i class="fa fa-info-circle" aria-hidden="true"></i>楽譜管理方法のご案内</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        楽譜は、楽譜管理番号を押印した封筒に収め、文書保管箱に保管しております。<br>
+        楽譜管理番号はタイトルや作曲者などの情報とあわせてアプリにて確認できます。<br>
+        楽譜ご入用の際はタイトルまたは楽譜管理番号にて楽譜係までご指示ください。
+      </p>
+    </div>
+  </div>
+
+  <div class="card tap" id="score">
+    <div class="card-header">
+      <h2><i class="fa fa-desktop" aria-hidden="true"></i>アプリについて</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        ウィンズスコアは、所有楽譜を確認できるアプリです。<br>
+        名前が安易すぎて某出版社とかぶってしまいました。
+      </p>
+    </div>
+    <div class="card-text">
+      <p>
+        お手数ですが閲覧には一度登録する必要があります。<br>
+        ユーザー名およびパスワードはお好きなものを入力してください。<br>
+        登録に必要な承認キーは<span style='display:inline-block;padding: 0 .5em;font-weight:bold;color:#B60005;'>0258</span>です。
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <a href="https://score.winds-n.com/reg" target="_blank" class="full" style='display:flex;justify-content:center;align-items:center;'><img src='https://winds-n.com/img/apple-icon-score.png' style='width:20px;height:20px;margin-right:4px;border-radius:40%;' />ウィンズスコア<i class="fa fa-external-link" aria-hidden="true"></i></a>
+      </div>
+    </div>
+    <div class="card-text">
+      <span style='font-size:0.9em;'>推奨環境(これ以外の環境では表示が乱れる場合があります)</span>
+      <div style='padding-top:1em;font-size:0.8em;'>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-apple" aria-hidden="true"></i></span>iOS 11.3 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-android" aria-hidden="true"></i></span>Android Chrome 66 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-desktop" aria-hidden="true"></i></span>Chrome 66 以降, もしくはEdge 17 以降
+      </div>
+    </div>
+  </div>
+
+  <div class="card tap" id="score">
+    <div class="card-header">
+      <h2><i class="fa fa-info-circle" aria-hidden="true"></i>注意</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        古い楽譜は欠譜や紙の損壊など、状態が悪いものもあります。<br>
+        個別の詳細な状態まではアプリから参照することはできません。<br>
+        ご入用の際は、ご連絡いただき次第優先的に状態を確認いたします。
+      </p>
+    </div>
+  </div>
+
+  <div class="card tap" id="back">
+    <div class="card-link wide">
+      <a href="member"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>団員専用トップへ</a>
+    </div>
+  </div>
+
+</article>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

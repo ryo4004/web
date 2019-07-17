@@ -1,0 +1,270 @@
+<?php
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  if(isset($_COOKIE['BBS'])){
+    $message['title'] = '団員専用掲示板';
+    if($_COOKIE['BBS'] == 'WRITE'){
+      $message['text'] = '新しい投稿を書き込みました。';
+    }elseif($_COOKIE['BBS'] == 'MOD'){
+      $message['text'] = '投稿を編集しました。';
+    }elseif($_COOKIE['BBS'] == 'MODFAIL'){
+      $message['text'] = '編集失敗しました。<br>編集パスを確認してください。';
+    }elseif($_COOKIE['BBS'] == 'DEL'){
+      $message['text'] = '投稿を削除しました。';
+    }elseif($_COOKIE['BBS'] == 'DELFAIL'){
+      $message['text'] = '削除できません。<br>編集パスを確認してください。';
+    }
+    setcookie('BBS', '', time(), '/', 'new.winds-n.com', false, true);
+  }else{
+    $message['title'] = '';
+    $message['text'] = '';
+  }
+
+  //コンテンツ処理(bbs)
+  $datapath = dirname(__FILE__).$dir['data'].'bbs_data_member.inc';
+  // データ取得
+  $bbs_data = file($datapath,FILE_IGNORE_NEW_LINES);
+
+  //1ページあたりの表示数
+	$post_num = 10;
+
+  if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['write'])) {
+		//書き込み処理
+		$postdata['name'] = $_POST['name'];
+		$postdata['text'] = $_POST['text'];
+		$postdata['delpass'] = $_POST['delpass'];
+		if($postdata['name'] && $postdata['text']) {
+			//投稿No.を取得
+			$tmp = explode('<>',$bbs_data[0]);
+			$postdata['no'] = (int)$tmp[0] + 1;
+			$postdata['name'] = htmlspecialchars($postdata['name']);
+			$postdata['text'] = htmlspecialchars($postdata['text']);
+			$postdata['text'] = str_replace("\r\n", "<br>", $postdata['text']);
+			$postdata['text'] = str_replace("\n", "<br>", $postdata['text']);
+			$postdata['text'] = str_replace("\r", "<br>", $postdata['text']);
+			$postdata['text'] = str_replace("\t", "　　　　", $postdata['text']);
+			$postdata['delpass'] = htmlspecialchars($postdata['delpass']);
+			$postdata['time'] = date('Y/m/d H:i');
+			$postdata['post'] = $postdata['no'].'<>'.$postdata['delpass'].'<>'.$postdata['name'].'<>'.$postdata['text'].'<>'.$postdata['time'];
+			array_unshift($bbs_data, $postdata['post']);
+			file_put_contents($datapath,implode("\n",$bbs_data),LOCK_EX);
+      setcookie('BBS', 'WRITE', time()+60, '/', 'new.winds-n.com', false, true);
+			header("Location: " . $selfname);
+			exit();
+		}
+	}elseif($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['edit'])) {
+    if(isset($_POST['delconfirm'])){
+      //削除処理
+  		$postdata['delpost'] = (int)$_POST['no'];
+  		$postdata['editpass'] = $_POST['editpass'];
+      $delflag = false;
+      for($i=0;$i<count($bbs_data);$i++) {
+        $tmp = explode('<>',$bbs_data[$i]);
+        if($tmp[0] == $postdata['delpost'] && $tmp[1] == $postdata['editpass'] && $tmp[1] != '') {
+          array_splice($bbs_data, $i, 1);
+          $delflag = true;
+        }
+      }
+      file_put_contents($datapath,implode("\n",$bbs_data),LOCK_EX);
+      if($delflag){
+        setcookie('BBS', 'DEL', time()+60, '/', 'new.winds-n.com', false, true);
+      }else{
+        setcookie('BBS', 'DELFAIL', time()+60, '/', 'new.winds-n.com', false, true);
+      }
+      header("Location: " . $selfname);
+      exit();
+    }else{
+      //編集処理
+      $postdata['no'] = (int)$_POST['no'];
+  		$postdata['editpass'] = $_POST['editpass'];
+  		$postdata['modtext'] = $_POST['modtext'];
+			$postdata['modtext'] = htmlspecialchars($postdata['modtext']);
+			$postdata['modtext'] = str_replace("\r\n", "<br>", $postdata['modtext']);
+			$postdata['modtext'] = str_replace("\n", "<br>", $postdata['modtext']);
+			$postdata['modtext'] = str_replace("\r", "<br>", $postdata['modtext']);
+			$postdata['modtext'] = str_replace("\t", "　　　　", $postdata['modtext']);
+			$postdata['time'] = date('Y/m/d H:i');
+      $modflag = false;
+      for($i=0;$i<count($bbs_data);$i++) {
+        $tmp = explode('<>',$bbs_data[$i]);
+        if($tmp[0] == $postdata['no'] && $tmp[1] == $postdata['editpass'] && $tmp[1] != '') {
+          $bbs_data[$i] = $tmp[0].'<>'.$tmp[1].'<>'.$tmp[2].'<>'.$postdata['modtext'].'<>'.$postdata['time'].'<>modified<>'.$tmp[4];
+          $modflag = true;
+        }
+      }
+      file_put_contents($datapath,implode("\n",$bbs_data),LOCK_EX);
+      if($modflag){
+        setcookie('BBS', 'MOD', time()+60, '/', 'new.winds-n.com', false, true);
+      }else{
+        setcookie('BBS', 'MODFAIL', time()+60, '/', 'new.winds-n.com', false, true);
+      }
+      header("Location: " . $selfname);
+      exit();
+    }
+	}else{
+		//POSTでない場合は初期化
+		$postdata['name'] = "";
+		$postdata['text'] = "";
+		$postdata['delpass'] = "";
+	}
+
+  unset($article);
+	foreach($bbs_data as $each){
+		unset($item);
+		$item = explode('<>', $each);
+    $editlink = $item[1] != '' ? '<span id="edit'.$item[0].'" onclick="editform('.$item[0].')" title="編集"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>' : '<span></span>';
+    $editform = $item[1] != '' ? '<div class="post-edit" id="editform'.$item[0].'"><form method="post" action="'.$selfname.'"><input type="hidden" name="no" value="'.$item[0].'"><textarea name="modtext" class="text">'.str_replace("<br>", "\r\n", $item[3]).'</textarea><div class="edit-input"><label>編集パス</label><input type="password" name="editpass" class="edit-pass" value=""><label><input type="checkbox" name="delconfirm" value="delconfirm" onchange="checkChange('.$item[0].')">削除する</label></div><button type="submit" name="edit" class="send-button tap" value="edit" id="button'.$item[0].'">編集</button></form></div>' : '';
+    $editmark = isset($item[5]) ? '<p title="編集されています"><i class="fa fa-pencil" aria-hidden="true"></i></p>' : '<p></p>';
+		$article[] = '<div class="post"><div class="post-title"><span>'.$item[0].'</span><span>'.$item[2].'</span>'.$editlink.'<span>'.$editmark.$item[4].'</span></div><div id="post'.$item[0].'" class="post-text">'.$item[3].'</div>'.$editform.'</div>'."\n";
+	}
+	if(isset($_GET['page'])){$page = $_GET['page'];}else{$page=1;}
+
+	$contents['page'] = page($page,count($article),$post_num);
+  $contents['bbs'] = '';
+
+	for($i=page_start($page,count($article),$post_num);$i<page_end($page,count($article),$post_num);$i++){
+		$contents['bbs'] .=	$article[$i];
+	}
+
+  //メッセージを作成
+  if($message['title'] != ''){
+    $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
+    $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
+  }else{
+    $message['header'] = '';
+    $message['script'] = '';
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>団員専用掲示板｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/bbs.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<?php echo $message['header']; ?>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../" target="_top"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">団員専用掲示板</span>
+</div>
+
+<div class="bread"><a href="member">団員専用ページ</a> &gt; <span>掲示板</span></div>
+
+<article class="card">
+
+  <div class="card tap" id="bbs-form">
+    <div class="card-header">
+      <h2><i class="fa fa-commenting-o" aria-hidden="true"></i>新しく投稿する</h2>
+    </div>
+    <div class="card-text">
+      こちらから、新しい投稿ができます。<br>
+      編集パスを設定すると、あとから編集や削除ができます。<br>
+      この機能を利用しない場合は、空欄のままにしてください。
+    </div>
+    <div class="card-form">
+    	<form method="POST" action="<?php echo $selfname; ?>">
+      	<div class="form">
+          <label>名前</label>
+          <div class="form_element">
+            <input type="text" name="name" class="name" value="<?php echo $postdata['name']; ?>" required>
+          </div>
+        </div>
+      	<div class="form">
+          <label>コメント</label>
+          <div class="form_element">
+            <textarea name="text" class="text"　required><?php echo $postdata['text']; ?></textarea>
+          </div>
+        </div>
+      	<div class="form">
+          <label>編集パス</label>
+          <div class="form_element">
+            <input type="password" name="delpass" class="del-pass" value="">
+          </div>
+        </div>
+        <button type="submit" name="write" class="send-button tap" value="write">書き込む</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card tap" id="board">
+    <div class="card-header">
+      <h2><i class="fa fa-comments-o" aria-hidden="true"></i>過去の投稿</h2>
+    </div>
+    <?php echo $contents['page']; ?>
+    <div class="card-post">
+      <?php echo $contents['bbs']; ?>
+    </div>
+    <?php echo $contents['page']; ?>
+  </div>
+
+  <div class="card tap" id="back">
+    <div class="card-link wide">
+      <a href="member"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>団員専用トップへ</a>
+    </div>
+  </div>
+
+</article>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<script type="text/javascript">
+function editform(no) {
+  height = $('div#post'+no).height();
+  $('div#post'+no).slideToggle('fast');
+  $('div#editform'+no+' textarea').height(height);
+  $('div#editform'+no).slideToggle('fast');
+}
+function checkChange(no) {
+	if($('button#button'+no).html() == '編集') {
+    $('button#button'+no).html('削除する');
+  }else{
+    $('button#button'+no).html('編集');
+  }
+}
+<?php echo $message['script']; ?>
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

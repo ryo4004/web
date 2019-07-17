@@ -1,0 +1,6 @@
+@media all and (-ms-high-contrast:none){
+	*::-ms-backdrop, svg#svg-play, svg#svg-stop {
+    position: relative;
+    bottom: 45px;
+  }
+}

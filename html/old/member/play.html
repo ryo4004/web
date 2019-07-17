@@ -1,0 +1,103 @@
+<?php
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  if(isset($_GET['mode'])) {
+    if($_GET['mode'] == 'start'){
+      setcookie('PLAY', '1', time()+60*60*24*30*12, '/', 'new.winds-n.com', false, true);
+      header("Location: ./player?play");
+      exit();
+    }elseif($_GET['mode'] == 'on'){
+      setcookie('PLAY', '1', time()+60*60*24*30*12, '/', 'new.winds-n.com', false, true);
+      header("Location: ./player?play");
+      exit();
+    }elseif($_GET['mode'] == 'off'){
+      setcookie('PLAY', '0', time()+60*60*24*30*12, '/', 'new.winds-n.com', false, true);
+      setcookie('MUSIC', '', time(), '/', 'new.winds-n.com', false, false);
+      header("Location: ./archive");
+      exit();
+    }
+  }
+
+  if(isset($_COOKIE['PLAY'])){
+    if($_COOKIE['PLAY'] == '1'){
+      header("Location: ./player?play");
+      exit();
+    }
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>団員専用ページ｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/play.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+  <header id="member-top">
+    <section id="top-logo">
+      <a href="../"><?php require('../img/logo.svg'); ?></a>
+    </section>
+  </header>
+  <a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+  <nav>
+    <div>
+      <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+      <ul>
+        <li><a href="../" target="_top" class="nav tap">ホーム</a></li><li><a href="member" class="nav tap">団員専用トップ</a></li><li><a href="schedule" class="nav tap">練習日程</a></li><li><a href="#" class="nav tap">事務局からのお知らせ</a></li><li><a href="bbs" class="nav tap">掲示板</a></li><li><a href="archive" class="nav tap">アーカイブ</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">プレーヤー</span>
+</div>
+
+<div class="bread"><a href="member">団員専用ページ</a> &gt; <a href="archive">アーカイブ</a> &gt; <span>プレーヤー</span></div>
+
+<article class="card">
+  <div class="card tap" id="schedule-next">
+    <div class="card-header">
+      <h2>プレーヤー</h2>
+    </div>
+    <div class="card-text">
+      <div class="flex">
+        <a href="<?php echo $selfname; ?>?mode=start" class="button tap">使う</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tap" id="back">
+    <div class="card-link wide">
+      <a href="member"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>団員専用トップへ</a>
+    </div>
+  </div>
+</article>
+
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+  $.removeCookie('MUSIC');
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

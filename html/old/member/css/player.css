@@ -1,0 +1,332 @@
+body {
+  background: rgb(240,239,235);
+}
+
+div {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  tap-highlight-color: rgba(0,0,0,0);
+}
+
+div#wrap {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+iframe#main {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  vertical-align: bottom;
+}
+
+/************************************************************************/
+/****** Setting for Internet Explorer                              ******/
+/************************************************************************/
+@media all and (-ms-high-contrast:none){
+  *::-ms-backdrop, svg#svg-play, svg#svg-stop {
+    position: relative;
+    bottom: 45px;
+  }
+  svg#svg-play, svg#svg-stop {
+    position: relative;
+    bottom: 45px;
+  }
+}
+
+/************************************************************************/
+/****** Setting for player area                                    ******/
+/************************************************************************/
+div#player-wrap {
+  position: fixed;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: rgba(255,255,255,1);
+  border-top: 1px solid #fff;
+  color: gray;
+  font-size: .8em;
+}
+
+/* inside flex box */
+div#player-switch {
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  text-align: center;
+	z-index: 12;
+}
+div#player-switch i {
+  color: gray;
+  font-size: 40px;
+}
+/************************************************************************/
+/****** Setting for music list                                     ******/
+/************************************************************************/
+ul.musiclist {
+  display: block;
+  width: 100%;
+  height: calc(100% - 40px - 40px);
+  background: #fff;
+  overflow: auto;
+  z-index: 5;
+}
+ul.musiclist label {
+  display: block;
+  padding: 0.6em 1em 0.6em 1em;
+  border-bottom: 1px solid #fff;
+	color: rgba(255,255,255,1);
+  background: rgba(160,160,160,1);
+  cursor: pointer;
+}
+ul.musiclist label:hover,
+ul.musiclist label.ontap {
+  background: rgba(160,160,160,.8);
+}
+ul.musiclist li {
+	display: block;
+  border-bottom: 1px solid rgba(180,180,180,.1);
+	text-align: left;
+}
+ul.musiclist li a.mp3 {
+	display: block;
+	padding: 0.6em 1em 0.6em 1em;
+  text-decoration: none;
+	-webkit-transition: all .2s;
+	transition: all .2s;
+}
+ul.musiclist li a.mp3 div {
+  display: flex;
+  align-items: center;
+}
+ul.musiclist li a.mp3 div.count {
+  display: inline-block;
+  margin-left: auto;
+  padding-right: 1em;
+  font-size: .8em;
+  color: #ddd;
+}
+li.now {
+	background-color: rgba(182,0,5,0.6);
+	color: rgba(119,119,119,1);
+}
+li.non:hover,
+li.non.ontap {
+	color: rgba(182,0,5,1);
+	background-color: rgba(182,0,5,0.1);
+}
+li a.mp3, li a.mp3:link
+li a.mp3:visited, li a.mp3:active,
+li a.mp3:focus, li a.mp3:hover,
+li a.mp3.ontap {
+  color: rgba(119,119,119,1);
+}
+li.now a.mp3, li.now a.mp3:link,
+li.now a.mp3:visited, li.now a.mp3:active
+li.now a.mp3:focus, li.now a.mp3:hover,
+li.now a.mp3.ontap {
+  color: rgba(255,255,255,1);
+}
+div#undergap {
+  content: '';
+  width: 100%;
+  height: 50px;
+}
+
+/************************************************************************/
+/****** Setting for player controller                              ******/
+/************************************************************************/
+div#play-button {
+  display: block;
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  left: 8px;
+  bottom: 10px;
+  border: 1px solid #fff;
+  border-radius: 50px;
+  background: #fff;
+  cursor: pointer;
+	z-index: 21;
+}
+/* stop button disabled */
+div#stop-button {
+  display: none;
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  left: 8px;
+  bottom: 10px;
+  border: 1px solid #fff;
+  border-radius: 50px;
+  background: #fff;
+  cursor: pointer;
+	z-index: 20;
+}
+svg#svg-play, svg#svg-stop, svg#svg-eighth {
+  fill: rgba(119,119,119,1);
+}
+svg#svg-pause {
+  fill: rgba(182,0,5,1);
+}
+div#play-button:hover svg#svg-play path, div#stop-button:hover path,
+div#play-button.ontap svg#svg-play path, div#stop-button.ontap path {
+	fill: rgba(119,119,119,0.8);
+}
+div#play-button:hover svg#svg-pause,
+div#play-button.ontap svg#svg-pause {
+  fill: rgba(182,0,5,.8);
+}
+div.display {
+	display: block!important;
+}
+div.no-display {
+	display: none!important;
+}
+div#play-button.loading svg#svg-pause path {
+  fill: rgba(60,60,60,.3) !important;
+}
+div#play-button div#loading {
+  display: none;
+  z-index: 19;
+}
+@keyframes loadspin {
+  0% { transform: rotate(0deg);   opacity: 0.2; }
+  50%  { transform: rotate(180deg); opacity: 1.0; }
+  100%   { transform: rotate(360deg); opacity: 0.2; }
+}
+div#play-button.loading div#loading {
+  display: block;
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  left: 15px;
+  bottom: 17px;
+  border-radius: 50%;
+  border: 8px solid #fff;
+  border-right-color: transparent;
+  animation: loadspin 1s linear infinite;
+}
+/* title display */
+div#playing {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 40px;
+  cursor: pointer;
+	z-index: 12;
+  margin-left: 75px;
+}
+div#playingicon {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+	z-index: 12;
+
+}
+div#name {
+  display: inline-block;
+  position: relative;
+  margin-left: 8px;
+  color: rgba(119,119,119,1);
+  line-height: 1.2em;
+	z-index: 12;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* playing display */
+div#playing.playing path {
+  fill: rgba(182,0,5,1);
+}
+div#playing.playing div#name {
+  color: rgba(182,0,5,1);
+}
+
+/************************************************************************/
+/****** Setting for seekbar area                                   ******/
+/************************************************************************/
+div#seekbar {
+	position: fixed;
+  bottom: 0;
+	margin: 0;
+	width: 100%;
+	height: 40px;
+  z-index: 11;
+}
+div#seekbar #seek {
+	position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+	padding: 0px;
+	margin: 0px;
+  text-decoration: none;
+  border: 0px;
+  color: rgba(255,255,255,1);
+  transition: background-size 0.2s linear;
+	z-index: 11;
+}
+div#seekbar #load {
+  position: fixed;
+  bottom: 0;
+	width: 100%;
+  height: 40px;
+	padding: 0px;
+	margin: 0px;
+  text-decoration: none;
+  border: 0px;
+  color: rgba(255,255,255,1);
+  transition: background-size 0s linear;
+	z-index: 10;
+}
+div#seekbar #seek {
+	background: linear-gradient(rgba(200,200,200,.8),rgba(200,200,200,.8)) no-repeat rgba(255,255,255,0.8);
+}
+div#seekbar #load {
+  background: linear-gradient(rgba(200,200,200,.9),rgba(200,200,200,.9)) no-repeat rgba(255,255,255,1);
+}
+div#seekbar.listopen #seek {
+  background: linear-gradient(rgba(160,160,160,1),rgba(160,160,160,1)) no-repeat rgba(255,255,255,0.7);
+}
+div#seekbar.listopen #load {
+  background: linear-gradient(rgba(120,120,120,1),rgba(120,120,120,1)) no-repeat rgba(180,180,180,1);
+}
+div#seekbar.playing #seek {
+  background: linear-gradient(rgba(234,203,203,1),rgba(234,203,203,1)) no-repeat rgba(255,255,255,0.8);
+}
+div#seekbar.playing #load {
+  background: linear-gradient(rgba(234,203,203,1),rgba(234,203,203,1)) no-repeat rgba(255,255,255,1);
+}
+div#seekbar.listopen.playing #seek {
+  background: linear-gradient(rgba(182,0,5,1),rgba(182,0,5,1)) no-repeat rgba(255,255,255,0.8);
+}
+div#seekbar.listopen.playing #load {
+  background: linear-gradient(rgba(182,0,5,1),rgba(182,0,5,1)) no-repeat rgba(180,180,180,1);
+}
+#playinfo {
+  display: none;
+  margin-left: 150px;
+  line-height: 40px;
+  cursor: default;
+}
+#playinfo.listopen {
+  display: block;
+}
+#currenttime, #totaltime {
+  color: rgba(119,119,119,1);
+	display: inline-block;
+}
+div#seekbar.listopen #currenttime,
+div#seekbar.listopen #totaltime {
+  color: rgba(255,255,255,1);
+}

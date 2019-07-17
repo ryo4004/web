@@ -1,0 +1,349 @@
+<?php
+
+  // 初期設定
+  require("./inc/init.inc");
+  if(!isset($_COOKIE['SETTING'])){
+    setcookie('MESSAGE', '4', time()+60, '/', 'new.winds-n.com', false, true);
+    header('Location: ../authentication');
+    exit();
+  }
+
+  if(isset($_COOKIE['MANAGER'])){
+    $message['title'] = '事務局からのお知らせ';
+    if($_COOKIE['MANAGER'] == 'WRITE'){
+      $message['text'] = '新しい投稿を書き込みました。';
+    }elseif($_COOKIE['MANAGER'] == 'MOD'){
+      $message['text'] = '投稿を編集しました。';
+    }elseif($_COOKIE['MANAGER'] == 'MODFAIL'){
+      $message['text'] = '編集失敗しました。';
+    }elseif($_COOKIE['MANAGER'] == 'DEL'){
+      $message['text'] = '投稿を削除しました。';
+    }elseif($_COOKIE['MANAGER'] == 'DELFAIL'){
+      $message['text'] = '削除できません。';
+    }
+    setcookie('MANAGER', '', time(), '/', 'new.winds-n.com', false, true);
+  }else{
+    $message['title'] = '';
+    $message['text'] = '';
+  }
+
+  //コンテンツ処理(manager)
+  $datapath = dirname(__FILE__).$dir['data'].'manager.inc';
+  // データ取得
+  $manager_data = file($datapath,FILE_IGNORE_NEW_LINES);
+
+  //アップロードデータ処理
+  $uploadpath = dirname(__FILE__).$dir['data'].'file_upload.inc';
+  //データ取得
+  $upload_data = file($uploadpath,FILE_IGNORE_NEW_LINES);
+
+  $upload['select'] = '<select name="new_attachment"><option value="none" selected>添付ファイルを追加する</option>';
+  for($i=0;$i<count($upload_data);$i++){
+    $upload['select'] .= '<option value="file-'.explode('<>',$upload_data[$i])[0].'">'.explode('<>',$upload_data[$i])[3].'</option>';
+  }
+  $upload['select'] .= '</select>';
+
+  //データ順
+  // [0] number
+  // [1] title
+  // [2] text
+  // [3] time new,old,old,...
+  // [4] attachment title?url,title?url,...
+  // [5] display
+
+  //1ページあたりの表示数
+	$post_num = 99;
+
+  if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['write'])) {
+    //書き込み処理
+		$postdata['title'] = $_POST['title'];
+		$postdata['text'] = $_POST['text'];
+		// $postdata['attachment'] = $_POST['new_attachment'];
+		if($postdata['title'] && $postdata['text']) {
+			//投稿No.を取得
+			$tmp = explode('<>',$manager_data[0]);
+      $postdata['no'] = count($manager_data) + 1;
+			$postdata['title'] = htmlspecialchars($postdata['title']);
+			// $postdata['text'] = htmlspecialchars($postdata['text']);
+			$postdata['text'] = str_replace("\r\n", "<br>", $postdata['text']);
+			$postdata['text'] = str_replace("\n", "<br>", $postdata['text']);
+			$postdata['text'] = str_replace("\r", "<br>", $postdata['text']);
+			$postdata['text'] = str_replace("\t", "　　　　", $postdata['text']);
+			$postdata['text'] = str_replace("<>", "&lt;&gt;", $postdata['text']);
+      $postdata['time'] = date('Y/m/d H:i');
+      $postdata['attachment'] = '';
+      if($_POST['new_attachment'] != 'none'){
+        for($i=0;$i<count($upload_data);$i++){
+          if(explode('<>',$upload_data[$i])[0] == explode('-',$_POST['new_attachment'])[1]) {
+            $postdata['attachment'] = explode('<>',$upload_data[$i])[3].'?'.explode('<>',$upload_data[$i])[3].'?'.explode('<>',$upload_data[$i])[4];
+          }
+        }
+      }
+			$postdata['post'] = $postdata['no'].'<>'.$postdata['title'].'<>'.$postdata['text'].'<>'.$postdata['time'].'<>'.$postdata['attachment'].'<>hidden';
+			array_unshift($manager_data, $postdata['post']);
+			file_put_contents($datapath,implode("\n",$manager_data),LOCK_EX);
+      setcookie('MANAGER', 'WRITE', time()+60, '/', 'new.winds-n.com', false, true);
+			header("Location: " . $selfname);
+			exit();
+		}
+  }elseif($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['edit'])) {
+
+    if(isset($_POST['delconfirm'])){
+      //削除処理(投稿番号保持のため配列の要素として残す)
+      $postdata['delpost'] = (int)$_POST['no'];
+      for($i=0;$i<count($manager_data);$i++) {
+        $tmp = explode('<>',$manager_data[$i]);
+        if($tmp[0] == $postdata['delpost']) {
+          $manager_data[$i] = $tmp[0].'<><><><><>delete';
+        }
+      }
+      file_put_contents($datapath,implode("\n",$manager_data),LOCK_EX);
+      setcookie('MANAGER', 'DEL', time()+60, '/', 'new.winds-n.com', false, true);
+      header("Location: " . $selfname);
+      exit();
+    }else{
+      //編集処理
+      $postdata['no'] = (int)$_POST['no'];
+      $postdata['title'] = htmlspecialchars($_POST['title']);
+      $postdata['modtext'] = $_POST['modtext'];
+      // $postdata['modtext'] = htmlspecialchars($postdata['modtext']);
+      $postdata['modtext'] = str_replace("\r\n", "<br>", $postdata['modtext']);
+      $postdata['modtext'] = str_replace("\n", "<br>", $postdata['modtext']);
+      $postdata['modtext'] = str_replace("\r", "<br>", $postdata['modtext']);
+      $postdata['modtext'] = str_replace("\t", "　　　　", $postdata['modtext']);
+      $postdata['modtext'] = str_replace("<>", "&lt;&gt;", $postdata['modtext']);
+      $postdata['time'] = isset($_POST['dateupdate']) ? explode('?', $_POST['time'])[0] : date('Y/m/d H:i');
+
+      $postdata['attachment'] = '';
+      // 現在添付しているファイルを確認
+      for($i=0;$i<count($manager_data);$i++) {
+        $tmp = explode('<>',$manager_data[$i]);
+        if($tmp[0] == $postdata['no']) {
+          for($j=0;$j<count(explode(',',$tmp[4]));$j++) {
+            if(isset($_POST['attachment'.$j])) {
+              $postdata['attachment'] .= '';
+            }elseif(explode(',',$tmp[4])[$j] != ''){
+              $postdata['attachment'] .= explode(',',$tmp[4])[$j].',';
+            }
+          }
+        }
+      }
+      // 新しくファイルを添付する場合
+      if($_POST['new_attachment'] != 'none'){
+        for($i=0;$i<count($upload_data);$i++){
+          if(explode('<>',$upload_data[$i])[0] == explode('-',$_POST['new_attachment'])[1]) {
+            $postdata['attachment'] .= explode('<>',$upload_data[$i])[3].'?'.explode('<>',$upload_data[$i])[3].'?'.explode('<>',$upload_data[$i])[4];
+          }
+        }
+      }
+
+      $postdata['display'] = isset($_POST['display']) ? 'hidden' : 'display';
+
+      $modflag = false;
+      $topflag = isset($_POST['top']) ? TRUE : FALSE;
+
+      for($i=0;$i<count($manager_data);$i++) {
+        $tmp = explode('<>',$manager_data[$i]);
+        if($tmp[0] == $postdata['no']) {
+          $manager_data[$i] = $tmp[0].'<>'.$postdata['title'].'<>'.$postdata['modtext'].'<>'.$postdata['time'].'?'.$tmp[3].'<>'.rtrim($postdata['attachment'],',').'<>'.$postdata['display'];
+          if($topflag) {
+            //入れ替えするとき
+            $topflag = $i;
+            $result = $manager_data[$i];
+          }
+        }
+      }
+      // 入れ替えする
+      if($topflag) {
+        // $topflagを一番上に持ってくる
+        // 抜き取って
+        array_splice($manager_data, $topflag, 1);
+        // 追加する
+        array_unshift($manager_data, $result);
+      }
+      file_put_contents($datapath,implode("\n",$manager_data),LOCK_EX);
+      setcookie('MANAGER', 'MOD', time()+60, '/', 'new.winds-n.com', false, true);
+      header("Location: " . $selfname);
+      exit();
+    }
+  }else{
+    //POSTでない場合
+  }
+
+  unset($article);
+	foreach($manager_data as $each){
+		unset($item);
+		$item = explode('<>', $each);
+    if($item[4] != '') {
+      $tmp = explode(',',$item[4]);
+      $attachment['main'] = '<div class="attachment">';
+      $attachment['edit'] = '<div class="attachment">';
+      for($i=0;$i<count($tmp);$i++){
+        $attachment['main'] .= '<a href="../member/data/'.explode('?',$tmp[$i])[1].'" class="attachment" target="_blank">'.icon(explode('?',$tmp[$i])[1]).'<span>'.explode('?',$tmp[$i])[0].'</span><span>'.fileSizeUnit(explode('?',$tmp[$i])[2]).'</span></a>';
+        $attachment['edit'] .= '<div class="attachment-file"><a href="../member/data/'.explode('?',$tmp[$i])[1].'" class="attachment" target="_blank">'.icon(explode('?',$tmp[$i])[1]).'<span>'.explode('?',$tmp[$i])[0].'</span><span>'.fileSizeUnit(explode('?',$tmp[$i])[2]).'</span></a><label class="attachment"><input type="checkbox" name="attachment'.$i.'" value="attachment'.$i.'">添付を解除する</label></div>';
+      }
+      $attachment['main'] .= '</div>';
+      $attachment['edit'] .= '</div>';
+    }else{
+      $attachment['main'] = '';
+      $attachment['edit'] = '';
+    }
+    $editlink = '<span id="edit'.$item[0].'" onclick="editform('.$item[0].')" title="編集"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>';
+    $editform_display = $item[5] == 'display' ? '' : ' checked';
+    $editform = '<div class="post-edit" id="editform'.$item[0].'"><form method="post" action="'.$selfname.'"><input type="hidden" name="no" value="'.$item[0].'"><input type="hidden" name="time" value="'.$item[3].'"><input type="text" name="title" class="title" value="'.$item[1].'" placeholder="タイトル"><textarea name="modtext" class="text">'.str_replace("<br>", "\r\n", $item[2]).'</textarea>'.$attachment['edit'].$upload['select'].'<label class="checkbox"><input type="checkbox" name="dateupdate" value="dateupdate">日付を更新しない</label><button type="submit" name="edit" class="send-button tap" value="edit" id="button'.$item[0].'">編集</button><label class="checkbox"><input type="checkbox" name="top" value="top">この記事を一番上にする</label><label class="checkbox"><input type="checkbox" name="display" value="display" '.$editform_display.'>この記事を非表示にする</label><label class="checkbox"><input type="checkbox" name="delconfirm" value="delconfirm" onchange="checkChange('.$item[0].')">この記事を削除する</label></form></div>';
+    $editmark = isset(explode(',',$item[3])[1]) != '' ? '<p title="編集済み"><i class="fa fa-pencil" aria-hidden="true"></i></p>' : '';
+    // 1970/01/01の時は日付非表示
+    $datetime = explode(' ',explode(',',$item[3])[0])[0] != '1970/01/01' ? explode(' ',explode(',',$item[3])[0])[0] : '';
+    $display = $item[5] == 'display' ? '' : '<i class="fa fa-eye-slash" aria-hidden="true" style="padding-left:.2em;"></i>';
+    $display_class = $item[5] == 'display' ? '' : ' no-display';
+    if($item[5] != 'delete'){
+      $article[] = '<div class="post'.$display_class.'"><div class="post-title">'.$editlink.'<span>'.$item[1].$display.'</span><span>'.$editmark.$datetime.'</span></div><div id="post'.$item[0].'" class="post-text"><p>'.$item[2].'</p>'.$attachment['main'].'</div>'.$editform.'</div>'."\n";
+    }
+	}
+	if(isset($_GET['page'])){$page = $_GET['page'];}else{$page=1;}
+
+	$contents['page'] = page($page,count($article),$post_num);
+  $contents['manager'] = '';
+
+	for($i=page_start($page,count($article),$post_num);$i<page_end($page,count($article),$post_num);$i++){
+		$contents['manager'] .=	$article[$i];
+	}
+
+  //メッセージを作成
+  if($message['title'] != ''){
+    $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
+    $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
+  }else{
+    $message['header'] = '';
+    $message['script'] = '';
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>編集 - 事務局からのお知らせ｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../member/css/style.css">
+<link rel="stylesheet" href="../member/css/card.css">
+<link rel="stylesheet" href="../member/css/manager.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/manager.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<?php echo $message['header']; ?>
+
+<div id="login"><span><i class="fa fa-user-circle-o" aria-hidden="true"></i><?php echo $_COOKIE['SETTING']; ?></span></div>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../" target="_top"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="../member/member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="../member/schedule" class="nav tap">練習日程</a></li><li class="member"><a href="../member/manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="../member/bbs" class="nav tap">掲示板</a></li><li class="member"><a href="../member/archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">事務局からのお知らせ編集</span>
+</div>
+
+<div class="bread"><a href="setting">設定ページ</a> &gt; <span>事務局からのお知らせ編集</span></div>
+
+<article class="card">
+
+  <div class="card tap" id="board">
+    <div class="card-header">
+      <h2><i class="fa fa-cog" aria-hidden="true"></i>事務局からのお知らせ編集</h2>
+    </div>
+    <div class="card-text">
+      このページでは事務局からのお知らせページに掲載する内容を編集できます。<br>
+      各投稿を編集する場合は右上の<i class="fa fa-pencil-square-o" aria-hidden="true" style="padding:0 .2em"></i>ボタンにてフォームが開きます。<br>
+      いくつか投稿を編集する場合は、各投稿ごとに編集送信をお願いします。<br>
+      また、投稿にファイルを添付する場合は、下記より予めファイルをアップロードしてください。
+    </div>
+    <div class="card-footer">
+      <a href="upload">ファイルのアップロード<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+      <a href="../member/manager">団員専用ページの確認<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+
+  <div class="card tap" id="board">
+    <div class="card-header">
+      <h2><i class="fa fa-bullhorn" aria-hidden="true"></i>新しいお知らせ</h2>
+    </div>
+    <div class="card-text">
+      新しい投稿はこちらのフォームから行います。
+    </div>
+    <div class="card-form">
+      <form method="post" action="manager">
+        <input type="hidden" name="no" value="new">
+        <input type="text" name="title" class="title" value="" placeholder="タイトル" required>
+        <textarea name="text" class="text" placeholder="本文" required></textarea>
+        <?php echo $upload['select']; ?>
+        <button type="submit" name="write" class="send-button tap" value="edit" id="button5">送信</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card tap" id="board">
+    <div class="card-header">
+      <h2><i class="fa fa-bullhorn" aria-hidden="true"></i>投稿したお知らせ</h2>
+    </div>
+    <?php //echo $contents['page']; ?>
+    <div class="card-post">
+      <?php echo $contents['manager']; ?>
+    </div>
+    <?php //echo $contents['page']; ?>
+  </div>
+
+</article>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<script type="text/javascript">
+function editform(no) {
+  height = $('div#post'+no).height();
+  $('div#post'+no).slideToggle('fast');
+  $('div#editform'+no+' textarea').height(height);
+  $('div#editform'+no).slideToggle('fast');
+}
+function checkChange(no) {
+	if($('button#button'+no).html() == '編集') {
+    $('button#button'+no).html('削除する');
+  }else{
+    $('button#button'+no).html('編集');
+  }
+}
+<?php echo $message['script']; ?>
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

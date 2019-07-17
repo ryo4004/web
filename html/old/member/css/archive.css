@@ -1,0 +1,26 @@
+/************************************************************************/
+/****** Setting for nav adding                                     ******/
+/************************************************************************/
+@media (max-width: 767px) {
+  nav div label span.icon {
+    top: 120px;
+  }
+}
+
+/************************************************************************/
+/****** Setting for archive card                                   ******/
+/************************************************************************/
+/* article.card h2 > i {
+  padding: 0 .4em 0 0;
+} */
+/* 開いているページ強調用 */
+article.card div.card-link a.reading {
+  color: rgba(182,0,5,.6) !important;
+  background: #f6f6f6;
+}
+#android {
+  display: none;
+}
+.show {
+  display: block!important;
+}

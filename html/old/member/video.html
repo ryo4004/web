@@ -1,0 +1,376 @@
+<?php
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  //ページ設定読み込み
+  require("./inc/video.inc");
+
+  //playcount読み込み
+  $countlist = file('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'playcount_video.inc',FILE_IGNORE_NEW_LINES);
+
+  //svgデータ読み込み
+  $svg['play'] = implode('',file('img/play.svg'));
+  $svg['pause'] = implode('',file('img/pause.svg'));
+  $svg['stop'] = implode('',file('img/stop.svg'));
+  $svg['video'] = implode('',file('img/video.svg'));
+  $svg['fullscreen'] = implode('',file('img/fullscreen.svg'));
+
+  /*
+  動画変換要領
+
+  // ISOイメージをマウントし、.VOBファイルをコピーする
+  //
+  // Adobe Premier Proにて.VOBファイルを結合する
+
+  ISOイメージをXMedia Recodeにて、mp4形式に変換する。
+  *形式
+  **一般
+  形式: MP4
+  ファイル拡張子: mp4
+  **出力ストリーム形式
+  映像 ⁺ 音声
+  映像と音声を同期: チェックあり
+
+  *映像
+  **一般
+  モード:変換
+  コーデック: MPEG-4 AVC / H.264
+  言語: なし
+  フレームレート: オリジナルを保持
+  カラーモード: YUV 4:2:0 Planar 12bpp
+  レート制御モード: 品質
+  品質: 1.0
+  プロファイル: Main
+  レベル: Level 4.1
+  プリセット: 標準
+  調整: 無効
+  フレームパッキング: なし
+  Open GOP: チェックなし
+  キーフレーム間隔: 0
+  最小GOPサイズ: 0
+  表示モード: プログレッシブ
+  スレッド: 0
+
+  *音声トラック1
+  モード: コピー
+  言語: Japanese
+
+  Adobe Premiere でフレーム数確認
+  形式: H.264
+
+  基本ビデオ設定
+  サイズ: 854 * 480
+  フレームレート: 29.97(変更なし)
+  フィールドオーダー: プログレッシブ
+  縦横比: 正方形ピクセル(1.0)
+  テレビ方式: NTSC(変更なし)
+  プロファイル: ハイ
+  レベル: 3.1
+
+  ビットレート設定
+  ビットレートエンコーディング: VBR、2 パス
+  ターゲットビットレート: 0.5
+  最大ビットレート: 0.8
+
+  オーディオ形式設定
+  オーディオ形式: AAC
+
+  基本オーディオ設定
+  オーディオコーデック: AAC
+  サンプルレート: 48000Hz
+  チャンネル: ステレオ
+  音質: 高
+
+  ビットレート設定
+  ビットレート(kbps): 192
+
+  詳細設定
+  優先: ビットレート
+
+  */
+
+	if($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['data'])) {
+
+		//ここでファイル名チェックを行う
+		if(checkgetname($_GET['data'], $filelist['video'])){
+			header('Location: ./archive');
+			exit();
+		}
+
+    //データファイルからデータ読み込み
+		$archive['data'] = file('inc'.DIRECTORY_SEPARATOR.'video'.DIRECTORY_SEPARATOR.$_GET['data'].'.inc',FILE_IGNORE_NEW_LINES);
+		$archive['title'] = $archive['data'][0];
+    $archive['path'] = $archive['data'][1];
+    // $archive['path'] = 'https://video.winds-n.com/' . $archive['data'][1];
+    $archive['path'] = 'https://misakikato.xyz/winds/archive/video/' . $archive['data'][1];
+
+		//初期設定
+    $archive['list_start'] = 2;
+    $contents['video'] = '<video src="" poster="img/video.jpg" ontimeupdate="videoTimeUpdate();" controls onclick="togglePlay()" controlslist="nodownload"></video>';
+
+    $videolist['html'] = '<ol>';
+    $videolist['script'] = '';
+    $k = 0;
+    //動画リスト作成
+		for($i=$archive['list_start'];$i<count($archive['data']);$i++) {
+			if($archive['data'][$i] != "") {
+        $videolist['html'] .= '<li id="videolist'.($i-$archive['list_start']).'"><a href="javascript:videoPlayThis('.($i-$archive['list_start']).')"><div id="title'.($i-$archive['list_start']).'"><span></span><i class="fa fa-play-circle" aria-hidden="true"></i>'.explode('<>',$archive['data'][$i])[0].getCountData($archive['path'].'/'.explode('<>',$archive['data'][$i])[1],($i-$archive['list_start']),$countlist).'</div></a></li>'."\n";
+        $videolist['script'] .= 'videolist['.($i-$archive['list_start']).'] = "'.$archive['path'].'/'.explode('<>',$archive['data'][$i])[1].'";'."\n";
+        $k++;
+			}
+		}
+    $videolist['html'] .= '</ol>';
+  }
+
+  //target判別
+  if (in_array($_GET['data'], $video['main'])) {
+    $target = 'main';
+  } else if (in_array($_GET['data'], $video['mini'])) {
+    $target = 'mini';
+  } else {
+    $target = 'other';
+  }
+
+  if ($target == 'main') {
+    $videolink['title'] = '定期演奏会の映像';
+    $videolink['text'] = '他の定期演奏会は下記からどうぞ';
+  } else if ($target == 'mini') {
+    $videolink['title'] = '春のミニコンサートの映像';
+    $videolink['text'] = '他の春のミニコンは下記からどうぞ';
+  } else {
+    $videolink['title'] = 'その他の映像';
+    $videolink['text'] = '';
+  }
+  // $target = in_array($_GET['data'], $video['mini']) ? 'mini' : 'main';
+  // $videolink['title'] = $target == 'main' ? '定期演奏会の映像' : '春のミニコンサートの映像';
+  // $videolink['text'] = '他の定期演奏会は下記からどうぞ';
+
+	//下部リンク生成
+  $videolink['link'] = '';
+  foreach($video[$target] as $each){
+    $video['data'] = file('inc'.DIRECTORY_SEPARATOR.'video'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    if($_GET['data'] == $each){
+      $videolink['link'] .= '<a href="video?data='.$each.'" class="reading"><i class="fa fa-folder-open" aria-hidden="true"></i>'.pregTitle($video['data'][0]).'</a>';
+    }else{
+      $videolink['link'] .= '<a href="video?data='.$each.'"><i class="fa fa-video-camera" aria-hidden="true"></i>'.pregTitle($video['data'][0]).'</a>';
+    }
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>映像たち｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/archive.css">
+<link rel="stylesheet" href="css/video.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">映像たち</span>
+</div>
+
+<div class="bread"><a href="member">団員専用ページ</a> &gt; <a href="archive">アーカイブ</a> &gt; <span><?php echo $archive['title']; ?></span></div>
+
+<article class="card">
+
+  <div class="card tap" id="video">
+    <div class="card-header">
+      <h2><i class="fa fa-video-camera" aria-hidden="true"></i><?php echo $archive['title']; ?></h2>
+    </div>
+    <div class="card-video">
+      <?php echo $contents['video']; ?>
+    </div>
+    <div class="card-list">
+      <?php echo $videolist['html']; ?>
+    </div>
+  </div>
+
+  <div class="card tap" id="archive-video">
+    <div class="card-header">
+      <h2><i class="fa fa-video-camera" aria-hidden="true"></i><?php echo $videolink['title']; ?></h2>
+    </div>
+    <div class="card-text">
+      <p>
+        <?php echo $videolink['text']; ?>
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <?php echo $videolink['link']; ?>
+      </div>
+    </div>
+    <div class="card-link wide">
+      <a href="archive"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>アーカイブページへもどる</a>
+    </div>
+  </div>
+
+  <div class="card tap" id="back">
+    <div class="card-link wide">
+      <a href="member"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>団員専用トップへ</a>
+    </div>
+  </div>
+
+</article>
+
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<script type="text/javascript">
+var video = document.getElementsByTagName("video")[0];
+var nowVideo = 0;
+var videoStatus = 'first';
+var videoFlag = false;
+
+var videolist = new Array(<?php echo count($archive['data']) - $archive['list_start']; ?>);
+<?php echo $videolist['script']; ?>
+var videoLength = videolist.length;
+<?php // 再生が終わったら次を再生 ?>
+video.onended = function(){ videoPlayNext(this.src); };
+</script>
+<script type="text/javascript">
+function togglePlay () {
+  if (video.src.indexOf('.mp4') > 0) {
+    isVideoPlaying(video) ? videoPause() : videoPlay()
+  } else {
+    videoPlayThis(0)
+  }
+}
+function videoPlay() {
+	video.play();
+}
+function videoPause() {
+	video.pause();
+}
+function videoStop() {
+	videoPause();
+	video.currentTime = 0;
+}
+function videoPlaying() {
+	if(isVideoPlaying(video)){
+		videoPause();
+		videoStatus = "pause";
+	}else{
+		if(videoStatus=="stop"){
+			videoPlayThis(0);
+		}else if(videoStatus=="pause"){
+			videoPlay();
+		}else{
+			videoPlayThis(nowVideo);
+		}
+		videoStatus = "playing";
+	}
+}
+
+function isVideoPlaying(video) {
+	return !video.paused;
+}
+
+function videoTimeUpdate() {
+	video.addEventListener("timeupdate", function() {
+		var now = Math.floor(video.currentTime);
+		var total = Math.round(video.duration);
+		if(!isNaN(total)){
+      if(videoFlag && now > 10) {
+        playCount(nowVideo,videolist);
+        videoFlag = false;
+      }
+		}
+	}, true);
+}
+
+<?php // 再生 ?>
+function videoPlayThis(key) {
+	videoPause();
+	video.src = videolist[key];
+  video.poster = '';
+	videoPlay();
+	for(var i=0;i<videoLength;i++) document.getElementById("videolist"+i).className = "non";
+	document.getElementById("videolist"+key).className = "now";
+	nowVideo = key;
+  videoFlag = true;
+}
+<?php // 次を再生 ?>
+function videoPlayNext(objsrc) {
+	var objsrc = decodeURI(objsrc);
+	var host = (("https:" == document.location.protocol) ? "https://" : "http://");
+	objsrc = objsrc.replace(host+location.hostname+"<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/","");
+	for (var i=0;i<videoLength;i++) {
+		var listsrc = videolist[i];
+		if(objsrc===listsrc){
+			if(videoLength==i+1){
+				<?php // 再生終了 ?>
+				document.getElementById("videolist"+i).className = "non";
+			}else{
+				videoPlayThis(i+1);
+			}
+			break;
+		}
+	}
+}
+
+function vtohms(t) {
+	var hms = "";
+	var h = t / 3600 | 0;
+	var m = t % 3600 / 60 | 0;
+	var s = t % 60;
+	if(h != 0){
+		hms = h + ":" + addzero(m) + ":" + addzero(s);
+	}else if(m != 0){
+		hms = addzero(m) + ":" + addzero(s);
+	}else{
+		hms = "00:" + addzero(s);
+	}
+	return hms;
+	function addzero(v) {
+		if(v < 10){
+			return "0" + v;
+		}else{
+			return v;
+		}
+	}
+}
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

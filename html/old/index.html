@@ -1,0 +1,122 @@
+<?php
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/session.inc");
+
+  //セッションIDとワンタイムチケットを発行
+  $send['session'] = session_id();
+  $send['ticket'] = md5(uniqid(rand(), TRUE));
+  //セッション変数に格納
+  $_SESSION['SESSION']  = $send['session'];
+  $_SESSION['TICKET'] = $send['ticket'];
+  $_SESSION['REMOTE'] = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+
+  if(isset($_COOKIE['STATUS']) && $_COOKIE['STATUS'] == 'MEMBER') {
+    // if(isset($_COOKIE['PLAY']) && $_COOKIE['PLAY'] == '1') {
+    //   $link['member'] = '<a href="member/player" class="member member-login tap">団員ページへ</a><a href="authentication" class="member tap">ログアウト</a>';
+    // }else{
+      $link['member'] = '<a href="member/member" class="member member-login tap">団員ページへ</a><a href="authentication" class="member tap">ログアウト</a>';
+    // }
+  }else{
+    setcookie('STATUS', '0', time()+60*60*24*30*2, '/', 'new.winds-n.com', false, true);
+    $link['member'] = '<a href="#" onclick="showLoginForm()" class="member tap">団員ログイン</a>';
+  }
+
+  //メッセージ処理
+  if(isset($_COOKIE['MESSAGE'])){
+    switch($_COOKIE['MESSAGE']) {
+      case '0':
+        $message['title'] = '団員専用ページ';
+        $message['text'] = 'ログアウトしました';
+        break;
+      case '1':
+        $message['title'] = 'ログインエラー';
+        $message['text'] = 'セッションエラーです';
+        break;
+      case '2':
+        $message['title'] = 'ログインエラー';
+        $message['text'] = 'パスワードを入力してください';
+        break;
+      case '3':
+        $message['title'] = 'ログインエラー';
+        $message['text'] = 'パスワードが間違っています';
+        break;
+      case '4':
+        $message['title'] = '認証エラー';
+        $message['text'] = 'ログインしてください';
+        break;
+      case '5':
+        $message['title'] = '認証エラー';
+        $message['text'] = 'ログインしてください';
+        break;
+      case '6':
+        $message['title'] = 'ログインエラー';
+        $message['text'] = 'ログインエラーです';
+        break;
+      case '8':
+        $message['title'] = 'メッセージエラー';
+        $message['text'] = 'アドレスが有効ではありません<br>最初からやり直してください';
+        break;
+      default:
+        $message['title'] = 'ログインエラー';
+        $message['text'] = 'ログインエラーです';
+        break;
+    }
+    $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
+    $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
+    // Cookieを削除
+    setcookie('MESSAGE', '', time(), '/', 'new.winds-n.com', false, true);
+  }else{
+    $message['header'] = '';
+    $message['script'] = '';
+  }
+  // Cookieが使えない場合
+  if(isset($_GET['cookie']) && $_GET['cookie'] == 'no'){
+    $message['title'] = 'ログインエラー';
+    $message['text'] = 'Cookieを有効にしてください';
+    $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
+    $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
+    // Cookieを削除
+    setcookie('MESSAGE', '', time(), '/', 'new.winds-n.com', false, true);
+  }
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<meta name="description" content="新潟県長岡市で活動している吹奏楽団ザ・ウィンド・アンサンブルのホームページです。年2回、長岡リリックホール周辺にて演奏会を企画・開催しています。">
+<meta name="keywords" content="ウィンズ,ウインズ,長岡市,nagaoka,リリックホール,新潟県,ザウィンドアンサンブル,ザ・ウィンド・アンサンブル,ザウインドアンサンブル,ザ・ウインド・アンサンブル,吹奏楽,winds,thewindensemble">
+<meta name="author" content="The Wind Ensemble">
+<title>旧団員専用ページ</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="css/font.css">
+<link rel="shortcut icon" href="img/favicon.ico">
+</head>
+<body>
+
+<?php echo $message['header']; ?>
+
+<article id="loginform" class="close">
+  <section id="loginform-header">
+    <h1>団員専用ページ</h1>
+    <!-- <span class="window-close" onclick="closeLoginForm();"><i class="fa fa-times fill" aria-hidden="true"></i></span> -->
+  </section>
+  <section id="loginform-main">
+    <p>ログインパスワードを入力してください。</p>
+    <form method="POST" id="login" action="authentication">
+      <input type="hidden" name="session" value="<?php echo $send['session']; ?>">
+      <input type="hidden" name="ticket" value="<?php echo $send['ticket']; ?>">
+      <input type="hidden" name="user" value="default">
+      <input type="password" name="password" class="password" id="password" value="">
+      <button type="submit" value="ログイン" class="loginbutton tap">ログイン</button>
+    </form>
+  </section>
+</article>
+
+<?php include('../js/analytics.js'); ?>
+</body>
+</html>

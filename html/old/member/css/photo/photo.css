@@ -1,0 +1,58 @@
+/*
+<?php header('Content-Type: text/css; charset=utf-8'); ?>
+@charset "UTF-8";
+*/
+
+.inline-img-t {
+	max-width: 100%;
+	height: auto;
+	display: inline;
+	margin: 0 auto;
+	}
+
+@media (min-width: 48em) {
+    .del br {
+        display: none;
+    }
+
+    div#del {
+        display: inline;
+        text-align: left;
+    }
+
+	/*
+    .inline-img-s {
+        max-width: 100%;
+        height: auto;
+        display: inline;
+        margin: 0 auto;
+    }
+
+    .inline-img-ss {
+        display: none;
+    }
+	*/
+
+	div.page {
+		font-size: 1.0em;
+		text-align: center;
+	}
+
+}
+
+@media (max-width: 48em) {
+    .del br {
+        display: inline;
+    }
+
+    div#del {
+        display: box;
+        text-align: right;
+    }
+
+	div.page {
+		font-size: 0.8em;
+		text-align: center;
+	}
+
+}

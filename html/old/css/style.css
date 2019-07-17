@@ -1,0 +1,479 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans|Roboto');
+
+/************************************************************************/
+/****** Common setting                                             ******/
+/************************************************************************/
+body {
+  line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック  Medium', meiryo, sans-serif;
+  background: rgb(240,239,235);
+}
+a, div, label,button {
+  tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+a {
+  color: rgba(182,0,5,.8);
+  font-weight: normal;
+  text-decoration: none;
+  transition: all ease-in-out .1s;
+}
+a:visited {
+  color: rgba(182,0,5,.8);
+}
+a i {
+  padding-left: .2em;
+}
+a:hover, a.ontap {
+  color: rgba(182,0,5,.4);
+  transition: all ease-in-out 0s;
+}
+
+b {
+  font-weight: bold;
+}
+
+/************************************************************************/
+/****** Setting for header message show                              ******/
+/************************************************************************/
+div#message {
+  position: absolute;
+  display: block;
+  top: 40px;
+  left: 0;
+  right: 0;
+  bottom: auto;
+	width: calc(100% - 80px - 2px);
+  max-width: 600px;
+  max-height: 300px;
+/*  height: calc(100% - 80px - 1em - 2px); */
+  margin: auto;
+	padding: 0;
+	border: 0px solid rgba(0,0,0,0.2);
+  border-radius: 5px;
+	background-color: #fff;
+  z-index: 11;
+}
+div#message-header {
+  width: 100%;
+  padding: 1em 0;
+  background: rgba(182,0,5,1);
+  border-bottom: 1px solid rgba(182,0,5,.8);
+  border-radius: 5px 5px 0 0;
+}
+div#message-header h1 {
+  padding: 0 0 0 24px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #fff;
+}
+div#message p {
+  margin: 24px;
+}
+
+@media (max-width: 767px) {
+  div#message {
+  	width: calc(100% - 20px - 2px);
+    border-radius: 6px;
+  }
+  div#message-header {
+    padding: .5em 0;
+    border-radius: 6px 6px 0 0;
+  }
+  div#message-header h1 {
+    padding: 0 0 0 1em;
+    font-size: .8em;
+  }
+  div#message p {
+    margin: 1em;
+    font-size: .8em;
+  }
+}
+
+/************************************************************************/
+/****** Setting for header view member login                       ******/
+/************************************************************************/
+a.member {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: block;
+  font-weight: normal;
+  text-decoration: none;
+  background: #c0c0c0;/*背景色をシルバーに*/
+  color: #3f3f3f;
+  padding: 0.2em 0.8em;
+  border-radius: 24px;
+  transition: all ease-in-out .1s;
+  font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", sans-serif;
+}
+a.member:hover,a.member.ontap {
+  background: rgba(182,0,5,1);
+  color: #fff;
+  text-decoration: none;/*下線を消す*/
+  transition: all ease-in-out 0s;
+}
+a.member-login {
+  right: calc(7.5em);
+}
+@media (max-width: 767px) {
+  a.member, a.member-login {
+    font-size: 0.9em;
+  }
+}
+
+/************************************************************************/
+/****** Setting for head                                           ******/
+/************************************************************************/
+header#page-top {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+section#top-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: rgba(90,90,90,1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+section#top-logo a:hover svg#svg-logo {
+  fill: rgba(220,220,220,1);
+}
+@media (max-width: 767px) {
+  header#page-top {
+    height: 60px;
+  }
+  section#top-logo {
+    top: 0;
+    left: 0;
+    height: 60px;
+  }
+}
+/************************************************************************/
+/****** Setting for main logo                                      ******/
+/************************************************************************/
+/* main title */
+@media (min-width: 768px) {
+  header#page-top svg#svg-logo {
+    width: 75vw;
+    max-width: 800px;
+    /*fill: rgba(182,0,5,1);*/
+    fill: #fff;
+  }
+}
+@media (max-width: 767px) {
+  header#page-top svg#svg-logo {
+    width: 80vw;
+    height: 50px;
+    /*fill: rgba(182,0,5,1);*/
+    fill: #fff;
+  }
+}
+
+/************************************************************************/
+/****** navigation common                                          ******/
+/************************************************************************/
+nav {
+  width: 100%;
+  background: rgba(120,120,120,1);
+}
+nav div {
+  /*max-width: 800px;*/
+  margin: 0 auto;
+  height: 44px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+/* navigation title */
+nav div label {
+  display: none;
+  font-family: 'Josefin Sans', sans-serif;
+}
+nav div span.icon {
+  display: none;
+}
+nav div ul {
+  margin: 0 auto;
+}
+nav li {
+  display: inline-block;
+}
+nav li a.nav {
+  display: block;
+  padding: 10px 20px;
+  color: rgba(255,255,255,1);
+  text-decoration: none;
+  transition: all ease-out .1s;
+}
+nav li a.nav:hover,
+nav li a.nav.ontap {
+  color: rgba(210,210,210,1);
+  text-shadow: 0px 0px 50px rgba(240,240,240,.1);
+  transition: all ease-out .1s;
+}
+@media (max-width: 767px) {
+  nav div {
+    display: block;
+    height: inherit;
+  }
+  nav div > label {
+    display: block;
+    width: calc(100% - 1em);
+    height: 48px;
+    padding: 0;
+    line-height: 48px;
+    color: rgba(255,255,255,1);
+  }
+  nav div label:first-child{
+    padding: 0 0 0 1em;
+  }
+  nav div label span.icon {
+    display: block;
+    position: absolute;
+    height: 48px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    cursor: pointer;
+  }
+  nav.nav-fixed div label span.icon {
+    top: 0px;
+  }
+  nav div span.icon > i {
+    color: rgba(255,255,255,1);
+    font-size: 48px;
+  }
+  nav div li {
+    width: 50%;
+  }
+  nav div li a.nav {
+    font-size: 1em;
+  }
+}
+/* navigation position fixed */
+.nav-fixed {
+  position: fixed;
+  top: 0;
+  z-index: 2;
+}
+div#nav-gap {
+  display: none;
+}
+
+/************************************************************************/
+/****** article common                                             ******/
+/************************************************************************/
+article#wrap {
+  width: 100%;
+  color: rgba(120,120,120,1);
+}
+article#wrap section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6em 2em 0 2em;
+}
+article#wrap section h1 {
+  /* position: absolute; */
+  font-size: 2.5em;
+  font-weight: bold;
+  color: rgba(90,90,90,1);
+  font-family: "ヒラギノ明朝 Pro W3", "Hiragino Mincho Pro", "HiraMinProN-W3", "HGS明朝E", serif;
+  letter-spacing: .1em;
+}
+article#wrap section h2 {
+  font-size: 3em;
+  overflow: hidden;
+  white-space: nowrap;
+  /* font-family: 'Amiri';　no-load */
+  color: rgba(173,146,88,.2);
+}
+article#wrap section h3 {
+  padding: 1em 0 .5em 0;
+  font-size: 1.2em;
+  font-family: "ヒラギノ明朝 Pro W3", "Hiragino Mincho Pro", "HiraMinProN-W3", "HGS明朝E", serif;
+  font-weight: bold;
+  color: rgba(100,100,100,1);
+}
+article#wrap section h1 + p {
+  padding-top: 24px;
+  margin-top: 8px;
+  border-top: 1px solid #ccc;
+}
+article#wrap section p {
+  word-wrap: break-word;
+  font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", Meiryo, "ＭＳ Ｐゴシック", sans-serif;
+}
+article#wrap div.flex {
+  display: flex;
+  flex-direction: row;
+  margin-top: .2em;
+}
+article#wrap div.non-flex {
+  display: block;
+  margin-top: .2em;
+}
+article#wrap a.button {
+  display: block;
+  width: calc(50% - .25em - 2em);
+  margin: 1em 0 2em 0;
+  padding: .5em 1em;
+  border-radius: 2px;
+  background: #ccc;
+  color: #3f3f3f;
+  text-align: center;
+  text-decoration: none;
+  transition: all ease-in-out .1s;
+}
+article#wrap a.button:first-child {
+  margin-right: .5em;
+}
+article#wrap a.button:hover,
+article#wrap a.button.ontap {
+  background: rgba(182,0,5,1);
+  color: #fff;
+  transition: all ease-in-out 0s;
+}
+article#wrap div.flex a.button {
+  width: calc(50% - .25em - 2em)!important;
+}
+@media (max-width: 768px) {
+  article#wrap section{
+    width: 90%;
+    margin: 0 auto;
+    padding: 1em 0 0 0;
+  }
+  article#wrap section h1 {
+    font-size: 2em;
+  }
+  article#wrap section h2 {
+    font-size: 2.5em;
+  }
+  article#wrap section p {
+    font-size: 0.8em;
+  }
+  article#wrap section div.flex {
+    flex-direction: column;
+  }
+  article#wrap section a.button {
+    width: calc(100% - 2em)!important;
+    margin: .8em 0 0 0;
+    font-size: .8em;
+  }
+  article#wrap section div.flex a.button {
+    width: calc(100% - 2em)!important;
+  }
+}
+/************************************************************************/
+/****** Setting for back to home link                              ******/
+/************************************************************************/
+div.back {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+a.back-to-home {
+  display: block;
+  padding: .8em;
+  margin: 2em 0 1em 0;
+  border-radius: 2px;
+  background: rgba(255,255,255,0);
+}
+a.back-to-home:hover {
+  color: rgba(182,0,5,1);
+  background: rgba(255,255,255,.6);
+}
+a.back-to-home i {
+  padding-right: .2em;
+}
+
+/************************************************************************/
+/****** Setting for back to top link                               ******/
+/************************************************************************/
+a#bottomlink {
+  display: block;
+  position: relative;
+  padding-top: 5em;
+  width: 100%;
+  padding: 4em 0 3em;
+  margin: 2em 0 0 0;
+  background: rgb(240,239,235,0);
+  text-align: center;
+  text-decoration: none;
+  color: rgba(119,119,119,1);
+  font-family: 'Josefin Sans', sans-serif;
+}
+a#bottomlink:hover {
+  color: rgba(119,119,119,.8);
+}
+a#bottomlink::after {
+  content: '';
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  border-left: 1px solid rgba(119,119,119,1);
+  border-bottom: 1px solid rgba(119,119,119,1);
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  box-sizing: border-box;
+}
+a#bottomlink::after:hover {
+  border-left: 1px solid rgba(119,119,119,.8);
+  border-bottom: 1px solid rgba(119,119,119,.8);
+}
+/************************************************************************/
+/****** Setting for footer                                         ******/
+/************************************************************************/
+footer {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2em 0px 2em 0px;
+  text-align: center;
+  font-size: 0.8em;
+  border-top: 1px solid rgb(220,220,220);
+  color: rgba(200,200,200,1);
+  background: rgb(240,239,235);
+}
+
+@media (max-width: 768px) {
+  footer {
+    font-size: 0.7em;
+  }
+}
+
+/************************************************************************/
+/****** Setting for others                                         ******/
+/************************************************************************/
+input {
+  line-height: normal;
+}
+input[type="text"],input[type="address"],input[type="password"],
+input[type="date"],input[type="time"],textarea {
+  -webkit-appearance: none;
+  border-radius: 2px;
+}
+
+input[type="text"]:focus,input[type="address"]:focus,input[type="password"]:focus,
+input[type="date"]:focus,input[type="time"]:focus,textarea:focus {
+  border: solid 1px rgba(182,0,5,1)!important;
+	outline: 0;
+}
+input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+::selection {
+  background: rgba(182,0,5,1);
+  color: #ffffff;
+}
+::-moz-selection {
+	background: rgba(182,0,5,1);
+	color: #ffffff;
+}

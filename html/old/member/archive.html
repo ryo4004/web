@@ -1,0 +1,274 @@
+<?php
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  //ページ設定読み込み
+  require("./inc/photo.inc");
+  require("./inc/audio.inc");
+  require("./inc/video.inc");
+
+  //player設定
+  if(isset($_COOKIE['PLAY'])){
+    if($_COOKIE['PLAY'] != '0'){
+      $link['player'] = '<!--<a href="play?mode=off" target="_top"><i class="fa fa-android" aria-hidden="true"></i>OFFにする<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>-->';
+    }else{
+      $link['player'] = '<!--<a href="play?mode=on"><i class="fa fa-android" aria-hidden="true"></i>ONにする<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>-->';
+    }
+  }else{
+    $link['player'] = '<!--<a href="play"><i class="fa fa-android" aria-hidden="true"></i>使う<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>-->';
+  }
+
+  //リンク生成(photo)
+  $photo_main['link'] = '';
+  foreach($photo['main'] as $each) {
+    $data = file('inc'.DIRECTORY_SEPARATOR.'photo'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    $photo_main['link'] .= '<a href="photo?data='.$each.'"><i class="fa fa-picture-o" aria-hidden="true"></i>'.pregTitle($data[0]).'</a>'."\n";
+  }
+  $photo_mini['link'] = '';
+  foreach($photo['mini'] as $each) {
+    $data = file('inc'.DIRECTORY_SEPARATOR.'photo'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    $photo_mini['link'] .= '<a href="photo?data='.$each.'"><i class="fa fa-picture-o" aria-hidden="true"></i>'.pregTitle($data[0]).'</a>'."\n";
+  }
+
+  //リンク生成(audio)
+  $audio_main['link'] = '';
+  foreach($audio['main'] as $each) {
+    $data = file('inc'.DIRECTORY_SEPARATOR.'audio'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    $audio_main['link'] .= '<a href="audio?data='.$each.'"><i class="fa fa-music" aria-hidden="true"></i>'.pregTitle($data[0]).'</a>';
+  }
+  $audio_mini['link'] = '';
+  foreach($audio['mini'] as $each) {
+    $data = file('inc'.DIRECTORY_SEPARATOR.'audio'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    $audio_mini['link'] .= '<a href="audio?data='.$each.'"><i class="fa fa-music" aria-hidden="true"></i>'.pregTitle($data[0]).'</a>';
+  }
+
+  //リンク生成(video)
+  $video_main['link'] = '';
+  foreach($video['main'] as $each) {
+    $data = file('inc'.DIRECTORY_SEPARATOR.'video'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    $video_main['link'] .= '<a href="video?data='.$each.'"><i class="fa fa-video-camera" aria-hidden="true"></i>'.pregTitle($data[0]).'</a>';
+  }
+  $video_mini['link'] = '';
+  foreach($video['mini'] as $each) {
+    $data = file('inc'.DIRECTORY_SEPARATOR.'video'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    $video_mini['link'] .= '<a href="video?data='.$each.'"><i class="fa fa-video-camera" aria-hidden="true"></i>'.pregTitle($data[0]).'</a>';
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>アーカイブ｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/archive.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+  <header id="member-top">
+    <section id="top-logo">
+      <a href="../"><?php require('../img/logo.svg'); ?></a>
+    </section>
+  </header>
+  <a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+  <nav>
+    <div>
+      <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+      <ul>
+        <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">アーカイブ</span>
+</div>
+
+<div class="bread"><a href="member">団員専用ページ</a> &gt; <span>アーカイブ</span></div>
+
+<article class="card">
+
+  <div class="card tap" id="archive-photo">
+    <div class="card-header">
+      <h2><i class="fa fa-picture-o" aria-hidden="true"></i>定期演奏会の写真</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        これまでの定期演奏会の写真アルバムです。
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <?php echo $photo_main['link']; ?>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tap" id="archive-photo">
+    <div class="card-header">
+      <h2><i class="fa fa-picture-o" aria-hidden="true"></i>春のミニコンサートの写真</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        春のミニコンの写真アルバムです。
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <?php echo $photo_mini['link']; ?>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tap" id="archive-audio">
+    <div class="card-header">
+      <h2><i class="fa fa-music" aria-hidden="true"></i>定期演奏会の録音</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        これまでの定期演奏会の録音です。
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <?php echo $audio_main['link']; ?>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tap" id="archive-audio">
+    <div class="card-header">
+      <h2><i class="fa fa-music" aria-hidden="true"></i>春のミニコンサートの録音</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        これまでの春のミニコンサートの録音です。
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <?php echo $audio_mini['link']; ?>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tap" id="archive-video">
+    <div class="card-header">
+      <h2><i class="fa fa-video-camera" aria-hidden="true"></i>定期演奏会の映像</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        これまでの定期演奏会の映像です。
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <?php echo $video_main['link']; ?>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tap" id="archive-video">
+    <div class="card-header">
+      <h2><i class="fa fa-video-camera" aria-hidden="true"></i>春のミニコンサートの映像</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        これまでの春のミニコンサートの映像です。
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <?php echo $video_mini['link']; ?>
+      </div>
+    </div>
+  </div>
+
+  <div class="card tap" id="archive-video">
+    <div class="card-header">
+      <h2><i class="fa fa-video-camera" aria-hidden="true"></i>その他</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        2018年2月25日の市民音楽祭の映像です。
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <a href="video?data=bandfes2018"><i class="fa fa-video-camera" aria-hidden="true"></i>市民音楽祭</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="card tap" id="archive-video">
+    <div class="card-header">
+      <h2><i class="fa fa-bullhorn" aria-hidden="true"></i>アプリ版アーカイブページ</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        たくさんデータがあるので、見やすくするためにアプリにしました。
+      </p>
+    </div>
+    <div class="card-text">
+      <p>
+        お手数ですがアプリでは<span style='display:inline-block;padding: 0 .2em;font-weight:bold;color:#B60005;'>アカウントの作成が必要</span>です。(楽譜管理アプリとは別です)<br>
+        ユーザー名およびパスワードはお好きなものを入力してください。<br>
+        <br>
+        登録に必要な承認キーは<span style='display:inline-block;padding: 0 .5em;font-weight:bold;color:#B60005;'>0258</span>です。<br>
+        <br>
+        パソコンおよびスマホでご利用いただけます。<br>
+        スマホでは「ホーム画面に追加」することでより便利にご利用になれます。
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <a href="https://archive.winds-n.com/reg" target="_blank" style='display:flex;justify-content:center;align-items:center;'><img src='https://winds-n.com/img/apple-icon-archive.png' style='width:20px;height:20px;margin-right:4px;border-radius:40%;' />アーカイブ</a>
+      </div>
+    </div>
+    <div class="card-text">
+      <span style='font-size:0.9em;'>推奨環境(これ以外の環境では表示が乱れる場合があります)</span>
+      <div style='padding-top:1em;font-size:0.8em;'>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-apple" aria-hidden="true"></i></span>iOS 11.3 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-android" aria-hidden="true"></i></span>Android Chrome 66 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-desktop" aria-hidden="true"></i></span>Chrome 66 以降, もしくはEdge 17 以降
+      </div>
+    </div>
+  </div> -->
+
+  <div class="card tap" id="back">
+    <div class="card-link wide">
+      <a href="member"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>団員専用トップへ</a>
+    </div>
+  </div>
+
+</article>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+if (navigator.userAgent.indexOf('Android')>0){
+  $('#android').addClass('show');
+}
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

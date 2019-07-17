@@ -1,0 +1,141 @@
+<?php
+
+	// 初期設定
+	require("./inc/init.inc");
+	if(!isset($_COOKIE['SETTING'])){
+		setcookie('MESSAGE', '4', time()+60, '/', 'new.winds-n.com', false, true);
+		header('Location: ../authentication');
+		exit();
+	}
+
+	//データパス
+	$datapath = dirname(__FILE__).$dir['data']."member_list.inc";
+	// データ取得
+	$member_data = file($datapath,FILE_IGNORE_NEW_LINES);
+
+	//ログインメンバーを判別
+	for($i=0;$i<count($member_data);$i++) {
+		if($_COOKIE['SETTING'] == strtoupper(explode('<>',$member_data[$i])[0])){
+			$contents['name'] = explode('<>',$member_data[$i])[2];
+		}
+	}
+
+	//メッセージ処理
+  if(isset($_COOKIE['MESSAGE'])){
+    if($_COOKIE['MESSAGE'] == '7') {
+      $message['title'] = '設定ページ';
+      $message['text'] = '各種設定ページにログインしました';
+    }else{
+      $message['title'] = '設定ページ';
+      $message['text'] = 'エラー';
+    }
+    $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
+    $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
+    // Cookieを削除
+    setcookie('MESSAGE', '', time(), '/', 'new.winds-n.com', false, true);
+  }else{
+    $message['header'] = '';
+    $message['script'] = '';
+  }
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>設定 - 各種設定｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../member/css/style.css">
+<link rel="stylesheet" href="../member/css/card.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/setting.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<?php echo $message['header']; ?>
+
+<div id="login"><span><i class="fa fa-user-circle-o" aria-hidden="true"></i><?php echo $_COOKIE['SETTING']; ?></span></div>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="../member/member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="../member/schedule" class="nav tap">練習日程</a></li><li class="member"><a href="../member/manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="../member/bbs" class="nav tap">掲示板</a></li><li class="member"><a href="../member/archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">設定ページ</span>
+</div>
+
+<div class="bread"><span>設定ページ</span></div>
+
+<article class="card">
+
+		<div class="card tap" id="setting">
+			<div class="card-header">
+				<h2><i class="fa fa-cogs" aria-hidden="true"></i>各種編集</h2>
+			</div>
+			<div class="card-text">
+				こちらから各ページ内容を編集できます。
+			</div>
+			<div class="card-footer">
+				<a href="manager">事務局からのお知らせの編集<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+			</div>
+			<div class="card-footer">
+				<a href="schedule">練習日程の編集<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+			</div>
+		</div>
+
+	<div class="card tap" id="setting">
+    <div class="card-header">
+      <h2><i class="fa fa-cog" aria-hidden="true"></i>設定ページ</h2>
+    </div>
+    <div class="card-text">
+			通常の団員専用ページはこちらから移動できます。<br>
+			通常ページから設定ページへ移動するリンクは用意しておりませんので、このページへ戻る場合は再ログインしてください。
+    </div>
+    <div class="card-footer">
+      <a href="../member/member">団員専用ページ<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+
+	<div class="card tap" id="setting">
+		<div class="card-header">
+			<h2><i class="fa fa-lock" aria-hidden="true"></i>パスワードの変更</h2>
+		</div>
+		<div class="card-text">
+			設定ページ用パスワードを変更できます。<br>
+			適宜変えといてください。<br>
+			パスワードは<i class="fa fa-lock" aria-hidden="true"></i><span class="lock">BCrypt</span>によりハッシュ化しています。
+		</div>
+		<div class="card-footer">
+			<a href="password">変更<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+		</div>
+	</div>
+
+</article>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+<?php echo $message['script']; ?>
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

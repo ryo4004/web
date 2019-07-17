@@ -1,0 +1,161 @@
+/************************************************************************/
+/****** Setting for upload form                                    ******/
+/************************************************************************/
+div.card div.card-form form {
+    padding: 0 16px 16px 16px;
+}
+div.card div.card-form form label.file {
+  display: block;
+  padding: 10px 20px;
+  border-radius: 2px 2px 0 0;
+  color: #fff;
+  background-color: rgba(182,0,5,1);
+  font-size: .8em;
+  cursor: pointer;
+}
+div.card div.card-form form label.file:hover {
+  background-color: rgba(182,0,5,.6);
+}
+div.card div.card-form form label i {
+  padding-right: .4em;
+}
+div.card div.card-form form label.filename {
+  display: none;
+}
+div.card div.card-form form label.filename.openfile {
+  display: block!important;
+  margin: 0;
+  padding: 10px 20px;
+  border-radius: 0 0 2px 2px;
+  font-size: .8em;
+  color: #fff;
+  background-color: rgba(182,0,5,1);
+}
+div.card div.card-form form label.file input.file-upload {
+  display: none;
+}
+div.card div.card-form form button.button {
+  width: 100%;
+  padding: 10px;
+  margin: 1em 0 0 0;
+  border: 0;
+  border-radius: 2px;
+  font-size: 1em;
+  background: lightgray;
+  color: #333;
+  cursor: pointer;
+  transition: all ease-in-out .2s;
+}
+div.card div.card-form form button.button:hover {
+  background: rgba(190,190,190,1);
+  color: #fff;
+  transition: all ease-in-out 0s;
+}
+div.card div.card-form form button.button.disabled {
+  color: rgba(160,160,160,1)!important;
+  cursor: default;
+}
+div.card div.card-form form button.button.disabled:hover {
+  background: lightgray!important;
+  color: rgba(160,160,160,1)!important;
+}
+/************************************************************************/
+/****** Setting for upload page                                    ******/
+/************************************************************************/
+div.card-list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 0 2px 2px;
+}
+div.card-list div.list {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  font-size: .9em;
+}
+.left {
+  text-align: left!important;
+}
+.left i {
+  padding-right: .2em;
+}
+div.card-list div.list a:first-child {
+  align-self: stretch;
+
+  display: flex;
+  align-items: center;
+
+  padding: 8px 16px;
+  background: #fafafa;
+}
+div.card-list div.list a:first-child:hover {
+  background: #f0f0f0;
+}
+div.card-list div.list a:last-child {
+  flex-grow: 2;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  color: #333;
+  background: #fafafa;
+}
+div.card-list div.list a:last-child:hover {
+  color: rgba(182,0,5,1) !important;
+  background: #f0f0f0;
+}
+div.card-list div.list a:last-child i {
+  padding-right: .2em;
+}
+div.card-list div.list a:last-child span:last-child {
+  min-width: 20px;
+  min-height: 20px;
+  margin-left: auto;
+  text-align: center;
+  line-height: 20px;
+  color: rgb(255, 255, 255);
+  font-size: .9em;
+  font-family: Roboto, sans-serif;
+  padding: .1em .4em;
+  border-radius: 2px;
+  background: rgb(150, 150, 150);
+}
+@media (max-width: 767px) {
+  div.card-list div.list a:first-child {
+    padding: 6px 12px;
+  }
+  div.card-list div.list a:last-child span:last-child {
+    display: none;
+  }
+}
+/************************************************************************/
+/****** Setting for notice                                         ******/
+/************************************************************************/
+div.card#notice div.card-header {
+  background: rgba(182,0,5,1);
+}
+div.card#notice div.card-text span {
+  display: block;
+  padding: 8px 0;
+  color: rgba(182,0,5,1);
+}
+div.card#notice div.card-text span i {
+  padding-right: .2em;
+}
+div.card#notice div.card-notice {
+  display: flex;
+}
+div.card#notice div.card-notice a {
+  display: block;
+  width: 50%;
+  margin: 0;
+  padding: .8em 0;
+  background: #fafafa;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+}
+div.card#notice div.card-notice a:hover {
+  color: rgba(182,0,5,1);
+  background: #f0f0f0;
+}

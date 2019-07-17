@@ -1,0 +1,289 @@
+/************************************************************************/
+/****** Setting for nav adding                                     ******/
+/************************************************************************/
+/* archive.css にて設定 */
+
+/************************************************************************/
+/****** Setting for video area                                     ******/
+/************************************************************************/
+article.card div.card-video {
+  margin: 0;
+}
+
+article.card div.card-video video {
+  display: block;
+  width: 100%;
+  max-height: 480px;
+  top: auto;
+  left: auto;
+  margin: 0 auto;
+  transition: all 0s linear;
+}
+article.card div.card-video video + div#cover {
+  display: none;
+}
+video::-internal-media-controls-download-button {
+  display:none;
+}
+video::-webkit-media-controls-enclosure {
+  overflow:hidden;
+}
+video::-webkit-media-controls-panel {
+  width: calc(100% + 30px); /* Adjust as needed */
+}
+
+/************************************************************************/
+/****** Setting for seekbar area                                   ******/
+/************************************************************************/
+div#videobar {
+	position: relative;
+	margin: 0;
+	width: 100%;
+	height: 5px;
+}
+div#videobar #videoseek {
+	position: absolute;
+  width: 100%;
+  height: 5px;
+	padding: 0px;
+	margin: 0px;
+  text-decoration: none;
+  border: 0px;
+  color: rgba(255,255,255,1);
+  transition: background-size 0.1s linear;
+  z-index: 1;
+}
+div#videobar #videoload {
+  position: absolute;
+	width: 100%;
+  height: 5px;
+	padding: 0px;
+	margin: 0px;
+  text-decoration: none;
+  border: 0px;
+  color: rgba(255,255,255,1);
+  transition: background-size 0s linear;
+  z-index: 0;
+}
+div#videobar #videoseek {
+	background: linear-gradient(rgba(200,200,200,.8),rgba(200,200,200,.8)) no-repeat rgba(255,255,255,0.8);
+}
+div#videobar #videoload {
+  background: linear-gradient(rgba(120,120,120,.9),rgba(120,120,120,.9)) no-repeat rgba(255,255,255,1);
+}
+div#videobar.playing #videoseek {
+  background: linear-gradient(rgba(182,0,5,1),rgba(182,0,5,1)) no-repeat rgba(255,255,255,0.8);
+}
+div#seekbar.playing #videoload {
+  background: linear-gradient(rgba(182,0,5,1),rgba(182,0,5,1)) no-repeat rgba(255,255,255,1);
+}
+#playtime {
+  display: block;
+  margin-left: 1em;
+  line-height: 40px;
+  cursor: default;
+}
+#current, #total {
+  display: inline-block;
+  color: rgba(119,119,119,1);
+}
+
+/************************************************************************/
+/****** Setting for controller area                                ******/
+/************************************************************************/
+div#videocontroller {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  height: 60px;
+  margin: 10px 0;
+}
+div#videocontroller >:last-child {
+  margin-left: auto;
+}
+div#videoplay-button {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  padding-left: 10px;
+}
+div#videoplay,
+div#videopause {
+  display: block;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+div#videostop-button {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  padding-left: 10px;
+  cursor: pointer;
+}
+@media (max-width: 767px) {
+  div#videocontroller {
+    height: 40px;
+  }
+  div#videoplay-button {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    padding-left: 5px;
+  }
+  div#videoplay,
+  div#videopause {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+  }
+  div#videostop-button {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    padding-left: 5px;
+  }
+}
+svg#svg-play, svg#svg-stop, svg#svg-video, svg#svg-fullscreen {
+  fill: rgba(119,119,119,1);
+}
+svg#svg-pause {
+  fill: rgba(182,0,5,1);
+}
+div#videoplay-button:hover svg#svg-play path, div#videostop-button:hover path,
+div#videoplay-button.ontap svg#svg-play path, div#videostop-button.ontap path {
+	fill: rgba(119,119,119,0.8);
+}
+div#videoplay-button:hover svg#svg-pause,
+div#videoplay-button.ontap svg#svg-pause {
+  fill: rgba(182,0,5,.8);
+}
+div.display {
+	display: inline-block!important;
+}
+div.no-display {
+	display: none!important;
+}
+div#videoplay-button.loading svg#svg-pause path {
+  fill: rgba(60,60,60,.3) !important;
+}
+div#videoplay-button div#videoloading {
+  display: none;
+}
+@keyframes loadspin {
+  0% { transform: rotate(0deg);   opacity: 0.2; }
+  50%  { transform: rotate(180deg); opacity: 1.0; }
+  100%   { transform: rotate(360deg); opacity: 0.2; }
+}
+div#videopla-buttony.loading div#videoloading {
+  display: block;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 8px solid #fff;
+  border-right-color: transparent;
+  animation: loadspin 1s linear infinite;
+}
+/************************************************************************/
+/****** Setting for title area                                     ******/
+/************************************************************************/
+div#videoplaying {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: calc(100% - 70px - 70px - 35px);
+  height: 60px;
+}
+div#videoplayingicon {
+  display: inline-block;
+  position: relative;
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border: 10px solid transparent;
+}
+div#videotitle {
+  display: inline-block;
+  position: relative;
+  color: rgba(119,119,119,1);
+  line-height: 20px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* playing display */
+div#videoplaying.playing path {
+  fill: rgba(182,0,5,1);
+}
+div#videoplaying.playing div#videotitle {
+  color: rgba(182,0,5,1);
+}
+@media (max-width: 767px) {
+  div#videoplaying {
+    max-width: calc(100% - 45px - 45px - 30px);
+    height: 40px;
+  }
+  div#videoplayingicon {
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    border-top: 10px solid transparent;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+}
+/************************************************************************/
+/****** Setting for fullscreen switch                              ******/
+/************************************************************************/
+div#fullscreen {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-top: 20px solid transparent;
+  border-left: 5px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+@media (max-width: 767px) {
+  div#fullscreen {
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    border-top: 10px solid transparent;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+}
+/************************************************************************/
+/****** Setting for video list                                     ******/
+/************************************************************************/
+article.card div.card-list a {
+  display: block;
+  width: calc(100% - 1em);
+  margin: 0;
+  padding: .8em 0 .8em 1em;
+  background: #fafafa;
+  text-decoration: none;
+  color: #333;
+}
+article.card div.card-list a:hover {
+  color: #333;
+  background: #f0f0f0;
+}
+article.card div.card-list li.now a {
+  color: rgba(182,0,5,1)!important;
+  background: #fff;
+}
+article.card div.card-list li.now a:hover {
+  background: #f0f0f0;
+}

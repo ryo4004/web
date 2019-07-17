@@ -1,0 +1,248 @@
+<?php
+	// 初期設定
+	require("./inc/init.inc");
+	if(!isset($_COOKIE['SETTING'])){
+		setcookie('MESSAGE', '4', time()+60, '/', 'new.winds-n.com', false, true);
+		header('Location: ../authentication');
+		exit();
+	}
+
+	if(isset($_COOKIE['UPLOAD'])){
+    $message['title'] = 'ファイルアップロード';
+    if($_COOKIE['UPLOAD'] == 'UPLOAD'){
+      $message['text'] = 'ファイルをアップロードしました。';
+    }elseif($_COOKIE['UPLOAD'] == 'UPDATE'){
+      $message['text'] = 'ファイルを更新しました。';
+    }elseif($_COOKIE['UPLOAD'] == 'ERROR'){
+			$message['title'] = 'エラー';
+      $message['text'] = 'アップロード失敗しました。';
+    }elseif($_COOKIE['UPLOAD'] == 'UNKNOWN'){
+	    $message['title'] = 'エラー';
+      $message['text'] = '不明なエラーが発生しました。<br>管理者に問い合わせてください。';
+    }elseif($_COOKIE['UPLOAD'] == 'DEL'){
+	    $message['title'] = 'ファイル削除';
+      $message['text'] = 'ファイルを削除しました。';
+    }
+    setcookie('UPLOAD', '', time(), '/', 'new.winds-n.com', false, true);
+  }else{
+    $message['title'] = '';
+    $message['text'] = '';
+  }
+
+	//データ置き場
+	$datapath = dirname(__FILE__).$dir['data'].'file_upload.inc';
+
+	//データ読み込み
+	$list = file($datapath,FILE_IGNORE_NEW_LINES);
+
+	//データ順
+  // [0] number
+	// [1] time
+  // [2] temp name
+  // [3] file name
+  // [4] size
+  // [5] file type
+	// [6] error
+
+	//アップロードファイル保存場所
+	// winds_n/member/file
+	// ../member/file
+	$path = dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'member'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+
+	$contents['notice'] = '';
+
+	if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['sendfile'])) {
+		if(!is_uploaded_file($_FILES['file']['tmp_name']) || $_FILES['file']['size'] > 104857600 || $_FILES['file']['error'] > 0){
+			setcookie('UPLOAD', 'ERROR', time()+60, '/', 'new.winds-n.com', false, true);
+			header("Location: " . $selfname);
+			exit();
+			// $notice = '<div class="notice"><p class="notice">アップロードに失敗しました。</p></div>';
+		}else{
+			if(move_uploaded_file($_FILES['file']['tmp_name'],$path.mb_convert_encoding($_FILES['file']['name'],"UTF-8","auto"))){
+				//アップロードの成功
+				// $notice = '<div class="notice"><p class="notice">ファイルをアップロードしました。</p></div>';
+
+				$tmp = explode('<>',$list[0]);
+				unset($fileinfo);
+				$fileinfo[] = (int)$tmp[0] + 1;
+				$fileinfo[] = date('Y/m/d H:i');
+				$fileinfo[] = $_FILES['file']['tmp_name'];
+				$fileinfo[] = mb_convert_encoding($_FILES['file']['name'],"UTF-8","auto");
+				$fileinfo[] = $_FILES['file']['size'];
+				$fileinfo[] = $_FILES['file']['type'];
+				$fileinfo[] = $_FILES['file']['error'];
+				$flag = TRUE;
+				for($i=0;$i<count($list);$i++){
+					$each = explode('<>',$list[$i]);
+					if(mb_convert_encoding($_FILES['file']['name'],"UTF-8","auto") == $each[3]) {
+						$flag = FALSE;
+					}
+				}
+				$flag ? array_unshift($list, implode("<>",$fileinfo)) : FALSE;
+				file_put_contents($datapath,implode("\n",$list),LOCK_EX);
+				$result = $flag ? 'UPLOAD' : 'UPDATE';
+
+				setcookie('UPLOAD', $result, time()+60, '/', 'new.winds-n.com', false, true);
+				header("Location: " . $selfname);
+				exit();
+			}else{
+				setcookie('UPLOAD', 'UNKNOWN', time()+60, '/', 'new.winds-n.com', false, true);
+				header("Location: " . $selfname);
+				exit();
+			}
+		}
+	}
+
+	if($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['del'])) {
+		foreach($list as $each){
+			if(explode('<>',$each)[0] == $_GET['del']) {
+				$deltarget = $each;
+			}
+		}
+		if(!isset($deltarget)){ exit(); }
+		$contents['notice'] .= '<div class="card-text">以下のファイルを削除しますか？<span>'.icon(explode('<>',$deltarget)[3]).explode('<>',$deltarget)[3].'</span></div>';
+		$contents['notice'] .= '<div class="card-notice"><a href="'.$selfname.'?delconfirm='.$_GET['del'].'" class="del">OK</a><a href="'.$selfname.'?no='.$_GET['del'].'" class="del">キャンセル</a></div>';
+	}elseif($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['delconfirm'])) {
+		//削除処理
+		$del = (int)$_GET['delconfirm'];
+		for($i=0;$i<count($list);$i++) {
+			$tmp = explode('<>',$list[$i]);
+			if($tmp[0] == $del && $tmp[1] != '') {
+				array_splice($list, $i, 1);
+			}
+		}
+		file_put_contents($datapath,implode("\n",$list),LOCK_EX);
+		setcookie('UPLOAD', 'DEL', time()+60, '/', 'new.winds-n.com', false, true);
+		header("Location: " . $selfname);
+		exit();
+	}
+
+	// $contents['article'] = $notice;
+
+	$filelist = '';
+	for($i=0;$i<count($list);$i++){
+		$filelist .= '<div class="list"><a href="'.$selfname.'?del='.explode('<>',$list[$i])[0].'"><i class="fa fa-times-circle" aria-hidden="true"></i></a><a href="../member/data/'.explode('<>',$list[$i])[3].'">'.icon(explode('<>',$list[$i])[3]).'<span>'.explode('<>',$list[$i])[3].'</span><span>'.fileSizeUnit(explode('<>',$list[$i])[4]).'</span></a></div>';
+	}
+
+	//メッセージを作成
+  if($message['title'] != ''){
+    $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
+    $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},5000);';
+  }else{
+    $message['header'] = '';
+    $message['script'] = '';
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>設定 - ファイルアップロード｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../member/css/style.css">
+<link rel="stylesheet" href="../member/css/card.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/upload.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<?php echo $message['header']; ?>
+
+<div id="login"><span><i class="fa fa-user-circle-o" aria-hidden="true"></i><?php echo $_COOKIE['SETTING']; ?></span></div>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../" target="_top"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="../member/member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="../member/schedule" class="nav tap">練習日程</a></li><li class="member"><a href="../member/manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="../member/bbs" class="nav tap">掲示板</a></li><li class="member"><a href="../member/archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">ファイルアップロード</span>
+</div>
+
+<div class="bread"><a href="setting">設定ページ</a> &gt; <a href="manager">事務局からのお知らせ編集</a> &gt; <span>ファイルのアップロード</span></div>
+
+<article class="card">
+
+<?php
+if($contents['notice'] != '') {
+	echo '<div class="card tap" id="notice"><div class="card-header"><h2><i class="fa fa-question-circle" aria-hidden="true"></i>確認</h2></div>';
+	echo $contents['notice'];
+	echo '</div>';
+}
+?>
+
+  <div class="card tap" id="upload">
+    <div class="card-header">
+      <h2><i class="fa fa-upload" aria-hidden="true"></i>ファイルアップロード</h2>
+    </div>
+    <div class="card-text">
+      このページでは事務局からのお知らせページに掲載する添付ファイルをアップロードします。<br>
+      サイズは100MBくらいまで対応しています。<br>
+			同名のファイルをアップロードすると警告なく上書きされますのでご注意ください。
+    </div>
+		<div class="card-form">
+			<form method="POST" action="<?php echo $selfname; ?>" enctype="multipart/form-data">
+				<input type="hidden" name="MAX_FILE_SIZE" value="104857600">
+				<label class="file"><i class="fa fa-plus-circle" aria-hidden="true"></i>ファイルを指定<input type="file" name="file" class="file-upload" required></label><label class="filename"></label>
+				<button type="submit" name="sendfile" class="button tap disabled" value="sendfile">送信</button>
+			</form>
+		</div>
+    <div class="card-footer left">
+      <a href="manager"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>編集ページへ戻る</a>
+    </div>
+  </div>
+
+	<div class="card tap" id="upload">
+		<div class="card-header">
+			<h2><i class="fa fa-upload" aria-hidden="true"></i>アップロードしたファイル</h2>
+		</div>
+		<div class="card-list">
+			<?php echo $filelist; ?>
+		</div>
+	</div>
+
+</article>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<script type="text/javascript">
+$('.file-upload').on('change', function() {
+	$('label.filename').html('<i class="fa fa-upload" aria-hidden="true"></i>'+$(this).prop('files')[0].name);
+	$('label.filename').addClass('openfile');
+	$('button.button').removeClass('disabled');
+});
+<?php echo $message['script']; ?>
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

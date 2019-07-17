@@ -1,0 +1,370 @@
+<?php
+
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  //ページ設定読み込み
+  require("./inc/audio.inc");
+
+  //playcount読み込み
+  $countlist = file('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'playcount.inc',FILE_IGNORE_NEW_LINES);
+
+  //初めての場合は解説ページへ
+  if(!isset($_COOKIE['PLAY'])) {
+    header('Location: ../play');
+    exit();
+  }
+  // 有効期限を更新(有効期限360日)
+  setcookie('PLAY', '1', time()+60*60*24*30*12, '/', 'new.winds-n.com', false, true);
+
+  //初期ページ設定
+  $iframe['start'] = 'member';
+  if(isset($_GET['play'])) {
+    $iframe['start'] = 'archive';
+  }
+
+  //svgデータ読み込み
+  $svg['play'] = implode('',file('img/play.svg'));
+  $svg['pause'] = implode('',file('img/pause.svg'));
+  $svg['stop'] = implode('',file('img/stop.svg'));
+  $svg['note'] = implode('',file('img/eighth-note.svg'));
+
+  $audiolist['html'] = '';
+  $javascript['list'] = '';
+  $k = 0;
+  foreach($audio['player'] as $each) {
+    $data = file('audio'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    $audiolist['html'] .= '<label for="musiclist" class="tap">'.$data[0].'</label>'."\n".'<ul class="musicpartlist">'."\n";
+    for($i=2;$i<count($data);$i++) {
+//      $audiolist['html'] .= '<li id="audiolist'.($i-$archive['list_start']).'"><a href="javascript:audioPlayThis('.($i-$archive['list_start']).')"><div id="title'.($i-$archive['list_start']).'"><span></span><i class="fa fa-play-circle" aria-hidden="true"></i>'.explode('<>',$archive['data'][$i])[0].getCountData($archive['path'].'/'.explode('<>',$archive['data'][$i])[1],($i-$archive['list_start']),$countlist).'</div></a></li>'."\n";
+      $audiolist['html'] .= '<li id="list'.$k.'" class="non tap"><a href="javascript:playthis('.$k.')" class="mp3 tap"><div id="title'.$k.'">'.explode('<>',$data[$i])[0].getCountData($data[1].'/'.explode('<>',$data[$i])[1],$k,$countlist).'</div></a></li>'."\n";
+      $javascript['list'] .= 'list['.$k.'] = "'.$data[1].'/'.explode('<>',$data[$i])[1].'";'."\n";
+      $k++;
+    }
+    $audiolist['html'] .= '</ul>'."\n";
+  }
+
+  // $data = ["mp3_20th.inc","mp3_21st.inc","mp3_22nd.inc","mp3_24th.inc","mp3_25th.inc","mp3_26th.inc","mp3_27th.inc","mp3_28th.inc","mp3_29th.inc","mp3_30th.inc"];
+  // $concert = ["第20回定期演奏会","第21回定期演奏会","第22回定期演奏会","第24回定期演奏会","第25回定期演奏会","第26回定期演奏会","第27回定期演奏会","第28回定期演奏会","第29回定期演奏会","第30回定期演奏会"];
+  //
+  // $musiclist['html'] = '';
+  // $javascript['list'] = '';
+  // $k = 0;
+  // for($i=0;$i<count($data);$i++){
+  //   $list[$i] = file('mp3/'.$data[$i],FILE_IGNORE_NEW_LINES);
+  //   $musiclist['html'] .= '<label for="musiclist" class="tap">'.$concert[$i].'</label>'."\n".'<ul class="musicpartlist">'."\n";
+  //   foreach($list[$i] as $each){
+  //     $musiclist['html'] .= '<li id="list'.$k.'" class="non tap"><a href="javascript:playthis('.$k.')" id="title'.$k.'" class="mp3 tap">'.explode('<>',$each)[0].'</a></li>'."\n";
+  //     $javascript['list'] .= 'list['.$k.'] = "'.explode('<>',$each)[1].'";'."\n";
+  //     $k++;
+  //   }
+  //   $musiclist['html'] .= '</ul>'."\n";
+  // }
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<meta name="description" content="新潟県長岡市で活動している吹奏楽団ザ・ウィンド・アンサンブルのホームページです。年2回、長岡リリックホール周辺にて演奏会を企画・開催しています。"><meta name="keywords" content="ウィンズ,ウインズ,長岡市,nagaoka,リリックホール,新潟県,ザウィンドアンサンブル,ザ・ウィンド・アンサンブル,ザウインドアンサンブル,ザ・ウインド・アンサンブル,吹奏楽,winds,thewindensemble"><meta name="author" content="The Wind Ensemble">
+<title>団員専用ページ</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="css/player.css">
+<!--[if IE ]>
+<link rel="stylesheet" type="text/css" href="css/playerie.css">
+<![endif]-->
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+<div id="wrap">
+  <iframe id="main" src="<?php echo $iframe['start']; ?>"></iframe>
+</div>
+
+<div id="player-wrap">
+  <div id="play-button" class="tap"><div id="playicon" class="display"><?php echo $svg['play']; ?></div><div id="pauseicon" class="no-display"><?php echo $svg['pause']; ?></div><div id="loading"></div></div>
+  <div id="stop-button" class="tap"><div id="stopicon"><?php echo $svg['stop']; ?></div></div>
+  <div id="playing"><div id="playingicon"><?php echo $svg['note']; ?></div><div id="name">曲を選んでください</div><div id="player-switch"><i class="fa fa-angle-up" aria-hidden="true"></i></div></div>
+    <ul class="musiclist">
+      <?php echo $audiolist['html']; ?>
+      <div id="undergap"></div>
+    </ul>
+  <div id="player"><audio src="" onclick="" preload="none" ontimeupdate="timeupdate();"></audio></div>
+  <div id="seekbar">
+    <div id="seek" style="background-size: 0% 100%;"><div id="playinfo"><div id="currenttime">00:00</div><div id="totaltime">/00:00</div></div></div>
+    <div id="load" style="background-size: 0% 100%;"><div id="playinfo">&nbsp;</div></div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+$('div#playing').click(function(){
+  if($('ul.musiclist').css('display')=='none'){
+    listOpen();
+  }else{
+    listClose();
+  }
+});
+function listOpen() {
+  //Player領域を開く
+  $('#player-wrap').animate({'height':'100%'},'normal',function(){$('frame#main').css('display','none');$('div#wrap').css('display','none');$('#player-switch').html('<i class="fa fa-angle-down" aria-hidden="true"></i>');});
+  //再生曲の曲名
+  $('div#playing').animate({'margin-left':'5px'},'normal');
+  //曲リスト表示
+  $('ul.musiclist').css('display','block');
+  //ボタン表示
+  $('#stop-button').css('display','block');
+  $('#stop-button').animate({'left':'76px'},'normal');
+  //再生時間表示
+  $('#playinfo').addClass('listopen');
+  //シークバー色変更
+  $('#seekbar').addClass('listopen');
+  return;
+}
+function listClose() {
+  //Player領域を閉じる
+  $('#player-wrap').animate({'height':'40px'},'fast',function(){  $('#player-switch').html('<i class="fa fa-angle-up" aria-hidden="true"></i>');});
+  //iframeを開く
+  $('div#wrap').css('display','block');
+  $('iframe#main').css('display','block');
+  $('iframe#main').css('height','100vh');
+  //再生曲の曲名
+  $('div#playing').css('margin-left','75px');
+  //曲リスト非表示
+  $('ul.musiclist').css('display','none');
+  //ボタン非表示
+  $('#stop-button').animate({'left':'8px'},'fast',function(){$(this).css('display','none');});
+  //再生時間非表示
+  $('#playinfo').removeClass('listopen');
+  //シークバー色変更
+  $('#seekbar').removeClass('listopen');
+  return;
+}
+//music list
+$('.musicpartlist').each(function(){ $(this).css("height",$(this).height()+"px"); });
+$('ul.musiclist').css('display','none');
+$('.musicpartlist').hide();
+$('.musiclist label').click(function () {
+  $(this).next('.musicpartlist').slideToggle('fast').siblings('.musicpartlist').slideUp('fast');
+});
+</script>
+<script type="text/javascript">
+<?php // 再生ファイル配置ディレクトリ ?>
+//からっぽ！
+var dir = "";
+
+var playicon = document.getElementById("playicon");
+var pauseicon = document.getElementById("pauseicon");
+var playingicon = document.getElementById("playing");
+
+<?php // オーディオタグの取得 ?>
+var media = document.getElementsByTagName("audio")[0];
+
+<?php // 再生リストの作成 ?>
+var list = new Array(<?php echo ($k - 1); ?>);
+<?php echo $javascript['list']; ?>
+
+// 再生リストの長さ
+var length = list.length;
+
+//一曲目を設定
+var nowPlaying = 0;
+var status = "first";
+var playFlag = false;
+
+if(!isNaN($.cookie('MUSIC'))) {
+  nowPlaying = Number($.cookie('MUSIC'));
+  document.getElementById("list"+nowPlaying).className = "now";
+  document.getElementById("name").innerHTML = document.getElementById('title'+nowPlaying).innerHTML.replace(/<div.*>[0-9]*<\/div>/g,"").replace(/^[0-9]{2}\s-\s/g,"").replace(/\(.+?\)$/g,"");
+  status = 'stop';
+}
+
+// 再生が終わったら次を再生
+media.onended = function(){ playnext(this.src); };
+
+<?php // 読み込み量を表示 ?>
+media.onprogress = function(){
+	if(media.buffered.length>0){
+		var percent = Math.round((media.buffered.end(media.buffered.length-1)/media.duration)*1000)/10;
+		document.getElementById('load').style.backgroundSize = percent + "% 100%";
+	}
+};
+
+<?php // シークバー ?>
+document.getElementById("seek").addEventListener("click", function(e) {
+  if($('ul.musiclist').css('display')=='block'){
+  	var total = Math.round(media.duration);
+  	if(!isNaN(total)){
+  		var mouse = e.pageX;
+  		var element = document.getElementById("seek");
+  		var rect = element.getBoundingClientRect();
+  		var position = rect.left + window.pageXOffset;
+  		var offset = mouse - position;
+  		var width = rect.right - rect.left;
+  		media.currentTime = Math.round(total * (offset / width));
+  	}
+  }
+});
+</script>
+<script type="text/javascript">
+var element = new function(){
+  this.play = document.getElementById("playicon");
+  this.pause = document.getElementById("pauseicon");
+  this.stop = document.getElementById("stopicon");
+  this.play.addEventListener('click', function(){
+    //最初に再生ボタンを押したときはリストを開く
+    if(status === 'first'){ listOpen(); }else{ playing(); }
+  }, false);
+  this.pause.addEventListener('click', function(){ playing(); }, false);
+  this.stop.addEventListener('click', function(){ stop(); }, false);
+}
+
+function playing() {
+	if(isPlaying(media)){
+		pause();
+		status = "pause";
+	}else{
+		if(status=="pause"){
+			play();
+		}else{
+			playthis(nowPlaying);
+		}
+		status = "playing";
+	}
+}
+
+function play() {
+	playicon.className = "no-display";
+	pauseicon.className = "display";
+	playingicon.className = "playing";
+  $('#seekbar').addClass('playing');
+	media.play();
+}
+function pause() {
+	playicon.className = "display";
+	pauseicon.className = "no-display";
+	playingicon.className = "";
+  $('#seekbar').removeClass('playing');
+	media.pause();
+}
+function stop() {
+	pause();
+	media.currentTime = 0;
+}
+function isPlaying(media) {
+	return !media.paused;
+}
+
+function timeupdate() {
+	media.addEventListener("timeupdate", function() {
+		var now = Math.floor(media.currentTime);
+		var total = Math.round(media.duration);
+		if(!isNaN(total)){
+			var per = Math.round((now/total)*100);
+			var perDetail = Math.round((now/total)*1000)/10;
+			document.getElementById('currenttime').innerHTML = tohms(now);
+			document.getElementById('totaltime').innerHTML = '/' + tohms(total);
+			document.getElementById('seek').style.backgroundSize = perDetail + "% 100%";
+      if(playFlag && now > 10) {
+        playCount(nowPlaying,list);
+        playFlag = false;
+      }
+		}
+	}, true);
+}
+
+media.onloadstart = function(){
+  $('#play-button').addClass('loading');
+};
+
+media.oncanplaythrough = function() {
+  $('#play-button').removeClass('loading');
+}
+
+media.onerror = function() {
+  $('#play-button').removeClass('loading');
+}
+
+<?php // 再生 ?>
+function playthis(key) {
+	pause();
+	media.currentTime = 0;
+	media.src = dir + list[key];
+	play();
+	for(var i=0;i<length;i++) document.getElementById("list"+i).className = "non";
+  nowPlaying = key;
+  $.cookie('MUSIC', nowPlaying, { expires: 30, path:'/' });
+	document.getElementById("list"+key).className = "now";
+  document.getElementById("name").innerHTML = document.getElementById('title'+key).innerHTML.replace(/<div.*>[0-9]*<\/div>/g,"").replace(/^[0-9]{2}\s-\s/g,"").replace(/\(.+?\)$/g,"");
+  status = 'play';
+  playFlag = true;
+}
+
+<?php // 次を再生 ?>
+function playnext(objsrc) {
+	var objsrc = decodeURI(objsrc);
+	var host = (("https:" == document.location.protocol) ? "https://" : "http://");
+	objsrc = objsrc.replace(host+location.hostname+"<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/","");
+	for (var i=0;i<length;i++) {
+		var listsrc = dir + list[i];
+		if(objsrc===listsrc){
+			if(length==i+1){
+				<?php // 再生終了 ?>
+				document.getElementById("list"+i).className = "non";
+			}else{
+        var current = list[i].split('/');
+        var next = list[i+1].split('/');
+        if(current[0] == next[0]){
+          playthis(i+1);
+        }
+			}
+			break;
+		}
+	}
+}
+
+function tohms(t) {
+	var hms = "", h = t / 3600 | 0, m = t % 3600 / 60 | 0, s = t % 60;
+	if(h != 0){ hms = h + ":" + addzero(m) + ":" + addzero(s); }
+  else if(m != 0){ hms = addzero(m) + ":" + addzero(s); }
+  else{ hms = "00:" + addzero(s); }
+	return hms;
+	function addzero(v) { if(v < 10) { return "0" + v; } else{ return v; }}
+}
+
+// Event check
+// document.addEventListener('DOMContentLoaded',function(){
+//   var event_list = [
+//     "abort","canplay","canplaythrough","durationchange","emptied",
+//     "ended","error","loadeddata","loadedmetadata","loadstart",
+//     "pause","play","playing","progress","ratechange","seeking",
+//     "seeked","stalled","suspend","timeupdate","volumechange","waiting"
+//   ];
+//   function addEvents(etarget){
+//     var _leng = event_list.length;
+//     for(var _i = 0; _i < _leng; _i++){
+//       etarget.addEventListener(event_list[_i],function(event){
+//         log(event.type+"\t:\t",Date.now() - window.start_time + "ms");
+//       });
+//     }
+//   }
+//   var lasttype = "";
+//   function log(type,time){
+//     time ? time : time = "";
+//     if(type===lasttype){
+//       console.log(', '+time);
+//     }else{
+//       lasttype = type;
+//       console.log(type + time);
+//     }
+//   }
+//   addEvents(media);
+// });
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

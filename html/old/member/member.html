@@ -1,0 +1,385 @@
+<?php
+
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  // ログファイルに書き込み
+  if(!isset($_COOKIE['LOG'])) {
+    $logfile = dirname(__FILE__).$dir['data'].'login_member_log.inc';
+    $log[] = $_SESSION['MODE'];
+    $log[] = date('Y/m/d');
+    $log[] = date('(D)');
+    $log[] = date('H:i:s');
+    $log[] = $_SERVER["REMOTE_ADDR"];
+    $log[] = gethostbyaddr($_SERVER["REMOTE_ADDR"]);
+    $log[] = $_SERVER['HTTP_USER_AGENT'];
+    // データ書き込み処理
+    $openlog = file($logfile,FILE_IGNORE_NEW_LINES);
+    $openlog[] = implode("<>",$log);
+    file_put_contents($logfile,implode("\n",$openlog),LOCK_EX);
+    setcookie('LOG', 'SET', time()+60*60*2, '/', 'new.winds-n.com', false, true);
+  }
+
+  //メッセージ処理
+  if(isset($_COOKIE['MESSAGE'])){
+    if($_COOKIE['MESSAGE'] == '7') {
+      $message['title'] = '団員専用ページ';
+      $message['text'] = 'ログインしました';
+    }else{
+      $message['title'] = '団員専用ページ';
+      $message['text'] = 'エラー';
+    }
+    $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
+    $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
+    // Cookieを削除
+    setcookie('MESSAGE', '', time(), '/', 'new.winds-n.com', false, true);
+  }else{
+    $message['header'] = '';
+    $message['script'] = '';
+  }
+
+  // scheduleデータ取得
+  $list = file(dirname(__FILE__).$dir['data'].'schedule.inc',FILE_IGNORE_NEW_LINES);
+  //コンテンツ処理(schedule)
+  $weekjp = ['日', '月', '火', '水', '木', '金', '土'];
+  $weeken = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  $contents['schedule'] = '直近の練習予定はありません。';
+  $timestamp['present'] = date('Y/m/d H:i');
+  $timestamp['today'] = date('Y/m/d');
+  $nextflag = FALSE;
+  $todayflag = '';
+  for($i=0;$i<count($list);$i++) {
+    $date = explode('<>',$list[$i])[0];
+    $start = explode('-',explode('<>',$list[$i])[1])[0];
+    $end = explode('-',explode('<>',$list[$i])[1])[1];
+    $place = explode('<>',$list[$i])[2];
+    $studio = explode('<>',$list[$i])[3];
+    $studio = preg_replace('/第(.*)スタジオ/','第<span>$1</span>スタジオ',$studio);
+    $memo = (isset(explode('<>',$list[$i])[4]) && explode('<>',$list[$i])[4] !== '') ? '<span class="memo">'.explode('<>',$list[$i])[4].'</span>' : '';
+    $timestamp['end'] = date('Y/m/d H:i',strtotime(explode('<>',$list[$i]) [0].' '. explode('-', explode('<>',$list[$i])[1] ) [1] ));
+    if($timestamp['end'] >= $timestamp['present'] && $nextflag == FALSE) {
+      if(strtotime($timestamp['today']) === strtotime($date)){
+        $todayflag = '<p class="todayflag">本日です</p>';
+      }
+      $contents['schedule'] = $todayflag . $memo . '<p><span class="frame"><span class="month">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[1]).'</span><span class="month-text">月</span><span class="date">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[2]).'</span><span class="date-text">日</span><span class="day '.$weeken[date('w',strtotime($date))].'">'.$weekjp[date('w',strtotime($date))].'</span><span class="time">'.$start.' ～ '.$end.'</span></span>'.'<span class="frame"><span class="place">'.$place.'</span><span class="studio">'.$studio.'</span></span></p>';
+      $nextflag = TRUE;
+    }
+  }
+
+  // managerデータ取得
+  $manager_data = file(dirname(__FILE__).$dir['data'].'manager.inc',FILE_IGNORE_NEW_LINES);
+  //コンテンツ処理(manager)
+  $manager_flag = FALSE;
+  foreach($manager_data as $each) {
+    if(explode('<>',$each)[5] == 'display' && $manager_flag === FALSE){
+      $datetime = explode(' ',explode('?',explode('<>',$each)[3])[0])[0] != '1970/01/01' ? explode(' ',explode('?',explode('<>',$each)[3])[0])[0] : '';
+      $contents['manager'] = '<span><h4><span>'.explode('<>',$each)[1].'</span><span>'.$datetime.'</span></h4></span><span>'.explode('<>',$each)[2].'</span>';
+      $manager_flag = TRUE;
+    }
+  }
+
+  // bbsデータ取得
+  $bbs_data = file(dirname(__FILE__).$dir['data'].'bbs_data_member.inc',FILE_IGNORE_NEW_LINES);
+  //コンテンツ処理(bbs)
+  $contents['bbs'] = '';
+  for($i=0;$i<3;$i++){
+    $contents['bbs'] .= '<span><h4><span>'.explode('<>',$bbs_data[$i])[0].'</span><span>'.explode('<>',$bbs_data[$i])[2].'</span><span>'.explode('<>',$bbs_data[$i])[4].'</span></h4></span><span>'.explode('<>',$bbs_data[$i])[3].'</span>';
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>団員専用ページ｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/member.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<?php echo $message['header']; ?>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">団員専用ページ</span>
+</div>
+
+<div class="bread"><span>団員専用ページ</span></div>
+
+<article class="card">
+  <div class="card tap" id="schedule">
+    <div class="card-header">
+      <h2><i class="fa fa-calendar-check-o" aria-hidden="true"></i>次回の練習日</h2>
+    </div>
+    <div class="card-text">
+      <?php echo $contents['schedule']; ?>
+    </div>
+    <div class="card-footer">
+      <a href="schedule">MORE<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+  <div class="card tap" id="">
+    <div class="card-header">
+      <h2><i class="fa fa-music" aria-hidden="true"></i>第32回定期演奏会参考音源</h2>
+    </div>
+    <div class="card-text">
+      第32回定期演奏会の参考音源です。<br>
+      まだ揃ってないので随時更新します。
+    </div>
+    <div class="card-footer">
+      <a href="source">MORE<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+  <!-- <div class="card tap" id="">
+    <div class="card-header">
+      <h2><i class="fa fa-music" aria-hidden="true"></i>第31回定期演奏会録音</h2>
+    </div>
+    <div class="card-text">
+      こちらから第31回定期演奏会の録音を確認できます。
+    </div>
+    <div class="card-link">
+      <a href="https://archive.winds-n.com/reg" target="_blank" class="full" style='display:flex;justify-content:center;align-items:center;'><img src='https://winds-n.com/img/apple-icon-archive.png' style='width:20px;height:20px;margin-right:4px;border-radius:40%;' />アーカイブ<i class="fa fa-external-link" aria-hidden="true"></i></a>
+    </div>
+  </div> -->
+  <div class="card tap" id="manager">
+    <div class="card-header">
+      <h2><i class="fa fa-bullhorn" aria-hidden="true"></i>事務局からのお知らせ</h2>
+    </div>
+    <div class="card-text">
+      <h3>最新のお知らせ</h3>
+      <div class="readmore">
+        <div class="post">
+          <?php echo $contents['manager']; ?>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="manager">MORE<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+  <div class="card tap" id="bbs">
+    <div class="card-header">
+      <h2><i class="fa fa-comments-o" aria-hidden="true"></i>団員専用掲示板</h2>
+    </div>
+    <div class="card-text">
+      <h3>最新の投稿</h3>
+      <div class="readmore">
+        <div class="post">
+          <?php echo $contents['bbs']; ?>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="bbs">MORE<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+  <!-- <div class="card tap" id="archive">
+    <div class="card-header">
+      <h2><i class="fa fa-picture-o" aria-hidden="true"></i>アーカイブ</h2>
+    </div>
+    <div class="card-text">
+        <p>
+          これまでのウィンズ活動きろくの保管庫です。<br>
+          データとして残せるものを集めています。
+        </p>
+        <p>
+          演奏会ごとの写真を掲載しています。
+        </p>
+    </div>
+    <div class="card-footer">
+      <a href="archive">MORE<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+    </div>
+  </div> -->
+
+  <div class="card tap" id="app">
+    <div class="card-header">
+      <h2><i class="fa fa-archive" aria-hidden="true"></i>アーカイブ</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        これまでのウィンズ活動記録の保管庫です。<br>
+        データとして残せるものを集めています。
+      </p>
+    </div>
+    <div class="card-footer">
+      <a href="archive">MORE<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+    </div>
+    <!-- <div class="card-text">
+      <p>
+        アプリ版アーカイブページについて
+      </p>
+    </div>
+    <div class="card-text">
+      <p>
+        お手数ですがアプリでは<span style='display:inline-block;padding: 0 .2em;font-weight:bold;color:#B60005;'>アカウントの作成が必要</span>です。(楽譜管理アプリとは別です)<br>
+        ユーザー名およびパスワードはお好きなものを入力してください。<br>
+        <br>
+        登録に必要な承認キーは<span style='display:inline-block;padding: 0 .5em;font-weight:bold;color:#B60005;'>0258</span>です。<br>
+        <br>
+        パソコンおよびスマホでご利用いただけます。<br>
+        スマホでは「ホーム画面に追加」することでより便利にご利用になれます。<br>
+        <span style='display:inline-block;padding: 0 .2em;font-weight:bold;color:#B60005;'>アプリ版アーカイブは近日移転予定です。</span>
+      </p>
+    </div>
+    <div class="card-link">
+      <a href="https://archive.winds-n.com/reg" target="_blank" class="full" style='display:flex;justify-content:center;align-items:center;'><img src='https://winds-n.com/img/apple-icon-archive.png' style='width:20px;height:20px;margin-right:4px;border-radius:40%;' />アーカイブ<i class="fa fa-external-link" aria-hidden="true"></i></a>
+    </div>
+    <div class="card-text">
+      <span style='font-size:0.9em;'>推奨動作環境(古い環境では表示が乱れる場合があります)</span>
+      <div style='padding-top:1em;font-size:0.8em;'>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-apple" aria-hidden="true"></i></span>iOS 11.3 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-android" aria-hidden="true"></i></span>Android Chrome 66 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-desktop" aria-hidden="true"></i></span>Chrome 66 以降, もしくはEdge 17 以降
+      </div>
+    </div> -->
+  </div>
+
+  <!-- <div class="card tap" id="app">
+    <div class="card-header">
+      <h2><i class="fa fa-sticky-note-o" aria-hidden="true"></i>楽譜について</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        ウィンズの所有楽譜データベースを作成しました。<br>
+        アプリから楽譜の有無を確認できます。<br>
+        <br>
+        お手数ですが<span style='display:inline-block;padding: 0 .2em;font-weight:bold;color:#B60005;'>アカウントの作成が必要</span>です。(アーカイブアプリとは別です)<br>
+        ユーザー名およびパスワードはお好きなものを入力してください。<br>
+        <br>
+        登録に必要な承認キーは<span style='display:inline-block;padding: 0 .5em;font-weight:bold;color:#B60005;'>0258</span>です。<br>
+        <br>
+        パソコンおよびスマホでご利用いただけます。<br>
+        スマホでは「ホーム画面に追加」することでより便利にご利用になれます。<br>
+        <span style='display:inline-block;padding: 0 .2em;font-weight:bold;color:#B60005;'>ウィンズスコアは近日移転予定です。</span>
+      </p>
+    </div>
+    <div class="card-link">
+      <a href="https://score.winds-n.com/reg" target="_blank" class="full" style='display:flex;justify-content:center;align-items:center;'><img src='https://winds-n.com/img/apple-icon-score.png' style='width:20px;height:20px;margin-right:4px;border-radius:40%;' />ウィンズスコア<i class="fa fa-external-link" aria-hidden="true"></i></a>
+    </div>
+    <div class="card-text">
+      <span style='font-size:0.9em;'>推奨動作環境(古い環境では表示が乱れる場合があります)</span>
+      <div style='padding-top:1em;font-size:0.8em;'>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-apple" aria-hidden="true"></i></span>iOS 11.3 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-android" aria-hidden="true"></i></span>Android Chrome 66 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-desktop" aria-hidden="true"></i></span>Chrome 66 以降, もしくはEdge 17 以降
+      </div>
+    </div>
+    <div class="card-link">
+      <a href="score" class="full">楽譜管理方法について<i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a>
+    </div>
+  </div> -->
+
+  <!-- <div class="card tap" id="app">
+    <div class="card-header">
+      <h2><i class="fa fa-desktop" aria-hidden="true"></i>アプリケーション</h2>
+    </div>
+    <div class="card-text">
+      <p>
+        スマホおよびパソコンでご利用いただけるアプリです。<br>
+        <br>
+        アプリはこのページとは別に運用しているため、お手数ですがそれぞれにてアカウント作成が必要です。<br>
+        ユーザー名およびパスワードはお好きなものを入力してください。<br>
+        <br>
+        登録に必要な承認キーは<span style='display:inline-block;padding: 0 .5em;font-weight:bold;color:#B60005;'>0258</span>です。<br>
+        <br>
+        アーカイブ: これまでのウィンズの演奏を閲覧できます<br>
+        ウィンズスコア: ウィンズの所有楽譜を確認できます<br>
+        <br>
+        その他、よくわからない場合は加藤までお気軽にお問い合わせください。<br>
+      </p>
+    </div>
+    <div class="card-link">
+      <a href="https://archive.winds-n.com/reg" target="_blank" class="full" style='display:flex;justify-content:center;align-items:center;'><img src='https://winds-n.com/img/apple-icon-archive.png' style='width:20px;height:20px;margin-right:4px;border-radius:40%;' />アーカイブ</a>
+    </div>
+    <div class="card-link">
+      <a href="https://score.winds-n.com/reg" target="_blank" class="full" style='display:flex;justify-content:center;align-items:center;'><img src='https://winds-n.com/img/apple-icon-score.png' style='width:20px;height:20px;margin-right:4px;border-radius:40%;' />ウィンズスコア</a>
+    </div>
+    <div class="card-text">
+      <span style='font-size:0.9em;'>推奨環境(これ以外の環境では表示が乱れる場合があります)</span>
+      <div style='padding-top:1em;font-size:0.8em;'>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-apple" aria-hidden="true"></i></span>iOS 11.3 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-android" aria-hidden="true"></i></span>Android Chrome 66 以降<br>
+        <span style='display:inline-block;width:30px;text-align:center;color:#666;'><i class="fa fa-desktop" aria-hidden="true"></i></span>Chrome 66 以降, もしくはEdge 17 以降
+      </div>
+    </div>
+    <div class="card-link">
+      <a href="score" class="full">楽譜管理方法について</a>
+    </div>
+  </div> -->
+
+  <!-- <div class="card tap" id="archive-video">
+    <div class="card-header">
+      <h2>上記以外</h2>
+    </div>
+    <div class="card-text">
+      データが多くなり保存しきれなくなってきたので過去のデータは以下にまとめます。<br>
+    </div>
+    <div class="card-text">
+      お手数ですが閲覧には一度登録する必要があります。<br>
+
+
+    </div>
+    <div class="card-link">
+      <div>
+        <a href="https://archive.winds-n.com/reg" target="_blank" style='display:flex;justify-content:center;align-items:center;'><img src='https://winds-n.com/img/apple-icon-archive.png' style='width:20px;height:20px;margin-right:4px;border-radius:40%;' />アーカイブ</a>
+      </div>
+    </div>
+
+  </div> -->
+
+</article>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/readmore.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<script type="text/javascript">
+/* read more */
+$(function () {
+	$('div.readmore').readmore({
+		speed: 500,
+		collapsedHeight: 140,
+		moreLink: '<a href="#" class="readmore tap"><i class="fa fa-angle-double-down" aria-hidden="true"></i></a>',
+		lessLink: '<a href="#" class="readmore tap"><i class="fa fa-angle-double-up" aria-hidden="true"></i></a>'
+	});
+});
+<?php echo $message['script']; ?>
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

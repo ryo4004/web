@@ -1,0 +1,123 @@
+<?php
+
+  // 初期設定
+  require("./inc/init.inc");
+
+  // セッション関数を使用する
+  require("./inc/session.inc");
+
+  // dataディレクトリパス設定
+  // init.incにて設定
+  // $dir['data'] = DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+
+  // リクエストメソッドを参照
+  if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // ログイン処理
+
+    // Cookieを確認
+    if(!isset($_COOKIE['STATUS'])) {
+      setcookie('MESSAGE', '5', time()+60, '/', 'new.winds-n.com', false, true);
+      header("Location: ./?cookie=no");
+      exit();
+    }
+
+    // 不正アクセス除外
+    if(!Check(GetEscaped($_POST['session']), GetEscaped($_POST['ticket']))) {
+      setcookie('MESSAGE', '1', time()+60, '/', 'new.winds-n.com', false, true);
+			header("Location: ./");
+			exit();
+		}
+
+    // フォームから取得
+    $getUser = GetEscaped($_POST['user']);
+    $getPass = GetEscaped($_POST['password']);
+    if($getPass == "") {
+      setcookie('MESSAGE', '2', time()+60, '/', 'new.winds-n.com', false, true);
+      header("Location: ./");
+      exit();
+    }
+
+		unset($list);
+    $_SESSION['MODE'] = '';
+    if($getUser == 'default') {
+      // メンバーリストからユーザーを取得
+  		$list = file(dirname(__FILE__).$dir['data'].'member_list.inc',FILE_IGNORE_NEW_LINES);
+  		foreach($list as $each) {
+  			if(password_verify($getPass, explode('<>',$each)[1])) {
+  				$_SESSION['MODE'] = explode('<>',$each)[0];
+  			}
+  		}
+    }else{
+      // $list = file(dirname(__FILE__).$dir['data'].'user_list.inc',FILE_IGNORE_NEW_LINES);
+      // foreach($list as $each) {
+      //   if($getUser == explode('<>',$each)[0]){
+      //     if(password_verify($getPass, explode('<>',$each)[1])) {
+      //       $_SESSION['MODE'] = $getUser;
+      //     }
+      //   }
+  		// }
+    }
+
+		// ユーザーがマッチしない場合は除外(== ""を明示)
+		if($_SESSION['MODE'] == "") {
+      setcookie('MESSAGE', '3', time()+60, '/', 'new.winds-n.com', false, true);
+			header("Location: ./");
+			exit();
+		}
+
+    // ログイン許可
+
+    // アクセスを記録
+    unset($data);
+    unset($line);
+    $fileName = dirname(__FILE__).$dir['data'].'login_member.inc';
+    $data[] = $_SESSION['MODE'];
+    $data[] = date('Y/m/d');
+    $data[] = date('(D)');
+    $data[] = date('H:i:s');
+    $data[] = $_SERVER["REMOTE_ADDR"];
+    $data[] = gethostbyaddr($_SERVER["REMOTE_ADDR"]);
+    $data[] = $_SERVER['HTTP_USER_AGENT'];
+    // データ書き込み処理
+    $line = file($fileName,FILE_IGNORE_NEW_LINES);
+    $line[] = implode("<>",$data);
+    file_put_contents($fileName,implode("\n",$line),LOCK_EX);
+
+    // ログイン処理
+    session_regenerate_id();
+		$_SESSION['STATUS'] = 'MEMBER';
+    // Cookieを設定(有効期限60日)
+    setcookie('STATUS', 'MEMBER', time()+60*60*24*30*2, '/', 'new.winds-n.com', false, true);
+
+    //メッセージ用Cookie(ログイン完了)
+    setcookie('MESSAGE', '7', time()+60, '/', 'new.winds-n.com', false, true);
+
+		if($_SESSION['MODE'] == "member") {
+			header("Location: ./member/member");
+			exit();
+		} else {
+      setcookie('SETTING', strtoupper($_SESSION['MODE']), time()+60*60*2, '/', 'new.winds-n.com', false, true);
+			header("Location: ./setting/setting");
+			exit();
+		}
+		exit();
+
+  } else {
+    // ログアウト処理
+		session_regenerate_id();
+
+    $_SESSION['STATUS'] = FALSE;
+
+    // Cookieを削除
+    if(!isset($_COOKIE['MESSAGE'])) {
+      setcookie('MESSAGE', '0', time()+60, '/', 'new.winds-n.com', false, true);
+    }
+
+    // Cookieを設定
+    setcookie('STATUS', '0', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('SETTING', '', time(), '/', 'new.winds-n.com', false, true);
+
+    // トップページへ戻る
+		header("Location: ./");
+		exit();
+  }

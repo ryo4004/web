@@ -1,0 +1,9 @@
+/************************************************************************/
+/****** Setting for setting page                                   ******/
+/************************************************************************/
+article.card div.card-text span.lock {
+  font-family: 'Josefin Sans', sans-serif;
+}
+article.card div.card-text i.fa-lock {
+  margin-right: .2em;
+}

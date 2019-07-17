@@ -1,0 +1,42 @@
+/************************************************************************/
+/****** Setting for nav adding                                     ******/
+/************************************************************************/
+body {
+  background: rgba(230,230,220,1)!important;
+}
+
+footer {
+  border-top: 1px solid rgb(200,200,200)!important;
+  background: rgba(230,230,220,1)!important;
+  color: rgb(190,190,190)!important;
+}
+
+#login {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  padding: .2em .4em .1em;
+  border-radius: 2px;
+  background: rgba(119,119,119,.8);
+  color: #fff;
+  font-size: 1.2em;
+  font-family: 'Josefin Sans', sans-serif;
+  text-transform: lowercase;
+}
+#login i {
+  padding-right: .2em;
+  /* color: #B60005; */
+}
+@media (max-width: 767px) {
+  #login {
+    font-size: 0.9em;
+  }
+}
+/************************************************************************/
+/****** Setting for nav adding                                     ******/
+/************************************************************************/
+@media (max-width: 767px) {
+  nav div label span.icon {
+    top: 120px;
+  }
+}

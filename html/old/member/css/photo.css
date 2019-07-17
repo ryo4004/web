@@ -1,0 +1,39 @@
+/************************************************************************/
+/****** Setting for nav adding                                     ******/
+/************************************************************************/
+/* archive.css にて設定 */
+
+/************************************************************************/
+/****** Setting for photo frame                                    ******/
+/************************************************************************/
+article.card div.flex-table {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin: 10px 0px 0px 0px;
+}
+article.card div.flex-table a.photo {
+  display: block;
+}
+article.card div.flex-table img.lazy.photo {
+  width: 180px;
+  height: auto;
+}
+article.card div.photo-blank {
+  width: 180px;
+  height: auto;
+}
+@media (max-width: 767px) {
+    article.card div.flex-table div {
+      width: calc(100% / 4);
+    }
+  article.card div.flex-table img.lazy.photo {
+    width: 100%;
+    height: auto;
+  }
+  article.card div.photo-blank {
+    width: calc(100% / 4);
+    height: auto;
+  }
+}

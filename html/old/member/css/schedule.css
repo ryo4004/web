@@ -1,0 +1,211 @@
+/************************************************************************/
+/****** Setting for nav adding                                     ******/
+/************************************************************************/
+@media (max-width: 767px) {
+  nav div label span.icon {
+    top: 120px;
+  }
+}
+
+/************************************************************************/
+/****** Setting for next plactice                                  ******/
+/************************************************************************/
+article.card div#schedule-next div.card-text p.todayflag {
+  display: inline-block;
+  margin: 0 .5em 0 0;
+  padding: .2em .5em;
+  border-radius: 5px;
+  color: #fff;
+  background: #B60005;
+}
+article.card div#schedule-next div.card-text span.memo {
+  display: inline-block;
+  padding: .2em .5em;
+  border-radius: 5px;
+  color: #fff;
+  background: #3396ff;
+  font-size: .9em;
+}
+article.card div#schedule-next div.card-text .month{
+  font-family: 'Roboto', sans-serif;
+  font-size: 2em;
+}
+article.card div#schedule-next div.card-text .month-text{
+  font-size: 1.2em;
+}
+article.card div#schedule-next div.card-text .date{
+  padding-left: .2em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 4em;
+}
+article.card div#schedule-next div.card-text .date-text{
+  padding-left: .2em;
+  font-size: 1.2em;
+}
+article.card div#schedule-next div.card-text .day {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 5px;
+  margin-left: .2em;
+  text-align: center;
+  vertical-align: text-bottom;
+  font-size: 1.2em;
+  font-weight: bold;
+  background: rgba(150,150,150,1);
+  color: rgba(255,255,255,1);
+}
+article.card div#schedule-next div.card-text .time {
+  font-size: 1.2em;
+  padding-left: 1em;
+  color: #666;
+}
+article.card div#schedule-next div.card-text .saturday {
+  background: rgba(0,103,192,.8);
+}
+article.card div#schedule-next div.card-text .sunday {
+  background: rgba(237,26,61,.8);
+}
+article.card div#schedule-next div.card-text .place {
+  padding-left: 1em;
+  font-size: 1.2em;
+  color: #666;
+}
+article.card div#schedule-next div.card-text .studio {
+  padding-left: 1em;
+  font-size: 1.2em;
+}
+article.card div#schedule-next div.card-text .studio span {
+  padding: 0 .2em;
+  font-size: 2em;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
+/************************************************************************/
+/****** Setting for after schedule                                 ******/
+/************************************************************************/
+article.card div#schedule-after div.card-text p.month-title {
+  padding-left: .5em;
+  border-bottom: 2px solid #ccc;
+}
+article.card div#schedule-after div.card-text p.month-title:not(:first-child) {
+  padding-top: 1em;
+}
+article.card div#schedule-after div.card-text .year{
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.4em;
+}
+article.card div#schedule-after div.card-text .year-text{
+  font-size: 1.2em;
+}
+article.card div#schedule-after div.card-text p .month{
+  padding-left: .2em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.8em;
+}
+article.card div#schedule-after div.card-text p.each {
+  padding-top: .2em;
+}
+article.card div#schedule-after div.card-text p .month-text{
+  font-size: 1.2em;
+}
+article.card div#schedule-after div.card-text p .date{
+  display: inline-block;
+  width: 2.5em;
+  text-align: right;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.6em;
+}
+article.card div#schedule-after div.card-text p .date-text{
+  padding-left: .2em;
+  font-size: 1em;
+}
+article.card div#schedule-after div.card-text p .day {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 5px;
+  margin-left: .2em;
+  text-align: center;
+  vertical-align: text-bottom;
+  font-size: 1.2em;
+  font-weight: bold;
+  background: rgba(150,150,150,1);
+  color: rgba(255,255,255,1);
+}
+article.card div#schedule-after div.card-text p .time {
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  padding-left: .5em;
+  font-size: 1em;
+  color: #999;
+}
+article.card div#schedule-after div.card-text p .saturday {
+  background: rgba(0,103,192,.4);
+}
+article.card div#schedule-after div.card-text p .sunday {
+  background: rgba(237,26,61,.4);
+}
+article.card div#schedule-after div.card-text p .place {
+  padding-left: .5em;
+  color: #999;
+}
+article.card div#schedule-after div.card-text p .studio {
+  padding-left: .5em;
+  color: #666;
+}
+article.card div#schedule-after div.card-text p .studio span {
+  padding: 0 .2em;
+  font-size: 1.6em;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+}
+article.card div#schedule-after div.card-text p .highlight {
+  display: inline-block;
+  margin: 0 .5em;
+  padding: 0 .5em;
+  border-radius: 2px;
+  background: #3396ff;
+  color: #fff;
+}
+
+article.card div#schedule-after div.card-text span.memo {
+  display: inline-block;
+  margin: 0 .5em;
+  padding: 0 .5em;
+  border-radius: 2px;
+  background: #3396ff;
+  color: #fff;
+}
+@media (max-width: 767px) {
+  article.card div#schedule-after div.card-text span.memo {
+    /* display: block; */
+    margin-bottom: .2em;
+  }
+}
+
+/************************************************************************/
+/****** Setting for span frame                                     ******/
+/************************************************************************/
+article.card div#schedule-next div.card-text span.frame {
+  display: inline;
+}
+@media (max-width: 767px) {
+  article.card div#schedule-next div.card-text span.frame {
+    display: block;
+  }
+  article.card div#schedule-next div.card-text .place {
+    padding-left: 0;
+  }
+  article.card div#schedule-after div.card-text p.each {
+    border-bottom: 1px solid #ccc;
+  }
+  article.card div#schedule-after div.card-text p .date{
+    width: 1.5em;
+  }
+  article.card div#schedule-after div.card-text p .place {
+    padding-left: 2.5em;
+  }
+}

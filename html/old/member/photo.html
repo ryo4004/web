@@ -1,0 +1,196 @@
+<?php
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  //ページ設定読み込み
+  require("./inc/photo.inc");
+
+  /*
+  画像変換要領
+
+  演奏会ごとのディレクトリ内に以下の2つを用意する
+  original, thumbnail
+
+  originalは800x800に収まるサイズで縮小
+  mogrify -verbose -strip -resize 800x800 *.jpg
+
+  thumbnailは以下をディレクトリにて実行
+  find . -name "*.jpg" -exec ./resize.sh {} \;
+
+  //resize.sh
+  #! /bin/sh
+  file=$1
+  eval $(identify -format 'width=%w; height=%h' $file)
+  if [ $width -lt $height ]; then
+          size='180'
+  else
+          size='x180'
+  fi
+  mogrify -verbose -strip -resize $size -gravity center -extent 180x180 $file
+
+  */
+
+	if($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['data'])) {
+		//ここでファイル名チェックを行う
+		if(checkgetname($_GET['data'], $filelist['photo'])){
+			header('Location: ./archive');
+			exit();
+		}
+
+    //データファイルからデータ読み込み
+		$archive['data'] = file('inc'.DIRECTORY_SEPARATOR.'photo'.DIRECTORY_SEPARATOR.$_GET['data'].'.inc',FILE_IGNORE_NEW_LINES);
+		$archive['title'] = $archive['data'][0];
+		$archive['path'] = 'https://photo.winds-n.com/' . $archive['data'][1];
+
+		//初期設定
+    $archive['list_start'] = 2;
+		$thumb = 'thumbnail';
+		$org = 'original';
+    $contents['article'] = '';
+
+    //画像リスト作成
+		$j = 0;
+		for($i=$archive['list_start'];$i<count($archive['data']);$i++){
+			if($archive['data'][$i] != ""){
+        if(($j % 4) == 0) {
+					$contents['article'] .= '<div class="flex-table">';
+				}
+				// $article = explode("<>",$archive['data'][$i]);
+				$contents['article'] .= '<div id="list'.($i-$archive['list_start']).'" class="photo"><a href="'.$archive['path'].DIRECTORY_SEPARATOR.$org.DIRECTORY_SEPARATOR.$archive['data'][$i].'" rel="lightbox" title="'.$archive['title'].'" class="photo"><img src="./css/photo/images/tp.png" data-original="'.$archive['path'].DIRECTORY_SEPARATOR.$thumb.DIRECTORY_SEPARATOR.$archive['data'][$i].'" class="lazy photo"></a></div>';
+				//4枚ごとにdiv追加
+				$j++;
+  			if(($j % 4) == 0) {
+					$contents['article'] .= '</div>';
+				}
+			}
+		}
+    if(($j % 4) != 0){
+      for($i=0;$i<(4-($j%4));$i++){
+        $contents['article'] .= '<div class="photo-blank"></div>';
+      }
+      $contents['article'] .= '</div>';
+    }
+  }
+
+  //target判別
+  $target = in_array($_GET['data'],$photo['mini']) ? 'mini' : 'main';
+  $photolink['title'] = $target == 'main' ? '定期演奏会の写真' : '春のミニコンサートの写真';
+  $photolink['text'] = '他のアルバムは下記からどうぞ';
+
+	//下部リンク生成
+  $photolink['link'] = '';
+  foreach($photo[$target] as $each){
+    $photo['data'] = file('inc'.DIRECTORY_SEPARATOR.'photo'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    if($_GET['data'] == $each){
+      $photolink['link'] .= '<a href="photo?data='.$each.'" class="reading"><i class="fa fa-folder-open" aria-hidden="true"></i>'.pregTitle($photo['data'][0]).'</a>';
+    }else{
+      $photolink['link'] .= '<a href="photo?data='.$each.'"><i class="fa fa-picture-o" aria-hidden="true"></i>'.pregTitle($photo['data'][0]).'</a>';
+    }
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>写真たち｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/archive.css">
+<link rel="stylesheet" href="css/photo.css">
+<link rel="stylesheet" href="css/photo/lightbox.css">
+<link rel="stylesheet" href="css/photo/photo.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">写真たち</span>
+</div>
+
+<div class="bread"><a href="member">団員専用ページ</a> &gt; <a href="archive">アーカイブ</a> &gt; <span><?php echo $archive['title']; ?></span></div>
+
+<article class="card">
+
+  <div class="card tap" id="schedule-next">
+    <div class="card-header">
+      <h2><i class="fa fa-picture-o" aria-hidden="true"></i><?php echo $archive['title']; ?></h2>
+    </div>
+    <div class="card-text">
+      <?php echo $contents['article']; ?>
+    </div>
+  </div>
+
+  <div class="card tap" id="archive-photo">
+    <div class="card-header">
+      <h2><i class="fa fa-picture-o" aria-hidden="true"></i><?php echo $photolink['title']; ?></h2>
+    </div>
+    <div class="card-text">
+      <p>
+        <?php echo $photolink['text']; ?>
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <?php echo $photolink['link']; ?>
+      </div>
+    </div>
+    <div class="card-link wide">
+      <a href="archive"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>演奏会の写真へもどる</a>
+    </div>
+  </div>
+
+  <div class="card tap" id="back">
+    <div class="card-link wide">
+      <a href="member"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>団員専用トップへ</a>
+    </div>
+  </div>
+
+</article>
+
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<script src="js/photo/lightbox/lightbox.min.js"></script>
+<script src="js/photo/lazyload/jquery.lazyload.min.js"></script>
+<script type="text/javascript">
+$(function() {$('img.lazy').lazyload();});
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

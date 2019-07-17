@@ -1,0 +1,122 @@
+/************************************************************************/
+/****** Setting for add schedule                                   ******/
+/************************************************************************/
+div.card div.card-form form {
+  padding: 0 16px 16px 16px;
+}
+div.card div.card-form form > div.block {
+  padding: 12px;
+}
+div.card div.card-form form > div.block:nth-child(2n+1) {
+  background: rgba(180,180,180,.2);
+}
+div.card div.card-form form > div.block:nth-child(2n) {
+  background: rgba(180,180,180,.6);
+}
+div.card div.card-form form label {
+  display: block;
+  padding: .5em 0 0 0;
+}
+div.card div.card-form form input {
+  display: block;
+  width: calc(100% - 12px);
+  padding: .4em 5px;
+  border: 1px solid rgba(204,204,204,1);
+  border-radius: 2px;
+  font-size: 1em;
+  color: #333;
+  background: rgba(250,250,250,1);
+  font-family: Arial, sans-serif;
+  -webkit-appearance: none;
+}
+div.card div.card-form form input.date {
+  height: 20px;
+}
+div.card div.card-form div.time {
+  display: flex;
+}
+div.card div.card-form div.time div {
+  width: 50%;
+}
+/* div.card div.card-form div.time label {
+  display: block;
+} */
+div.card div.card-form form input.time {
+  text-align: center;
+}
+div.card div.card-form form div.button{
+  display: flex;
+  margin: 12px 0 0 0;
+}
+div.card div.card-form form button.button {
+  width: 100%;
+  padding: 10px 0;
+  margin: 0 12px;
+  border: 0;
+  border-radius: 2px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all ease-in-out .2s;
+}
+div.card div.card-form form button.button:first-child {
+  color: #fff;
+  background: rgba(211,211,211,1);
+}
+div.card div.card-form form button.button:last-child {
+  color: #333;
+  background: rgba(211,211,211,1);
+}
+div.card div.card-form form button.button.half {
+  width: 50%!important;
+}
+div.card div.card-form form button.button:hover,
+div.card div.card-form form button.button.ontap {
+    background: rgba(182,0,5,1);
+    color: #fff;
+    transition: all ease-in-out 0s;
+}
+@media (max-width: 767px) {
+  div.card div.card-form form {
+    padding: 0 12px 12px 12px;
+  }
+  div.card div.card-form form > div {
+    padding: 6px;
+  }
+  div.card div.card-form form div.button{
+    margin: 6px 0 0 0;
+  }
+  div.card div.card-form form button.button {
+    margin: 0 6px;
+  }
+}
+/************************************************************************/
+/****** Setting for schedule list                                  ******/
+/************************************************************************/
+div.card div.card-text p.each {
+  cursor: pointer;
+}
+div.card div.card-text p.each.show {
+  border: 0px!important;
+}
+div.card div.card-text div.delform {
+  display: none;
+  padding: .5em 0 .5em 0;
+  border-bottom: 1px solid #ccc;
+}
+div.card div.card-text div.delform form button.button {
+  width: 100%;
+  padding: 5px;
+  margin: 0;
+  border: 0;
+  border-radius: 2px;
+  font-size: 1em;
+  background: lightgray;
+  cursor: pointer;
+  transition: all ease-in-out .2s;
+}
+div.card div.card-text div.delform form button.button:hover,
+div.card div.card-text div.delform form button.button.ontap {
+    background: rgba(182,0,5,1);
+    color: #fff;
+    transition: all ease-in-out 0s;
+}

@@ -1,0 +1,164 @@
+/************************************************************************/
+/****** Setting for nav adding                                     ******/
+/************************************************************************/
+@media (max-width: 767px) {
+  nav div label span.icon {
+    top: 120px;
+  }
+}
+
+/************************************************************************/
+/****** Setting for article schedule                               ******/
+/************************************************************************/
+article.card div.card-text p.todayflag {
+  display: inline-block;
+  margin: 0 .5em 0 0;
+  padding: .2em .5em;
+  border-radius: 5px;
+  color: #fff;
+  background: #B60005;
+}
+article.card div.card-text span.memo {
+  display: inline-block;
+  padding: .2em .5em;
+  border-radius: 5px;
+  color: #fff;
+  background: #3396ff;
+  font-size: .9em;
+}
+article.card div.card-text p .month{
+  font-family: 'Roboto', sans-serif;
+  font-size: 2em;
+}
+article.card div.card-text p .month-text{
+  font-size: 1.2em;
+}
+article.card div.card-text p .date{
+  padding-left: .2em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2em;
+}
+article.card div.card-text p .date-text{
+  padding-left: .2em;
+  font-size: 1.2em;
+}
+article.card div.card-text p .day {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 5px;
+  margin-left: .2em;
+  text-align: center;
+  vertical-align: text-bottom;
+  font-size: 1.2em;
+  font-weight: bold;
+  background: rgba(150,150,150,1);
+  color: rgba(255,255,255,1);
+}
+article.card div.card-text p .time {
+  font-size: 1.2em;
+  padding-left: 1em;
+  color: #666;
+}
+article.card div.card-text p .saturday{
+  background: rgba(0,103,192,.6);
+}
+article.card div.card-text p .sunday {
+  background: rgba(237,26,61,.6);
+}
+article.card div.card-text p .place {
+  padding-left: 1em;
+  color: #666;
+}
+article.card div.card-text p .studio {
+  padding-left: 1em;
+  font-size: 1.2em;
+}
+article.card div.card-text p .studio span {
+  padding: 0 .2em;
+  font-size: 1.6em;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+article.card div.card-text span.frame {
+  display: inline;
+}
+@media (max-width: 767px) {
+  article.card div.card-text span.frame {
+    display: block;
+  }
+  article.card div.card-text p .place {
+    padding-left: 0;
+  }
+}
+/************************************************************************/
+/****** Setting for article with post                              ******/
+/************************************************************************/
+article.card div.card-text div.post {
+  border-radius: 2px;
+  background: rgba(240,240,240,1);
+}
+article.card div.card-text div.post > span {
+  display: block;
+  padding: 1em;
+  color: rgba(140,140,140,1);
+}
+article.card div#manager div.card-text div.post > span:first-child {
+  display: block;
+  padding: .5em 1em;
+  color: rgba(255,255,255,1);
+  background: rgba(180,180,180,1);
+}
+article.card div#manager div.card-text div.post > span {
+  color: #5d5d5d;
+}
+article.card div.card-text div.post span h4 {
+  display: flex;
+  align-items: center;
+}
+article.card div.card-text div.post span h4 span:first-child {
+  display: inline-block;
+  min-width: 20px;
+  min-height: 20px;
+  border-radius: 5px;
+  padding: .2em;
+  text-align: center;
+  line-height: 20px;
+  vertical-align: text-bottom;
+  font-size: 1.2em;
+  font-weight: normal;
+  background: rgba(180,180,180,1);
+  color: rgba(255,255,255,1);
+}
+article.card div#bbs div.card-text div.post span h4 span:first-child {
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+article.card div.card-text div.post span h4 span:not(:first-child) {
+  padding-left: 1em;
+}
+article.card div.card-text div.post span h4 span:last-child {
+  margin-left: auto;
+}
+
+/************************************************************************/
+/****** Setting for readmore.js                                    ******/
+/************************************************************************/
+a.readmore {
+  display: block;
+  background: rgba(240,240,240,1);
+  text-align: center;
+  color: #333;
+  text-decoration: none;
+}
+a.readmore:hover,
+a.readmore.ontap {
+  color: rgba(182,0,5,1);
+}
+a.readmore i {
+  margin: .5em 0 0 0;
+  font-size: 2em;
+}
+a.readmore:history {
+  color: #333;
+}

@@ -1,0 +1,346 @@
+<?php
+  // 初期設定
+  require("./inc/init.inc");
+  require("./inc/login.inc");
+
+  //ページ設定読み込み
+  require("./inc/audio.inc");
+
+  //playcount読み込み
+  $countlist = file('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'playcount_audio.inc',FILE_IGNORE_NEW_LINES);
+
+  //svgデータ読み込み
+  $svg['play'] = implode('',file('img/play.svg'));
+  $svg['pause'] = implode('',file('img/pause.svg'));
+  $svg['stop'] = implode('',file('img/stop.svg'));
+  $svg['note'] = implode('',file('img/note.svg'));
+
+	if($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['data'])) {
+
+		//ここでファイル名チェックを行う
+		if(checkgetname($_GET['data'], $filelist['audio'])){
+			header('Location: ./archive');
+			exit();
+		}
+
+    //データファイルからデータ読み込み
+		$archive['data'] = file('inc'.DIRECTORY_SEPARATOR.'audio'.DIRECTORY_SEPARATOR.$_GET['data'].'.inc',FILE_IGNORE_NEW_LINES);
+		$archive['title'] = $archive['data'][0];
+    // $archive['path'] = 'https://audio.winds-n.com/' . $archive['data'][1];
+    $archive['path'] = 'https://misakikato.xyz/winds/archive/audio/' . $archive['data'][1];
+
+		//初期設定
+    $archive['list_start'] = 2;
+    $contents['audio'] = '<audio src="" poster="img/audio.jpg" ontimeupdate="audioTimeUpdate();"></audio>';
+
+    $audiolist['html'] = '<ol>';
+    $audiolist['script'] = '';
+    $k = 0;
+    //曲リスト作成
+		for($i=$archive['list_start'];$i<count($archive['data']);$i++) {
+			if($archive['data'][$i] != "") {
+        $audiolist['html'] .= '<li id="audiolist'.($i-$archive['list_start']).'"><a href="javascript:audioPlayThis('.($i-$archive['list_start']).')"><div id="title'.($i-$archive['list_start']).'"><span></span><i class="fa fa-play-circle" aria-hidden="true"></i>'.explode('<>',$archive['data'][$i])[0].getCountData($archive['path'].'/'.explode('<>',$archive['data'][$i])[1],($i-$archive['list_start']),$countlist).'</div></a></li>'."\n";
+        $audiolist['script'] .= 'audiolist['.($i-$archive['list_start']).'] = "'.$archive['path'].'/'.explode('<>',$archive['data'][$i])[1].'";'."\n";
+        $k++;
+			}
+		}
+    $audiolist['html'] .= '</ol>';
+  }
+
+  //target判別
+  $target = in_array($_GET['data'],$audio['mini']) ? 'mini' : 'main';
+  $audiolink['title'] = $target == 'main' ? '定期演奏会の録音' : '春のミニコンサートの録音';
+  $audiolink['text'] = $target == 'main' ? '他の定期演奏会は下記からどうぞ' : '他の春のミニコンサートは下記からどうぞ';
+
+	//下部リンク生成
+  $audiolink['link'] = '';
+  foreach($audio[$target] as $each){
+    $audio['data'] = file('inc'.DIRECTORY_SEPARATOR.'audio'.DIRECTORY_SEPARATOR.$each.'.inc',FILE_IGNORE_NEW_LINES);
+    if($_GET['data'] == $each){
+      $audiolink['link'] .= '<a href="audio?data='.$each.'" class="reading"><i class="fa fa-folder-open" aria-hidden="true"></i>'.pregTitle($audio['data'][0]).'</a>';
+    }else{
+      $audiolink['link'] .= '<a href="audio?data='.$each.'"><i class="fa fa-music" aria-hidden="true"></i>'.pregTitle($audio['data'][0]).'</a>';
+    }
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>音楽たち｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/card.css">
+<link rel="stylesheet" href="css/archive.css">
+<link rel="stylesheet" href="css/audio.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">音楽たち</span>
+</div>
+
+<div class="bread"><a href="member">団員専用ページ</a> &gt; <a href="archive">アーカイブ</a> &gt; <span><?php echo $archive['title']; ?></span></div>
+
+<article class="card">
+
+  <div class="card tap" id="audio">
+    <div class="card-header">
+      <h2><i class="fa fa-music" aria-hidden="true"></i><?php echo $archive['title']; ?></h2>
+    </div>
+    <div class="card-audio">
+      <?php echo $contents['audio']; ?>
+      <div id="audiobar">
+        <div id="audioseek" style="background-size: 0% 100%;">
+          <div id="playtime">
+            <div id="current">00:00</div>/<div id="total">00:00</div>
+          </div>
+        </div>
+        <div id="audioload" style="background-size: 0% 100%;"></div>
+      </div>
+      <div id="audiocontroller">
+        <div onclick="audioPlaying()" id="audioplay-button" class="tap">
+          <div id="audioplay" class="display"><?php echo $svg['play']; ?></div>
+          <div id="audiopause" class="no-display"><?php echo $svg['pause']; ?></div>
+          <div id="audioloading"></div>
+        </div>
+        <div onclick="audioStop()" id="audiostop-button" class="tap"><?php echo $svg['stop']; ?></div>
+        <div id="audioplaying">
+          <div id="audioplayingicon"><?php echo $svg['note']; ?></div>
+          <div id="audiotitle">タイトルを選んでください</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-list">
+      <?php echo $audiolist['html']; ?>
+    </div>
+  </div>
+
+  <div class="card tap" id="archive-audio">
+    <div class="card-header">
+      <h2><i class="fa fa-music" aria-hidden="true"></i><?php echo $audiolink['title']; ?></h2>
+    </div>
+    <div class="card-text">
+      <p>
+        <?php echo $audiolink['text']; ?>
+      </p>
+    </div>
+    <div class="card-link">
+      <div>
+        <?php echo $audiolink['link']; ?>
+      </div>
+    </div>
+    <div class="card-link wide">
+      <a href="archive"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>アーカイブページへもどる</a>
+    </div>
+  </div>
+
+  <div class="card tap" id="back">
+    <div class="card-link wide">
+      <a href="member"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>団員専用トップへ</a>
+    </div>
+  </div>
+
+</article>
+
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript" src="js/ajax.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<script type="text/javascript">
+var audioPlayicon = document.getElementById("audioplay");
+var audioPauseicon = document.getElementById("audiopause");
+var audioPlayingicon = document.getElementById("audioplaying");
+
+var audio = document.getElementsByTagName("audio")[0];
+var nowAudio = 0;
+var audioStatus = 'first';
+var audioFlag = false;
+
+var audiolist = new Array(<?php echo count($archive['data']) - $archive['list_start']; ?>);
+<?php echo $audiolist['script']; ?>
+var audioLength = audiolist.length;
+<?php // 再生が終わったら次を再生 ?>
+audio.onended = function(){ audioPlayNext(this.src); };
+
+audio.onprogress = function(){
+	if(audio.buffered.length>0){
+		var percent = Math.round((audio.buffered.end(audio.buffered.length-1)/audio.duration)*1000)/10;
+		document.getElementById('audioload').style.backgroundSize = percent + "% 100%";
+	}
+};
+
+document.getElementById('audioseek').addEventListener("click", function(e) {
+	var total = Math.round(audio.duration);
+	if(!isNaN(total)){
+		<?php // マウス位置を取得する(X座標) ?>
+		var mouse = e.pageX;
+		<?php // 要素の位置を取得 ?>
+		var element = document.getElementById('audioseek');
+		var rect = element.getBoundingClientRect();
+		<?php // 要素の位置座標を計算(X座標) ?>
+		var position = rect.left + window.pageXOffset;
+		<?php // 要素の左上からの距離を計算 ?>
+		var offset = mouse - position;
+		var width = rect.right - rect.left;
+		audio.currentTime = Math.round(total * (offset / width));
+	}
+});
+</script>
+<script type="text/javascript">
+function audioPlay() {
+	audioPlayicon.className = "no-display";
+	audioPauseicon.className = "display";
+	audioPlayingicon.className = "playing";
+  $('#audiobar').addClass('playing');
+	audio.play();
+}
+function audioPause() {
+	audioPlayicon.className = "display";
+	audioPauseicon.className = "no-display";
+	audioPlayingicon.className = "";
+  $('#audiobar').removeClass('playing');
+	audio.pause();
+}
+function audioStop() {
+	audioPause();
+	audio.currentTime = 0;
+}
+function audioPlaying() {
+	if(isAudioPlaying(audio)){
+		audioPause();
+		audioStatus = "pause";
+	}else{
+		if(audioStatus=="stop"){
+			audioPlayThis(0);
+		}else if(audioStatus=="pause"){
+			audioPlay();
+		}else{
+			audioPlayThis(nowAudio);
+		}
+		audioStatus = "playing";
+	}
+}
+
+function isAudioPlaying(audio) {
+	return !audio.paused;
+}
+audio.onloadstart = function(){
+  $('#audioplay-button').addClass('loading');
+};
+audio.oncanplaythrough = function() {
+  $('#audioplay-button').removeClass('loading');
+}
+audio.onerror = function() {
+  $('#audioplay-button').removeClass('loading');
+}
+function audioTimeUpdate() {
+	audio.addEventListener("timeupdate", function() {
+		var now = Math.floor(audio.currentTime);
+		var total = Math.round(audio.duration);
+		if(!isNaN(total)){
+			var per = Math.round((now/total)*1000)/10;
+			document.getElementById('current').innerHTML = audiotohms(now);
+			document.getElementById('total').innerHTML = audiotohms(total);
+			document.getElementById('audioseek').style.backgroundSize = per + "% 100%";
+      if(audioFlag && now > 10) {
+        playCount(nowAudio,audiolist);
+        audioFlag = false;
+      }
+		}
+	}, true);
+}
+
+<?php // 再生 ?>
+function audioPlayThis(key) {
+	audioPause();
+	audio.src = audiolist[key];
+  audio.poster = '';
+	audioPlay();
+	for(var i=0;i<audioLength;i++) document.getElementById("audiolist"+i).className = "non";
+	document.getElementById("audiolist"+key).className = "now";
+	nowAudio = key;
+  document.getElementById("audiotitle").innerHTML = document.getElementById('title'+key).innerHTML.replace(/<div.*>[0-9]*<\/div>/g,"").replace(/<.*?>/g,"").replace(/\(.+?\)/g,"");
+	//for(var i=0;i<audioLength;i++) document.getElementById("list"+i).innerHTML = document.getElementById("list"+i).innerHTML.replace(now,"");
+	//document.getElementById("list"+key).innerHTML += now; ?>
+  audioFlag = true;
+}
+<?php // 次を再生 ?>
+function audioPlayNext(objsrc) {
+	var objsrc = decodeURI(objsrc);
+	var host = (("https:" == document.location.protocol) ? "https://" : "http://");
+	objsrc = objsrc.replace(host+location.hostname+"<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/","");
+	for (var i=0;i<audioLength;i++) {
+		var listsrc = audiolist[i];
+		if(objsrc===listsrc){
+			if(audioLength==i+1){
+				<?php // 再生終了 ?>
+				document.getElementById("audiolist"+i).className = "non";
+			}else{
+				audioPlayThis(i+1);
+			}
+			break;
+		}
+	}
+}
+
+function audiotohms(t) {
+	var hms = "";
+	var h = t / 3600 | 0;
+	var m = t % 3600 / 60 | 0;
+	var s = t % 60;
+	if(h != 0){
+		hms = h + ":" + addzero(m) + ":" + addzero(s);
+	}else if(m != 0){
+		hms = addzero(m) + ":" + addzero(s);
+	}else{
+		hms = "00:" + addzero(s);
+	}
+	return hms;
+	function addzero(v) {
+		if(v < 10){
+			return "0" + v;
+		}else{
+			return v;
+		}
+	}
+}
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<?php
+
+	// 初期設定
+	require("./inc/init.inc");
+	if(!isset($_COOKIE['SETTING'])){
+		setcookie('MESSAGE', '4', time()+60, '/', 'new.winds-n.com', false, true);
+		header('Location: ../authentication');
+		exit();
+	}
+
+  if(isset($_COOKIE['SCHEDULE'])){
+
+    if($_COOKIE['SCHEDULE'] == 'ADD'){
+      $message['title'] = '練習日程追加';
+      $message['text'] = '新しい練習日を追加しました。';
+    }elseif($_COOKIE['SCHEDULE'] == 'ADDFAIL'){
+      $message['title'] = '処理失敗';
+      $message['text'] = '追加できませんでした。';
+    }elseif($_COOKIE['SCHEDULE'] == 'DEL'){
+      $message['title'] = '練習日程削除';
+      $message['text'] = '練習日を削除しました。';
+    }
+    setcookie('SCHEDULE', '', time(), '/', 'new.winds-n.com', false, true);
+  }else{
+    $message['title'] = '';
+    $message['text'] = '';
+  }
+
+  //データパス
+	$datapath = dirname(__FILE__).$dir['data']."schedule.inc";
+  // データ取得
+  $list = file($datapath,FILE_IGNORE_NEW_LINES);
+
+  //コンテンツ処理(schedule)
+  $weekjp = ['日', '月', '火', '水', '木', '金', '土'];
+  $weeken = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+  $contents['article'] = '';
+  $timestamp['present'] = date('Y/m/d H:i');
+
+	if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['send'])) {
+    $addflag = FALSE;
+    for($i=0;$i<count($_POST['date']);$i++) {
+      $postdata['date'] = $_POST['date'][$i];
+      $postdata['time'] = $_POST['start'][$i].'-'.$_POST['end'][$i];
+			$postdata['place'] = $_POST['place'][$i];
+			$postdata['studio'] = $_POST['studio'][$i];
+      $postdata['note'] = $_POST['note'][$i];
+      if($postdata['date'] != '' && $postdata['place'] != '') {
+        $list[] = $postdata['date'].'<>'.$postdata['time'].'<>'.$postdata['place'].'<>'.$postdata['studio'].'<>'.$postdata['note'];
+        $addflag = TRUE;
+      }
+    }
+    usort($list, 'compare');
+    if($addflag) {
+      file_put_contents($datapath,implode("\n",$list),LOCK_EX);
+      setcookie('SCHEDULE', 'ADD', time()+60, '/', 'new.winds-n.com', false, true);
+    }else{
+      setcookie('SCHEDULE', 'ADDFAIL', time()+60, '/', 'new.winds-n.com', false, true);
+    }
+    header("Location: " . $selfname);
+    exit();
+  }
+
+  if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['del'])) {
+    $no = $_POST['no'];
+    array_splice($list, $no, 1);
+		file_put_contents($datapath,implode("\n",$list),LOCK_EX);
+    setcookie('SCHEDULE', 'DEL', time()+60, '/', 'new.winds-n.com', false, true);
+		header("Location: " . $selfname);
+		exit();
+	}
+
+  $nextflag = FALSE;
+  for($i=0;$i<count($list);$i++) {
+    //explode('<>',$list[$i])[0];
+    // 2017-02-18<>18:00-22:00<>第5スタジオ<>
+    // date<>start-end<>place(studio)<>memo
+    $timestamp['end'] = date('Y/m/d H:i',strtotime(explode('<>',$list[$i]) [0].' '. explode('-', explode('<>',$list[$i])[1] ) [1] ));
+
+    $date = explode('<>',$list[$i])[0];
+    $start = explode('-',explode('<>',$list[$i])[1])[0];
+    $end = explode('-',explode('<>',$list[$i])[1])[1];
+		$place = explode('<>',$list[$i])[2];
+
+		$studio = explode('<>',$list[$i])[3];
+    $studio = preg_replace('/第(.*)スタジオ/','第<span>$1</span>スタジオ',$studio);
+    // $memo = explode('<>',$list[$i])[4];
+		$memo = (isset(explode('<>',$list[$i])[4]) && explode('<>',$list[$i])[4] !== '') ? '<span class="memo">'.explode('<>',$list[$i])[4].'</span>' : '';
+
+    if($timestamp['end'] >= $timestamp['present'] && $nextflag == FALSE) {
+  		$contents['next'] = '<span class="frame"><span class="month">'.explode('-',$date)[1].'</span><span class="month-text">月</span><span class="date">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[2]).'</span><span class="date-text">日</span><span class="day '.$weeken[date('w',strtotime($date))].'">'.$weekjp[date('w',strtotime($date))].'</span>'
+      .'<span class="time">'.$start.'～'.$end.'</span></span><span class="frame">'
+      .'<span class="place">'.$place.'</span><span class="studio">'.$studio.'</span></span>';
+      $nextflag = explode('-',$date)[1];
+      $contents['article'] .= '<p class="month-title"><span class="year">'.explode('-',$date)[0].'</span><span class="year-text">年</span><span class="month">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[1]).'</span><span class="month-text">月</span></p>';
+  	}
+    if($nextflag) {
+      if(explode('-',$date)[1] > $nextflag || ($nextflag == '12' && explode('-',$date)[1] < $nextflag)) {
+        $contents['article'] .= '<p class="month-title"><span class="year">'.explode('-',$date)[0].'</span><span class="year-text">年</span><span class="month">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[1]).'</span><span class="month-text">月</span></p>';
+        $nextflag = preg_replace('/0([1-9])/','$1',explode('-',$date)[1]);
+      }
+      $contents['article'] .= '<p class="each" id="each'.$i.'" onclick="openForm('.$i.');"><span class="frame"><span class="date">'.preg_replace('/0([1-9])/','$1',explode('-',$date)[2]).'</span><span class="date-text">日</span><span class="day '.$weeken[date('w',strtotime($date))].'">'.$weekjp[date('w',strtotime($date))].'</span><span class="time">'.$start.'～'.$end.'</span></span><span class="frame"><span class="place">'.$place.'</span><span class="studio">'.$studio.'</span></span>'.$memo.'</p>'.'<div class="delform" id="delform'.$i.'"><form method="post" action="'.$selfname.'"><input type="hidden" name="no" value="'.$i.'"><button type="submit" name="del" class="button" value="del">この練習日を削除する</button></form></div>';
+    }
+  }
+
+  //メッセージを作成
+  if($message['title'] != ''){
+    $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
+    $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
+  }else{
+    $message['header'] = '';
+    $message['script'] = '';
+  }
+
+  //ロゴを取得
+  $svg['logo'] = implode('',file('../img/logo.svg'));
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<title>設定 - 練習日程｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../member/css/style.css">
+<link rel="stylesheet" href="../member/css/card.css">
+<link rel="stylesheet" href="../member/css/schedule.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/schedule.css">
+<link rel="stylesheet" href="../css/font.css">
+<link rel="shortcut icon" href="../img/favicon.ico">
+</head>
+<body>
+
+<?php echo $message['header']; ?>
+
+<div id="login"><span><i class="fa fa-user-circle-o" aria-hidden="true"></i><?php echo $_COOKIE['SETTING']; ?></span></div>
+
+<header id="member-top">
+  <section id="top-logo">
+    <a href="../" target="_top"><?php require('../img/logo.svg'); ?></a>
+  </section>
+</header>
+<a href="../authentication" target="_top" class="member tap">ログアウト</a>
+
+<nav>
+  <div>
+    <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
+    <ul>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="../member/member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="../member/schedule" class="nav tap">練習日程</a></li><li class="member"><a href="../member/manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="../member/bbs" class="nav tap">掲示板</a></li><li class="member"><a href="../member/archive" class="nav tap">アーカイブ</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="nav-gap"></div>
+
+<div id="header-title">
+  <span id="title">練習日程の編集</span>
+</div>
+
+<div class="bread"><a href="setting">設定ページ</a> &gt; <span>練習日程の編集</span></div>
+
+<article class="card">
+
+  <div class="card tap" id="schedule-new">
+    <div class="card-header">
+      <h2><i class="fa fa-calendar-check-o" aria-hidden="true"></i>練習日の追加</h2>
+    </div>
+    <div class="card-text">
+      新しい予定はこちらから追加できます。<br>
+			フォームを増やすボタンより、複数の練習日を一括で登録できます。
+    </div>
+    <div class="card-form">
+      <form method="POST" action="<?php echo $selfname; ?>">
+        <div class="block" id="form[0]">
+          <label>日付<input type="date" name="date[0]" class="date" size="30" value=""></label>
+          <div class="time">
+            <div><label>開始<input type="time" name="start[0]" class="time start" value="18:00"></label></div>
+            <div><label>終了<input type="time" name="end[0]" class="time end" value="22:00"></label></div>
+          </div>
+          <label>場所<input type="text" name="place[0]" class="name place" value="長岡リリックホール" placeholder="場所"><input type="text" name="studio[0]" class="name studio" style="margin-top:6px;" value="第5スタジオ" placeholder="スタジオ名"></label>
+          <label>備考<input type="text" name="note[0]" class="name" value="" placeholder="通常は空欄"></label>
+        </div>
+        <div class="button">
+          <button type="button" id="addForm" class="button half" value="add">フォームを増やす</button>
+          <button type="submit" name="send" class="button half" value="send">送信</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card tap" id="schedule-after">
+    <div class="card-header">
+      <h2><i class="fa fa-calendar" aria-hidden="true"></i>登録済みの練習日</h2>
+    </div>
+    <div class="card-text">
+      練習日を選択すると削除ボタンが表示されます。<br>
+			削除するときは、確認ボタンは表示されません。
+    </div>
+    <div class="card-text">
+      <?php echo $contents['article']; ?>
+    </div>
+  </div>
+
+</article>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer id="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<div id="undergap"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<script type="text/javascript">
+if(window != parent) {
+  document.getElementById('undergap').className = 'display';
+}else{
+  document.getElementById('bottomlink').className = 'display top-scroll tap';
+  document.getElementById('footer').className = 'display';
+}
+</script>
+<script type="text/javascript">
+var frm_cnt = 0;
+var originalForm = $('#form\\[' + frm_cnt + '\\]');
+$(function(){
+  $('#addForm').click(function(){
+    frm_cnt++;
+    originalForm
+      .clone()
+      // .hide()
+      .insertAfter($('#form\\[' + (frm_cnt-1) + '\\]'))
+      .attr('id', 'form[' + frm_cnt + ']') // クローンのid属性を変更。
+      .end() // 一度適用する
+      .find('input').each(function(idx, obj) {
+        $(obj).attr({
+          // id: $(obj).attr('id').replace(/\[[0-9]\]+$/, '[' + frm_cnt + ']'),
+          name: $(obj).attr('name').replace(/\[[0-9]\]+$/, '[' + frm_cnt + ']')
+        });
+        if($(obj).attr('type') == 'date') {
+          $(obj).val('');
+        }
+        if($(obj).attr('class') == 'time start') {
+          $(obj).val('18:00');
+        }
+        if($(obj).attr('class') == 'time end') {
+          $(obj).val('22:00');
+        }
+				if($(obj).attr('class') == 'name place') {
+					$(obj).val('長岡リリックホール');
+				}
+				if($(obj).attr('class') == 'name studio') {
+					$(obj).val('第5スタジオ');
+				}
+      });
+  });
+});
+function openForm(no) {
+  $('#delform'+no).slideToggle('fast');
+  $('#each'+no).toggleClass('show');
+}
+<?php echo $message['script']; ?>
+</script>
+<?php include('../../js/analytics.js'); ?>
+</body>
+</html>
