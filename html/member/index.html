@@ -98,24 +98,40 @@
 </head>
 <body>
 
-<?php echo $message['header']; ?>
+<!-- <?php echo $message['header']; ?> -->
+<div class='box'>
+  <article id="loginform">
+    <section id="loginform-header">
+      <h1>団員専用ページ</h1>
+      <!-- <span class="window-close" onclick="closeLoginForm();"><i class="fa fa-times fill" aria-hidden="true"></i></span> -->
+    </section>
+    <section id="loginform-main">
+      <p>ログインパスワードを入力してください。</p>
+      <form method="POST" id="login" action="authentication">
+        <input type="hidden" name="session" value="<?php echo $send['session']; ?>">
+        <input type="hidden" name="ticket" value="<?php echo $send['ticket']; ?>">
+        <input type="hidden" name="user" value="default">
+        <input type="password" name="password" class="password" id="password" value="">
+        <button type="submit" value="ログイン" class="loginbutton tap">ログイン</button>
+      </form>
+    </section>
+  </article>
+</div>
 
-<article id="loginform" class="close">
-  <section id="loginform-header">
-    <h1>団員専用ページ</h1>
-    <!-- <span class="window-close" onclick="closeLoginForm();"><i class="fa fa-times fill" aria-hidden="true"></i></span> -->
-  </section>
-  <section id="loginform-main">
-    <p>ログインパスワードを入力してください。</p>
-    <form method="POST" id="login" action="authentication">
-      <input type="hidden" name="session" value="<?php echo $send['session']; ?>">
-      <input type="hidden" name="ticket" value="<?php echo $send['ticket']; ?>">
-      <input type="hidden" name="user" value="default">
-      <input type="password" name="password" class="password" id="password" value="">
-      <button type="submit" value="ログイン" class="loginbutton tap">ログイン</button>
-    </form>
-  </section>
-</article>
+<footer>
+  <div>
+    <div class='author'>
+      <a href='../'><?php require('../image/logo/logo.svg'); ?></a>
+      <small>&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</small>
+    </div>
+    <div class='link'>
+      <ul>
+        <li><a href='https://member.winds-n.com'>団員専用ページ</a></li>
+        <li><a href='../policy'>個人情報保護方針</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
 
 <?php include('../js/analytics.js'); ?>
 </body>

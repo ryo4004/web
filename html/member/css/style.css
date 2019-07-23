@@ -6,7 +6,7 @@
 body {
   line-height: 1.6;
   font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック  Medium', meiryo, sans-serif;
-  background: rgb(240,239,235);
+  /* background: rgb(240,239,235); */
 }
 a, div, label,button {
   tap-highlight-color: rgba(0,0,0,0);
@@ -19,7 +19,7 @@ a {
   transition: all ease-in-out .1s;
 }
 a:visited {
-  color: rgba(182,0,5,.8);
+  /* color: rgba(182,0,5,.8); */
 }
 a i {
   padding-left: .2em;
