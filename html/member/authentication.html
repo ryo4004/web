@@ -16,14 +16,14 @@
 
     // Cookieを確認
     if(!isset($_COOKIE['STATUS'])) {
-      setcookie('MESSAGE', '5', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('MESSAGE', '5', time()+60, '/', 'winds-n.com', false, true);
       header("Location: ./?cookie=no");
       exit();
     }
 
     // 不正アクセス除外
     if(!Check(GetEscaped($_POST['session']), GetEscaped($_POST['ticket']))) {
-      setcookie('MESSAGE', '1', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('MESSAGE', '1', time()+60, '/', 'winds-n.com', false, true);
 			header("Location: ./");
 			exit();
 		}
@@ -32,7 +32,7 @@
     $getUser = GetEscaped($_POST['user']);
     $getPass = GetEscaped($_POST['password']);
     if($getPass == "") {
-      setcookie('MESSAGE', '2', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('MESSAGE', '2', time()+60, '/', 'winds-n.com', false, true);
       header("Location: ./");
       exit();
     }
@@ -60,7 +60,7 @@
 
 		// ユーザーがマッチしない場合は除外(== ""を明示)
 		if($_SESSION['MODE'] == "") {
-      setcookie('MESSAGE', '3', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('MESSAGE', '3', time()+60, '/', 'winds-n.com', false, true);
 			header("Location: ./");
 			exit();
 		}
@@ -87,16 +87,16 @@
     session_regenerate_id();
 		$_SESSION['STATUS'] = 'MEMBER';
     // Cookieを設定(有効期限60日)
-    setcookie('STATUS', 'MEMBER', time()+60*60*24*30*2, '/', 'new.winds-n.com', false, true);
+    setcookie('STATUS', 'MEMBER', time()+60*60*24*30*2, '/', 'winds-n.com', false, true);
 
     //メッセージ用Cookie(ログイン完了)
-    setcookie('MESSAGE', '7', time()+60, '/', 'new.winds-n.com', false, true);
+    setcookie('MESSAGE', '7', time()+60, '/', 'winds-n.com', false, true);
 
 		if($_SESSION['MODE'] == "member") {
 			header("Location: ./member/member");
 			exit();
 		} else {
-      setcookie('SETTING', strtoupper($_SESSION['MODE']), time()+60*60*2, '/', 'new.winds-n.com', false, true);
+      setcookie('SETTING', strtoupper($_SESSION['MODE']), time()+60*60*2, '/', 'winds-n.com', false, true);
 			header("Location: ./setting/setting");
 			exit();
 		}
@@ -110,12 +110,12 @@
 
     // Cookieを削除
     if(!isset($_COOKIE['MESSAGE'])) {
-      setcookie('MESSAGE', '0', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('MESSAGE', '0', time()+60, '/', 'winds-n.com', false, true);
     }
 
     // Cookieを設定
-    setcookie('STATUS', '0', time(), '/', 'new.winds-n.com', false, true);
-    setcookie('SETTING', '', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('STATUS', '0', time(), '/', 'winds-n.com', false, true);
+    setcookie('SETTING', '', time(), '/', 'winds-n.com', false, true);
 
     // トップページへ戻る
 		header("Location: ./");

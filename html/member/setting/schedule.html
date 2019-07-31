@@ -3,7 +3,7 @@
 	// 初期設定
 	require("./inc/init.inc");
 	if(!isset($_COOKIE['SETTING'])){
-		setcookie('MESSAGE', '4', time()+60, '/', 'new.winds-n.com', false, true);
+		setcookie('MESSAGE', '4', time()+60, '/', 'winds-n.com', false, true);
 		header('Location: ../authentication');
 		exit();
 	}
@@ -20,7 +20,7 @@
       $message['title'] = '練習日程削除';
       $message['text'] = '練習日を削除しました。';
     }
-    setcookie('SCHEDULE', '', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('SCHEDULE', '', time(), '/', 'winds-n.com', false, true);
   }else{
     $message['title'] = '';
     $message['text'] = '';
@@ -53,9 +53,9 @@
     usort($list, 'compare');
     if($addflag) {
       file_put_contents($datapath,implode("\n",$list),LOCK_EX);
-      setcookie('SCHEDULE', 'ADD', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('SCHEDULE', 'ADD', time()+60, '/', 'winds-n.com', false, true);
     }else{
-      setcookie('SCHEDULE', 'ADDFAIL', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('SCHEDULE', 'ADDFAIL', time()+60, '/', 'winds-n.com', false, true);
     }
     header("Location: " . $selfname);
     exit();
@@ -65,7 +65,7 @@
     $no = $_POST['no'];
     array_splice($list, $no, 1);
 		file_put_contents($datapath,implode("\n",$list),LOCK_EX);
-    setcookie('SCHEDULE', 'DEL', time()+60, '/', 'new.winds-n.com', false, true);
+    setcookie('SCHEDULE', 'DEL', time()+60, '/', 'winds-n.com', false, true);
 		header("Location: " . $selfname);
 		exit();
 	}

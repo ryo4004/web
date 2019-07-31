@@ -3,7 +3,7 @@
 	// 初期設定
 	require("./inc/init.inc");
 	if(!isset($_COOKIE['SETTING'])){
-		setcookie('MESSAGE', '4', time()+60, '/', 'new.winds-n.com', false, true);
+		setcookie('MESSAGE', '4', time()+60, '/', 'winds-n.com', false, true);
 		header('Location: ../authentication');
 		exit();
 	}
@@ -32,7 +32,7 @@
     $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
     $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
     // Cookieを削除
-    setcookie('MESSAGE', '', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('MESSAGE', '', time(), '/', 'winds-n.com', false, true);
   }else{
     $message['header'] = '';
     $message['script'] = '';

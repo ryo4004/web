@@ -16,7 +16,7 @@
     }elseif($_COOKIE['BBS'] == 'DELFAIL'){
       $message['text'] = '削除できません。<br>編集パスを確認してください。';
     }
-    setcookie('BBS', '', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('BBS', '', time(), '/', 'winds-n.com', false, true);
   }else{
     $message['title'] = '';
     $message['text'] = '';
@@ -50,7 +50,7 @@
 			$postdata['post'] = $postdata['no'].'<>'.$postdata['delpass'].'<>'.$postdata['name'].'<>'.$postdata['text'].'<>'.$postdata['time'];
 			array_unshift($bbs_data, $postdata['post']);
 			file_put_contents($datapath,implode("\n",$bbs_data),LOCK_EX);
-      setcookie('BBS', 'WRITE', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('BBS', 'WRITE', time()+60, '/', 'winds-n.com', false, true);
 			header("Location: " . $selfname);
 			exit();
 		}
@@ -69,9 +69,9 @@
       }
       file_put_contents($datapath,implode("\n",$bbs_data),LOCK_EX);
       if($delflag){
-        setcookie('BBS', 'DEL', time()+60, '/', 'new.winds-n.com', false, true);
+        setcookie('BBS', 'DEL', time()+60, '/', 'winds-n.com', false, true);
       }else{
-        setcookie('BBS', 'DELFAIL', time()+60, '/', 'new.winds-n.com', false, true);
+        setcookie('BBS', 'DELFAIL', time()+60, '/', 'winds-n.com', false, true);
       }
       header("Location: " . $selfname);
       exit();
@@ -96,9 +96,9 @@
       }
       file_put_contents($datapath,implode("\n",$bbs_data),LOCK_EX);
       if($modflag){
-        setcookie('BBS', 'MOD', time()+60, '/', 'new.winds-n.com', false, true);
+        setcookie('BBS', 'MOD', time()+60, '/', 'winds-n.com', false, true);
       }else{
-        setcookie('BBS', 'MODFAIL', time()+60, '/', 'new.winds-n.com', false, true);
+        setcookie('BBS', 'MODFAIL', time()+60, '/', 'winds-n.com', false, true);
       }
       header("Location: " . $selfname);
       exit();

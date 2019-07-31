@@ -5,16 +5,16 @@
 
   if(isset($_GET['mode'])) {
     if($_GET['mode'] == 'start'){
-      setcookie('PLAY', '1', time()+60*60*24*30*12, '/', 'new.winds-n.com', false, true);
+      setcookie('PLAY', '1', time()+60*60*24*30*12, '/', 'winds-n.com', false, true);
       header("Location: ./player?play");
       exit();
     }elseif($_GET['mode'] == 'on'){
-      setcookie('PLAY', '1', time()+60*60*24*30*12, '/', 'new.winds-n.com', false, true);
+      setcookie('PLAY', '1', time()+60*60*24*30*12, '/', 'winds-n.com', false, true);
       header("Location: ./player?play");
       exit();
     }elseif($_GET['mode'] == 'off'){
-      setcookie('PLAY', '0', time()+60*60*24*30*12, '/', 'new.winds-n.com', false, true);
-      setcookie('MUSIC', '', time(), '/', 'new.winds-n.com', false, false);
+      setcookie('PLAY', '0', time()+60*60*24*30*12, '/', 'winds-n.com', false, true);
+      setcookie('MUSIC', '', time(), '/', 'winds-n.com', false, false);
       header("Location: ./archive");
       exit();
     }

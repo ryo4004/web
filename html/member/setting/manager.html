@@ -3,7 +3,7 @@
   // 初期設定
   require("./inc/init.inc");
   if(!isset($_COOKIE['SETTING'])){
-    setcookie('MESSAGE', '4', time()+60, '/', 'new.winds-n.com', false, true);
+    setcookie('MESSAGE', '4', time()+60, '/', 'winds-n.com', false, true);
     header('Location: ../authentication');
     exit();
   }
@@ -21,7 +21,7 @@
     }elseif($_COOKIE['MANAGER'] == 'DELFAIL'){
       $message['text'] = '削除できません。';
     }
-    setcookie('MANAGER', '', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('MANAGER', '', time(), '/', 'winds-n.com', false, true);
   }else{
     $message['title'] = '';
     $message['text'] = '';
@@ -82,7 +82,7 @@
 			$postdata['post'] = $postdata['no'].'<>'.$postdata['title'].'<>'.$postdata['text'].'<>'.$postdata['time'].'<>'.$postdata['attachment'].'<>hidden';
 			array_unshift($manager_data, $postdata['post']);
 			file_put_contents($datapath,implode("\n",$manager_data),LOCK_EX);
-      setcookie('MANAGER', 'WRITE', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('MANAGER', 'WRITE', time()+60, '/', 'winds-n.com', false, true);
 			header("Location: " . $selfname);
 			exit();
 		}
@@ -98,7 +98,7 @@
         }
       }
       file_put_contents($datapath,implode("\n",$manager_data),LOCK_EX);
-      setcookie('MANAGER', 'DEL', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('MANAGER', 'DEL', time()+60, '/', 'winds-n.com', false, true);
       header("Location: " . $selfname);
       exit();
     }else{
@@ -162,7 +162,7 @@
         array_unshift($manager_data, $result);
       }
       file_put_contents($datapath,implode("\n",$manager_data),LOCK_EX);
-      setcookie('MANAGER', 'MOD', time()+60, '/', 'new.winds-n.com', false, true);
+      setcookie('MANAGER', 'MOD', time()+60, '/', 'winds-n.com', false, true);
       header("Location: " . $selfname);
       exit();
     }

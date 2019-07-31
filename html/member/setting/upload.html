@@ -2,7 +2,7 @@
 	// 初期設定
 	require("./inc/init.inc");
 	if(!isset($_COOKIE['SETTING'])){
-		setcookie('MESSAGE', '4', time()+60, '/', 'new.winds-n.com', false, true);
+		setcookie('MESSAGE', '4', time()+60, '/', 'winds-n.com', false, true);
 		header('Location: ../authentication');
 		exit();
 	}
@@ -23,7 +23,7 @@
 	    $message['title'] = 'ファイル削除';
       $message['text'] = 'ファイルを削除しました。';
     }
-    setcookie('UPLOAD', '', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('UPLOAD', '', time(), '/', 'winds-n.com', false, true);
   }else{
     $message['title'] = '';
     $message['text'] = '';
@@ -53,7 +53,7 @@
 
 	if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['sendfile'])) {
 		if(!is_uploaded_file($_FILES['file']['tmp_name']) || $_FILES['file']['size'] > 104857600 || $_FILES['file']['error'] > 0){
-			setcookie('UPLOAD', 'ERROR', time()+60, '/', 'new.winds-n.com', false, true);
+			setcookie('UPLOAD', 'ERROR', time()+60, '/', 'winds-n.com', false, true);
 			header("Location: " . $selfname);
 			exit();
 			// $notice = '<div class="notice"><p class="notice">アップロードに失敗しました。</p></div>';
@@ -82,11 +82,11 @@
 				file_put_contents($datapath,implode("\n",$list),LOCK_EX);
 				$result = $flag ? 'UPLOAD' : 'UPDATE';
 
-				setcookie('UPLOAD', $result, time()+60, '/', 'new.winds-n.com', false, true);
+				setcookie('UPLOAD', $result, time()+60, '/', 'winds-n.com', false, true);
 				header("Location: " . $selfname);
 				exit();
 			}else{
-				setcookie('UPLOAD', 'UNKNOWN', time()+60, '/', 'new.winds-n.com', false, true);
+				setcookie('UPLOAD', 'UNKNOWN', time()+60, '/', 'winds-n.com', false, true);
 				header("Location: " . $selfname);
 				exit();
 			}
@@ -112,7 +112,7 @@
 			}
 		}
 		file_put_contents($datapath,implode("\n",$list),LOCK_EX);
-		setcookie('UPLOAD', 'DEL', time()+60, '/', 'new.winds-n.com', false, true);
+		setcookie('UPLOAD', 'DEL', time()+60, '/', 'winds-n.com', false, true);
 		header("Location: " . $selfname);
 		exit();
 	}

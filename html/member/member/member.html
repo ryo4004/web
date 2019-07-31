@@ -18,7 +18,7 @@
     $openlog = file($logfile,FILE_IGNORE_NEW_LINES);
     $openlog[] = implode("<>",$log);
     file_put_contents($logfile,implode("\n",$openlog),LOCK_EX);
-    setcookie('LOG', 'SET', time()+60*60*2, '/', 'new.winds-n.com', false, true);
+    setcookie('LOG', 'SET', time()+60*60*2, '/', 'winds-n.com', false, true);
   }
 
   //メッセージ処理
@@ -33,7 +33,7 @@
     $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
     $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
     // Cookieを削除
-    setcookie('MESSAGE', '', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('MESSAGE', '', time(), '/', 'winds-n.com', false, true);
   }else{
     $message['header'] = '';
     $message['script'] = '';

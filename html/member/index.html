@@ -18,7 +18,7 @@
       $link['member'] = '<a href="member/member" class="member member-login tap">会員ページへ</a><a href="authentication" class="member tap">ログアウト</a>';
     // }
   }else{
-    setcookie('STATUS', '0', time()+60*60*24*30*2, '/', 'new.winds-n.com', false, true);
+    setcookie('STATUS', '0', time()+60*60*24*30*2, '/', 'winds-n.com', false, true);
     $link['member'] = '<a href="#" onclick="showLoginForm()" class="member tap">会員ログイン</a>';
   }
 
@@ -65,7 +65,7 @@
     $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
     $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
     // Cookieを削除
-    setcookie('MESSAGE', '', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('MESSAGE', '', time(), '/', 'winds-n.com', false, true);
   }else{
     $message['header'] = '';
     $message['script'] = '';
@@ -77,7 +77,7 @@
     $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
     $message['script'] = 'setTimeout(function(){$("#message").slideUp("normal")},2500);';
     // Cookieを削除
-    setcookie('MESSAGE', '', time(), '/', 'new.winds-n.com', false, true);
+    setcookie('MESSAGE', '', time(), '/', 'winds-n.com', false, true);
   }
 
 ?><!DOCTYPE html>
