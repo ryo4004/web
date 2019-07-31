@@ -188,16 +188,17 @@ header#home {
         position: relative;
         display: block;
         padding: 8px 24px;
-        border: .55px solid rgba(234,85,80,1);
+        border: .55px solid rgba(255,255,255,1);
         border-radius: 2px;
         text-decoration: none;
         color: #fff;
-        background: rgba(234,85,80,.1);
+        background: rgba(0,0,0,.1);
         transition: all ease-in-out .1s;
         overflow: hidden;
         line-height: 1.2;
 
         &:hover {
+          border: .55px solid rgba(234,85,80,1);
           background: rgba(234,85,80,1);
 
           &:before {
