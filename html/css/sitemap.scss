@@ -1,0 +1,23 @@
+.sitemap {
+  .contents > ul {
+    a {
+      padding: 8px 12px;
+      border-width: .55px;
+      border-style: solid;
+      border-color: #333;
+      font-size: 16px;
+      letter-spacing: 2px;
+      text-decoration: none;
+      color: #333;
+      background: transparent;
+      transition: all ease-in-out .1s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    li {
+      margin-top: .55px;
+    }
+  }
+}
