@@ -24,10 +24,10 @@
   //メッセージ処理
   if(isset($_COOKIE['MESSAGE'])){
     if($_COOKIE['MESSAGE'] == '7') {
-      $message['title'] = '団員専用ページ';
+      $message['title'] = '会員専用ページ';
       $message['text'] = 'ログインしました';
     }else{
-      $message['title'] = '団員専用ページ';
+      $message['title'] = '会員専用ページ';
       $message['text'] = 'エラー';
     }
     $message['header'] = '<div id="message"><div id="message-header"><h1>'.$message['title'].'</h1></div><p>'.$message['text'].'</p></div>';
@@ -96,7 +96,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
-<title>団員専用ページ｜ザ・ウィンド・アンサンブル</title>
+<title>会員専用ページ｜ザ・ウィンド・アンサンブル</title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="css/style.css">
@@ -120,17 +120,17 @@
   <div>
     <label class="nav-switch"><span>MENU</span><span class="icon"><i class="fa fa-angle-down" aria-hidden="true"></i></span></label>
     <ul>
-      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">団員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
+      <li class="member"><a href="../" target="_top" class="nav tap">ホーム</a></li><li class="member"><a href="member" class="nav tap">会員専用トップ</a></li><li class="member"><a href="schedule" class="nav tap">練習日程</a></li><li class="member"><a href="manager" class="nav tap">事務局からのお知らせ</a></li><li class="member"><a href="bbs" class="nav tap">掲示板</a></li><li class="member"><a href="archive" class="nav tap">アーカイブ</a></li>
     </ul>
   </div>
 </nav>
 <div id="nav-gap"></div>
 
 <div id="header-title">
-  <span id="title">団員専用ページ</span>
+  <span id="title">会員専用ページ</span>
 </div>
 
-<div class="bread"><span>団員専用ページ</span></div>
+<div class="bread"><span>会員専用ページ</span></div>
 
 <article class="card">
   <div class="card tap" id="schedule">
@@ -185,7 +185,7 @@
   </div>
   <div class="card tap" id="bbs">
     <div class="card-header">
-      <h2><i class="fa fa-comments-o" aria-hidden="true"></i>団員専用掲示板</h2>
+      <h2><i class="fa fa-comments-o" aria-hidden="true"></i>会員専用掲示板</h2>
     </div>
     <div class="card-text">
       <h3>最新の投稿</h3>
