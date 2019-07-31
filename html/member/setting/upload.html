@@ -46,8 +46,8 @@
 
 	//アップロードファイル保存場所
 	// winds_n/member/file
-	// ../member/file
-	$path = dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'member'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+	// ../data
+	$path = dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
 
 	$contents['notice'] = '';
 
@@ -121,7 +121,7 @@
 
 	$filelist = '';
 	for($i=0;$i<count($list);$i++){
-		$filelist .= '<div class="list"><a href="'.$selfname.'?del='.explode('<>',$list[$i])[0].'"><i class="fa fa-times-circle" aria-hidden="true"></i></a><a href="../member/data/'.explode('<>',$list[$i])[3].'">'.icon(explode('<>',$list[$i])[3]).'<span>'.explode('<>',$list[$i])[3].'</span><span>'.fileSizeUnit(explode('<>',$list[$i])[4]).'</span></a></div>';
+		$filelist .= '<div class="list"><a href="'.$selfname.'?del='.explode('<>',$list[$i])[0].'"><i class="fa fa-times-circle" aria-hidden="true"></i></a><a href="../data/'.explode('<>',$list[$i])[3].'">'.icon(explode('<>',$list[$i])[3]).'<span>'.explode('<>',$list[$i])[3].'</span><span>'.fileSizeUnit(explode('<>',$list[$i])[4]).'</span></a></div>';
 	}
 
 	//メッセージを作成

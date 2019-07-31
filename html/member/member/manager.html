@@ -28,7 +28,7 @@
       $tmp = explode(',',$item[4]);
       $attachment = '<div class="attachment">';
       for($i=0;$i<count($tmp);$i++){
-        $attachment .= '<a href="data/'.explode('?',$tmp[$i])[1].'" class="attachment" target="_blank">'.icon(explode('?',$tmp[$i])[1]).'<span>'.explode('?',$tmp[$i])[0].'</span><span>'.fileSizeUnit(explode('?',$tmp[$i])[2]).'</span></a>';
+        $attachment .= '<a href="../data/'.explode('?',$tmp[$i])[1].'" class="attachment" target="_blank">'.icon(explode('?',$tmp[$i])[1]).'<span>'.explode('?',$tmp[$i])[0].'</span><span>'.fileSizeUnit(explode('?',$tmp[$i])[2]).'</span></a>';
       }
       $attachment .= '</div>';
     }else{
