@@ -5,6 +5,9 @@ contents/audio/source_2019winds
 祝典のための音楽 第1楽章(P.スパーク)<>musicforafestival-001.mp3
 祝典のための音楽 第2楽章(P.スパーク)<>musicforafestival-002.mp3
 祝典のための音楽 第3楽章(P.スパーク)<>musicforafestival-003.mp3
+スラヴ舞曲 作品46 第2番(A.ドヴォルザーク)<>slavonic46-2.mp3
+スラヴ舞曲 作品72 第2番(A.ドヴォルザーク)<>slavonic72-2.mp3
+スラヴ舞曲 作品46 第8番(A.ドヴォルザーク)<>slavonic46-8.mp3
 富士山～北斎の版画に触発されて(真島俊夫)<>fuji.mp3
 「あんたがたどこさ」の主題による幻想曲(林大地)<>anta.mp3
 ブロックM(J.H.ビリック)<>blockm.mp3
