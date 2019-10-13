@@ -3,7 +3,7 @@
 // 終演表示のための処理
 $timestamp['present'] = strtotime(date('Y/m/d H:i'));
 // $timestamp['today'] = date('Y/m/d');
-$timestamp['end'] = strtotime('2019-10-13 16:00');
+$timestamp['end'] = strtotime('2019-10-13 13:00');
 // $timestamp['end'] = strtotime('2018-04-16 15:00');
 
 $end = false;
@@ -71,16 +71,15 @@ $contents['article'] .= '</div>';
 ?>
 <div class="overlay">
   <div>
-    <p>この演奏会は終演いたしました</p>
-    <p>ご来場くださいました皆さま、ありがとうございました</p>
+    <p>この演奏会は中止となりました</p>
   </div>
 </div>
 <?php
 }
 ?>
 
-<a href="information2" class="information-top">
-  <div class="information">第32回定期演奏会は予定通り開催いたします</div>
+<a href="information3" class="information-top">
+  <div class="information">第32回定期演奏会は中止となりました</div>
 </a>
 
 <div class="header">
@@ -134,6 +133,7 @@ $contents['article'] .= '</div>';
       <h2>お知らせ</h2>
       <div>
         <ol>
+          <li>10/13 13:00<span style="display:inline-block;width:8px"></span><a href="information3">第32回定期演奏会は中止となりました</a></li>
           <li>10/12 15:00<span style="display:inline-block;width:8px"></span><a href="information2">第32回定期演奏会は予定通り開催いたします</a></li>
           <li>10/11 15:00<span style="display:inline-block;width:8px"></span><a href="information">台風接近に伴う演奏会開催の可否について</a></li>
         </ol>
