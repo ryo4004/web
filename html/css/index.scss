@@ -919,7 +919,7 @@ header#home {
         font-family: "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
         transition: all ease-in-out .1s;
 
-        &:hover {
+        &:hover, &:active {
           background: rgba(0,0,0,.1);
         }
 
