@@ -161,6 +161,26 @@
     // border-top: .55px solid #eee;
     margin: 0 auto;
 
+    &.main032 > div > div.detail .overview {
+      & > div:first-child:before {
+        content: '中止しました';
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 6px 12px;
+        font-weight: bold;
+        background: #dc3545;
+        color: #fff;
+      }
+
+      .music-list label.other {
+        display: none;
+
+        & + ol {
+          display: none;
+        }
+      }
+    }
+
     summary {
       width: 100%;
       max-width: 800px;
