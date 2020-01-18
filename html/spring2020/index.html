@@ -1,0 +1,237 @@
+<?php
+
+// 終演表示のための処理
+$timestamp['present'] = strtotime(date('Y/m/d H:i'));
+$timestamp['end'] = strtotime('2020-05-09 18:00');
+
+$end = false;
+if ($timestamp['present'] > $timestamp['end']) {
+  $end = true;
+}
+
+//カウントダウン挿入
+$countdown['today'] = time();
+$countdown['theday'] = strtotime('2020-05-09');
+$countdown['diff'] = $countdown['theday'] - $countdown['today'];
+$countdown['remain'] = ceil($countdown['diff'] / (24*60*60));
+
+$contents['article'] = '<div class="remain">';
+if($countdown['remain'] == 0) {
+	$contents['article'] .= '<span class="remain">本日開催いたします</span>';
+}elseif($countdown['remain'] < 0){
+	$contents['article'] .= '<span class="remain">終演しました</span>';
+}else{
+	$contents['article'] .= '<span class="remain">あと'.$countdown['remain'].'日！</span>';
+}
+$contents['article'] .= '</div>';
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<meta name="description" content="ザ・ウィンド・アンサンブルでは2020年5月9日(土)にスプリングコンサートを開催いたします。ぜひ長岡リリックホールにお越しください！">
+<meta name="keywords" content="ウィンズ,スプリングコンサート,ウインズ,スプリングコンサート,長岡市,nagaoka,リリックホール,新潟県,ザウィンドアンサンブル,ザ・ウィンド・アンサンブル,ザウインドアンサンブル,ザ・ウインド・アンサンブル,吹奏楽,winds,thewindensemble">
+<meta name="format-detection" content="telephone=no">
+<meta property="fb:app_id" content="1477708412318886">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://winds-n.com/spring2020/">
+<meta property="og:title" content="スプリングコンサート">
+<meta property="og:description" content="ザ・ウィンド・アンサンブルでは2020年5月9日(土)にスプリングコンサートを開催いたします。ぜひ長岡リリックホールにお越しください！">
+<meta property="og:image" content="https://winds-n.com/spring202/img/card.png">
+<meta property="og:image:alt" content="The Spring Concert">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="314">
+<meta name="author" content="The Wind Ensemble">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@winds_nagaoka">
+<meta name="twitter:domain" content="winds-n.com">
+<meta name="twitter:creator" content="@winds_nagaoka">
+<meta name="twitter:title" content="スプリングコンサートを開催いたします">
+<meta name="twitter:description" content="2020年5月9日(土)、新潟県長岡市(リリックホール)で演奏いたします。詳細はクリック！">
+<meta name="twitter:image" content="https://winds-n.com/spring2020/img/card.png">
+<title>スプリングコンサート｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style_old.css">
+<!-- <link rel="stylesheet" href="../css/font.css"> -->
+<link rel="stylesheet" href="css/springconcert.css">
+<link rel="stylesheet" href="../css/information.css">
+<link rel="shortcut icon" href="../image/favicon.ico">
+<link rel="apple-touch-icon" href="../image/icon/apple-icon.png">
+<link rel="icon" type="image/png" href="../image/icon/android-chrome.png">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+</head>
+<body>
+
+<?php if ($end) {
+?>
+<div class="overlay">
+  <div>
+    <p>この演奏会は終演いたしました</p>
+    <p>ご来場くださいました皆さま、ありがとうございました</p>
+  </div>
+</div>
+<?php
+}
+?>
+
+<div class="header">
+  <div class="frame">
+    <div class="main-title">
+
+      <div class="logo-frame">
+        <div class="logo">
+          <a href="https://winds-n.com">
+            <?php require('../image/logo/logo.svg'); ?>
+          </a>
+        </div>
+      </div>
+
+      <div class="title-frame">
+        <div class="title">
+          <span>スプリングコンサート</span>
+        </div>
+        <div class="title-bg">
+          <div class="bg">&nbsp;</div>
+          <!-- <div class="bg-left">&nbsp;</div>
+          <div class="bg-right">&nbsp;</div> -->
+        </div>
+      </div>
+
+      <div class="photo">
+        <img src="img/all.png" class="photo-all">
+        <img src="img/sensei.png" class="photo-sensei">
+      </div>
+
+      <div class="date-block">
+        <div class="square front">
+          <span class="month">5</span>
+          <span class="slash">&nbsp;</span>
+          <span class="day">9</span>
+        </div>
+        <div class="square back late-in">
+          <span class="year">2020</span>
+          <span class="date">Sat.&nbsp;&nbsp;</span>
+        </div>
+        <div class="title-label">
+          <span class="thewindensemble">ザ・ウィンド・アンサンブル</span>
+          <span class="count">スプリング</span>
+          <span class="regular">コンサート</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="information">
+  <div class="overview-information">
+    <div class="program">
+      <h2>プログラム</h2>
+      <ol>
+        <li><span>五月の風</span><span>真島俊夫</span></li>
+        <li><span>詩的間奏曲</span><span>J.バーンズ</span></li>
+        <li><span>祝典のための音楽</span><span>P.スパーク</span></li>
+        <li><span>「スラヴ舞曲」より</span><span>A.ドヴォルザーク / 河本隆吉 編曲</span></li>
+        <li><span>富士山～北斎の版画に触発されて～</span><span>真島俊夫</span></li>
+      </ol>
+    </div>
+    <div class="overview">
+      <h2>演奏会概要</h2>
+      <p><span>場所</span><span>リリックホール コンサートホール</span></p>
+      <p><span>日時</span><span>2020年5月9日(土)</span></p>
+      <p><span>開場</span><span>15:30</span></p>
+      <p><span>開演</span><span>16:00</span></p>
+      <p><span>入場料</span><span>なし</span></p>
+      <p><span>主催</span><span>ザ・ウィンド・アンサンブル</span></p>
+    </div>
+  </div>
+  <div class="access">
+    <h2>アクセス</h2>
+    <div id="map"></div>
+    <a href="https://www.google.co.jp/maps/dir//%E9%95%B7%E5%B2%A1%E3%83%AA%E3%83%AA%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%AB%E3%80%81%E3%80%92940-2108+%E6%96%B0%E6%BD%9F%E7%9C%8C%E9%95%B7%E5%B2%A1%E5%B8%82%E5%8D%83%E7%A7%8B%EF%BC%93%E4%B8%81%E7%9B%AE%EF%BC%91%EF%BC%93%EF%BC%95%EF%BC%96%E2%88%92%EF%BC%96/@37.4649032,138.8269598,17z" target="_blank" class="guide-button">リリックホールへのルートを検索<i class="fas fa-external-link-alt"></i></a>
+    <div>
+      <ul class='access-guide'>
+        <li>JR長岡駅大手口より</li>
+        <span>下記いずれかの方法でアクセスできます</span>
+        <ul>
+          <li>8番線から中央循環バスで、（内回り／近代美術館、外回り／ハイブ長岡）バス停下車、徒歩3分。</li>
+          <li>2番線から（日赤病院経由）江陽団地行きバスで、ハイブ長岡バス停下車、徒歩3分。</li>
+          <li>2番線から江陽環状線バスで、（外回り／ハイブ長岡）バス停下車、徒歩3分。</li>
+          <li>2番線から（日赤病院経由）出雲崎行きバスで、近代美術館バス停下車、徒歩3分。</li>
+        </ul>
+        <li>関越・北陸自動車道より</li>
+        <ul>
+          <li>長岡インターチェンジから車で約10分</li>
+        </ul>
+      </ul>
+      <p>〒940-2108</p>
+      <p>新潟県長岡市千秋3丁目1356番地6</p>
+      <p>長岡リリックホール <a href="http://www.nagaoka-caf.or.jp/" target="_blank">Webサイト<i class="fas fa-external-link-alt"></i></a></p>
+    </div>
+  </div>
+
+  <div class="sns-button">
+    <!-- <a data-url="https://winds-n.com/mini2018" href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-count="vertical" data-dnt="true" target="_blank"></a> -->
+    <!-- Twitter -->
+    <a href="https://twitter.com/share?url=https://winds-n.com/spring2020&text=ザ・ウィンド・アンサンブルは5月9日(土)に長岡リリックホールにてスプリングコンサートを開催いたします！&related=winds_nagaoka" target="_blank" class="twitter"><i class="fab fa-twitter-square"></i></a>
+
+    <!-- Facebook -->
+    <!-- <div class="fb-like" data-href="" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div> -->
+    <a href="http://www.facebook.com/share.php?u=https://winds-n.com/spring2020" rel="nofollow" target="_blank" class="facebook"><i class="fab fa-facebook-square"></i></a>
+
+    <!-- LINE -->
+    <a href="http://line.me/R/msg/text/?ザ・ウィンド・アンサンブルのスプリングコンサート%0D%0A詳細はこちら！%0D%0Ahttps://winds-n.com/spring2020" target="_blank" class="line"><i class="fab fa-line"></i></a>
+    <!-- <div>ここからシェアしてね<i class="fas fa-music"></i></div> -->
+  </div>
+</div>
+
+<div class="poster-frame">
+  <div class="poster">
+    <a href="img/poster.jpg" target='_blank' ontouchstart=''>ポスターはこちら</a>
+  </div>
+</div>
+
+<?php
+  echo $contents['article'];
+?>
+
+<div class="message">
+～音楽の輪が限りなく広がりますように～
+</div>
+
+<div class='block back-navigation'>
+  <div>
+    <div><a href='/' ontouchstart=''><i class="fas fa-chevron-left"></i><span>ホームへ戻る</span></a></div>
+    <div class='scrollTop' ontouchstart=''><div id='scrollTop'><i class="fas fa-chevron-up"></i><span>トップへ</span></div></div>
+  </div>
+</div>
+
+<footer class='footer'>
+  <div>
+    <div class='author'>
+      <a href='/'><?php require('../image/logo/logo.svg'); ?></a>
+      <small>&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</small>
+    </div>
+    <div class='link'>
+      <ul>
+        <li><a href='https://member.winds-n.com'>会員専用ページ</a></li>
+        <li><a href='policy'>個人情報保護方針</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV0-BnYAJ4B3a7GG6sTh2lIh4PCtb5qZc&callback=initMap" async defer></script>
+<script>
+  ((d) => {
+    var config = {kitId: 'gol3vmi', scriptTimeout: 3000, async: true },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
+<?php include('../js/analytics.js'); ?>
+</body>
+</html>
