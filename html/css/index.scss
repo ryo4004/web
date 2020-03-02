@@ -198,8 +198,12 @@ header#home {
         line-height: 1.2;
 
         &:hover {
-          border: .55px solid rgba(234,85,80,1);
-          background: rgba(234,85,80,1);
+          // main
+          // border: .55px solid rgba(234,85,80,1);
+          // background: rgba(234,85,80,1);
+          // mini
+          border:  rgba(2,168,190,1);
+          background: rgba(2,168,190,1);
 
           &:before {
             animation: none;
