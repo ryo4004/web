@@ -65,17 +65,11 @@ $contents['article'] .= '</div>';
 </head>
 <body>
 
-<?php if ($end) {
-?>
-<div class="overlay">
+  <div class="overlay">
   <div>
-    <p>この演奏会は終演いたしました</p>
-    <p>ご来場くださいました皆さま、ありがとうございました</p>
+    <p>この演奏会は中止となりました</p>
   </div>
 </div>
-<?php
-}
-?>
 
 <div class="header">
   <div class="frame">
@@ -127,6 +121,14 @@ $contents['article'] .= '</div>';
 </div>
 
 <div class="information">
+  <div class="news ticket" style='margin-bottom: 20px;'>
+    <h2>お知らせ</h2>
+    <div>
+      <ol>
+        <li>4/2 0:00<span style="display:inline-block;width:8px"></span><a href="information5">スプリングコンサート中止のお知らせ</a></li>
+      </ol>
+    </div>
+  </div>
   <div class="overview-information">
     <div class="program">
       <h2>プログラム</h2>
