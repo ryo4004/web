@@ -6,3 +6,7 @@ RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_URI} /[^./]+$
 RewriteRule (.*) $1.html
+
+FileEtag None
+RequestHeader unset If-Modified-Since
+Header set Cache-Control no-store
