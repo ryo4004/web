@@ -1,0 +1,449 @@
+<?php
+
+  require('../../secrets/password.php');
+
+	#初期設定の読み込み
+	//require('../member/inc/init.inc');
+
+	#パスワード設定
+	$password = $BASE_PASSWORD;
+
+	#パスワード確認
+	if(isset($_POST['pass'])) {
+		$pass = $_POST['pass'];
+	} else {
+		$pass = "";
+	}
+
+	check_passwd($pass);
+
+	#設定ファイル
+	$file_header_head = './member_init/header_head.inc';
+	$file_header_foot = './member_init/header_foot.inc';
+	$file_header = './member_init/header.inc';
+	$file_hr = './member_init/hr.inc';
+	$file_menu = './member_init/menu.inc';
+	$file_footer = './member_init/footer.inc';
+
+	#$_POST['pass']
+
+	#if($_POST['write'])
+
+	#パスワードチェック
+	#合わない場合はログイン画面へ
+
+	#事務局からのお知らせへ
+	if(isset($_POST['manager'])) html_manager();
+
+	#掲示板へ
+	#過去の書き込みとの分岐(ここじゃなくてもいいかも)
+	if(isset($_POST['bbs'])) html_bbs();
+	if(isset($_POST['past'])) html_bbs();
+	#write
+	if(isset($_POST['write'])) html_bbs();
+	#delete
+	if(isset($_POST['delete'])) html_bbs();
+
+	#メインメニュー
+	html_main();
+
+	exit();
+
+function html_main() {
+
+	global $password;
+
+	# include file name
+	$file_contents = './member_contents/member.inc';
+	$file_header_head = './member_init/header_head.inc';
+	$file_header_foot = './member_init/header_foot.inc';
+	$file_header = './member_init/header.inc';
+	$file_hr = './member_init/hr.inc';
+	$file_menu = './member_init/menu.inc';
+	$file_footer = './member_init/footer.inc';
+
+	require($file_contents);
+?>
+<?php require($file_header_head); ?>
+<title><?= $page_title ?></title>
+<?php require($file_header_foot); ?>
+<body>
+<?php //include_once("../inc/analytics.inc") ?>
+<div id="header">
+<div id="main">
+<?php require($file_header); ?>
+<?php require($file_hr); ?>
+<?php echo $contents_head_mb; ?>
+	<div class="content">
+		<div align="center">
+			<form action="./member.html" method="post">
+				<input type="hidden" name="pass" value="<?= $password ?>">
+<?php
+			for($i = 0; $i < count($title); $i++) {
+				echo '		<font size="3">' . $title[$i] . "</font>\n<br>\n";
+				echo '		<font size="2">' . $contents[$i] . "</font>";
+			}
+?>
+			</form>
+		</div>
+	</div>
+</div>
+<?php require($file_hr); ?>
+<?php require($file_menu); ?>
+<?php require($file_footer); ?>
+</div>
+</body>
+</html>
+<?php
+	exit();
+}
+
+function html_manager() {
+
+	//require('../member/member_init/init.inc');
+
+	global $password;
+
+	# include file name
+	$file_contents = 'member_contents/manager.inc';
+	$file_header_head = './member_init/header_head.inc';
+	$file_header_foot = './member_init/header_foot.inc';
+	$file_header = './member_init/header.inc';
+	$file_hr = './member_init/hr.inc';
+	$file_menu = './member_init/menu.inc';
+	$file_footer = './member_init/footer.inc';
+
+	#Notice: Undefined variable: cf 対策
+	#C:\xampp\htdocs\winds_php\member\contents\manager.inc on line 7
+	global $cf;
+
+	#読み込みファイル
+	$file_data = '..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'manager.inc';
+
+	#ファイル読み込み
+	$lines = file($file_data,FILE_IGNORE_NEW_LINES);
+
+	require($file_contents);
+?>
+<?php require($file_header_head); ?>
+<title><?= $page_title ?></title>
+<?php require($file_header_foot); ?>
+<body>
+<?php //include_once("../inc/analytics.inc") ?>
+<div id="header">
+<div id="main">
+<?php require($file_header); ?>
+<?php require($file_hr); ?>
+<?php echo $contents_head_mb; ?>
+	<div class="content">
+<?php
+	back_button();
+	#事務局より
+	 foreach($lines as $line){
+		$item = explode('<>',$line);
+		if($item[5] == 'display') {
+ 			#出力
+ 			require($file_hr);
+ 			echo '<font size="3">'.$item[1].'</font><br><font size="2">'.$item[2].'</font>';
+ 			if($item[4] != ''){
+ 				echo '<br><font size="2" color="orange">※添付ファイルあり (パソコンにて確認できます)</font>';
+ 			}
+ 		}
+	}
+	echo "<br>";
+?>
+<?php require($file_hr); ?>
+		<div align="right">
+		<form action="./member.html" method="post">
+		<input type="hidden" name="pass" value="$password">
+		<input type="submit" value="戻る">
+		<input type="hidden" name="pass" value="<?= $password ?>">
+		</form>
+		</div>
+	</div>
+</div>
+<?php require($file_hr); ?>
+<?php require($file_menu); ?>
+<?php require($file_footer); ?>
+</div>
+</body>
+</html>
+<?php
+	exit();
+}
+
+function html_bbs() {
+
+	require('../html/member/inc/init.inc');
+
+	global $password;
+
+	# include file name
+	$file_contents = 'member_contents/bbs.inc';
+	$file_header_head = './member_init/header_head.inc';
+	$file_header_foot = './member_init/header_foot.inc';
+	$file_header = './member_init/header.inc';
+	$file_hr = './member_init/hr.inc';
+	$file_menu = './member_init/menu.inc';
+	$file_footer = './member_init/footer.inc';
+
+	#Notice: Undefined variable: cf 対策
+	#C:\xampp\htdocs\winds_php\member\contents\manager.inc on line 7
+	global $cf;
+	global $nv;
+
+	#読み込みファイル
+	$file_data = '..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'bbs_data_member.inc';
+
+	#データ読み込み、初期設定
+	$lines = file($file_data,FILE_IGNORE_NEW_LINES);
+	$post_num = 5;
+	$flag_change = FALSE;
+
+	#過去の投稿を開く
+	if(isset($_GET['mode'])) {$mode = TRUE;} else {$mode = FALSE;}
+
+	if(isset($_POST['write'])){
+		$name = $_POST['name'];
+		$message = $_POST['message'];
+		$delkey = $_POST['delkey'];
+		if($name and $message){
+			$maxno = 0;
+			foreach($lines as $line) {
+				$items = explode("<>", $line);
+				if ($maxno < $items[0]) {
+					$maxno = $items[0];
+				}
+			}
+			$no = $maxno + 1;
+			#$no = count($lines) + 1;
+			$delkey = htmlspecialchars($delkey);
+			$name = htmlspecialchars($name);
+			$message = htmlspecialchars($message);
+			$message = str_replace("\r\n", "<br>", $message);
+			$message = str_replace("\r", "<br>", $message);
+			$message = str_replace("\n", "<br>", $message);
+			date_default_timezone_set('Asia/Tokyo');
+			$time = date('Y/m/d H:i');
+			$post_data = "$no<>$delkey<>$name<>$message<>$time";
+
+			#配列に追加
+			array_unshift($lines, $post_data);
+			$flag_change = TRUE;
+		}
+	} else {
+		$name = "";
+		$message = "";
+		$delkey = "";
+	}
+
+	if(isset($_POST['delete'])){
+		for($i = 0 ; $i < count($lines) ; $i++){
+			$items = explode("<>", $lines[$i]);
+			if($items[0] == $_POST['delno'] && $items[1] == $_POST['delkey2']){
+				if($_POST['delkey2'] != "") {
+					#配列から削除
+					array_splice($lines, $i, 1);
+					$flag_change = TRUE;
+				}
+			}
+		}
+	} else {
+		$delno = "";
+		$delkey2 = "";
+	}
+
+	if(isset($_POST['write']) or isset($_POST['delete'])){
+		#ファイルに出力
+		// $fp = fopen($file_data,'w');
+		// flock($fp, LOCK_EX);
+		// foreach($lines as implode("\n",$line)) fputs($fp, $line);
+		file_put_contents($file_data,implode("\n",$lines),LOCK_EX);
+
+		// fclose($fp);
+		#ページ再読み込み(多重投稿防止)
+		#モバイル版ではなし
+		#if($flag_change){
+		#	header("Location: " . $cf['pwd'] . "bbs.html");
+		#	exit();
+		#}
+		if($flag_change){
+			$name = "";
+			$message = "";
+			$delkey = "";
+			$delno = "";
+			$delkey2 = "";
+		}
+	}
+
+	require($file_contents);
+?>
+<?php require($file_header_head); ?>
+<title><?= $page_title ?></title>
+<?php require($file_header_foot); ?>
+<body>
+<?php //include_once("../inc/analytics.inc") ?>
+<div id="header">
+<div id="main">
+<?php require($file_header); ?>
+<?php require($file_hr); ?>
+<?php echo $contents_head_mb; ?>
+	<div class="content">
+		<div align="right">
+		<form action="./member.html" method="post">
+		<input type="hidden" name="pass" value="$password">
+		<input type="submit" value="戻る">
+		<input type="hidden" name="pass" value="<?= $password ?>">
+		<input type="submit" name="bbs" value="表示更新">
+		</form>
+		</div>
+		<p>
+			<form method="POST" action="./member.html">
+			<input type="hidden" name="pass" value="<?= $password ?>">
+			<div>名前</div>
+			<input type="text" name="name" class="name" size="30" value="<?= $name ?>"><br>
+			<div>コメント</div>
+			<textarea name="message" class="text" cols="60" rows="5"><?= $message ?></textarea><br>
+			<div>削除キー</div>
+			<input type="password" name="delkey" class="pass" size="10"><br>
+			<div id="btn"><input type="submit" name="write" class="btn" value="送信"></div><br>
+			</form>
+		</p>
+
+	<div>
+		<hr>
+<?php
+if(isset($_POST['past'])){
+	#過去の投稿を表示
+	echo "過去の投稿です。<br>\n<hr>\n";
+	foreach($lines as $line){
+		#最後尾の改行を取り除く
+		$line = rtrim($line);
+		$items = explode("<>", $line);
+		if($items[0] <= count($lines) - $post_num){
+			echo '			 <font size="2">'."\n".'			No.'.$items[0].'｜名前: '.$items[2].'｜'.$items[4].'<br><br>'."\n";
+			echo "			$items[3]<br><br>\n			</font>\n			<hr>\n";
+		}
+	}
+} else {
+	#最新 $post_num 件の投稿を表示
+	foreach($lines as $line){
+		#最後尾の改行を取り除く
+		$line = rtrim($line);
+		$items = explode("<>", $line);
+		if($items[0] > count($lines) - $post_num){
+			echo '			 <font size="2">'."\n".'			No.'.$items[0].'｜名前: '.$items[2].'｜'.$items[4].'<br><br>'."\n";
+			echo "			$items[3]<br><br>\n			</font>\n			<hr>\n";
+		}
+	}
+?>
+<div align="right">
+<form action="./member.html" method="post">
+<input type="hidden" name="pass" value="<?= $password ?>">
+<input type="submit" name="past" value="過去の投稿を表示">
+</form>
+</div>
+<?php
+	echo "\n<hr>\n";
+		}
+?>
+			<form method="post" action="./member.html" class="del">
+			<input type="hidden" name="pass" value="<?= $password ?>">
+			記事番号 <input type="text" name="delno" class="no" size="10">　<br>
+			削除キー <input type="password" name="delkey2" class="key" size="10">　<br>
+			<div id="del"><input type="submit" name="delete" class="btn" value="削除"></div>
+			</form>
+		</div>
+		<div align="right">
+		<form action="./member.html" method="post">
+		<input type="hidden" name="pass" value="$password">
+		<input type="submit" value="戻る">
+		<input type="hidden" name="pass" value="<?= $password ?>">
+		<input type="submit" name="bbs" value="表示更新">
+		</form>
+		</div>
+	</div>
+</div>
+<?php require($file_hr); ?>
+<?php require($file_menu); ?>
+<?php require($file_footer); ?>
+</div>
+</body>
+</html>
+
+<?php
+	exit();
+}
+
+function enter_form() {
+
+	# include file name
+	$file_contents = './member_contents/enter.inc';
+	$file_header_head = './member_init/header_head.inc';
+	$file_header_foot = './member_init/header_foot.inc';
+	$file_header = './member_init/header.inc';
+	$file_hr = './member_init/hr.inc';
+	$file_menu = './member_init/menu.inc';
+	$file_footer = './member_init/footer.inc';
+
+	require($file_contents);
+?>
+<?php require($file_header_head); ?>
+<title><?= $page_title ?></title>
+<?php require($file_header_foot); ?>
+<body>
+<?php //include_once("../inc/analytics.inc") ?>
+<div id="header">
+<div id="main">
+<?php require($file_header); ?>
+<?php require($file_hr); ?>
+<?php echo $contents_head_mb; ?>
+	<div class="content">
+		<div align="center">
+			<form action="./member.html" method="post">
+<?php
+			for($i = 0; $i < count($title); $i++) {
+				echo '		<font size="3">' . $title[$i] . "</font>\n<br>\n<br>\n";
+				echo '		<font size="2">' . $contents[$i] . "</font>";
+			}
+?>
+			</form>
+		</div>
+	</div>
+</div>
+<?php require($file_hr); ?>
+<?php require($file_menu); ?>
+<?php require($file_footer); ?>
+</div>
+<script language="javascript">
+<!--
+        self.document.forms[0].password.focus();
+//-->
+</script>
+</body>
+</html>
+<?php
+	exit();
+}
+
+function check_passwd($pass) {
+	global $password;
+	if(!$pass) {
+		enter_form();
+	} elseif($pass != $password) {
+		enter_form();
+	}
+}
+
+function back_button() {
+	global $password;
+echo <<<EOM
+<div align="right">
+<form action="./member.html" method="post">
+<input type="hidden" name="pass" value="$password">
+<input type="submit" value="戻る">
+</form>
+</div>
+EOM;
+}
+?>
