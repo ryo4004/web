@@ -1,0 +1,55 @@
+<?php
+//初期設定読み込み
+require("./inc/init.inc");
+require("./inc/load.inc");
+
+// for($i=$inc['start'];$i<count($data);$i++){
+// 	if($data[$i] != ""){
+// 		unset($article);
+// 		$article = explode("<>",$data[$i]);
+// 		$contents['article'] .= '<font size="3">'.strip_tags($article[0],'<br><a><p>').'</font><font size="2"><p>'.strip_tags($article[1],'<br><a><p>').'</p></font>';
+// 	}
+// }
+
+//コンテンツ処理(schedule)
+$article = explode("<>",$data[$inc['start']]);
+$weekjp = ['日', '月', '火', '水', '木', '金', '土'];
+$nextflag = FALSE;
+$after = '<font size="3">今後の練習日程</font><font size="2"><p>';
+//改行用フラグ
+$tmp = "";
+for($i=$inc['start'];$i<count($data);$i++){
+	unset($article);
+	$article = explode("<>",$data[$i]);
+	if($data[$i] != "" && $i == $inc['start']){
+		$contents['article'] .= '<font size="3">'.$article[0].'</font>'
+				. '<font size="2"><p>'.$article[1].'</p></font>';
+	}
+}
+unset($data);
+$datafile = dirname(__FILE__).$dir['data'].$file['data'];
+$data = file(dirname(__FILE__).$dir['data'].$file['data'],FILE_IGNORE_NEW_LINES);
+for($i=0;$i<count($data);$i++){
+	unset($article);
+	$article = explode("<>",$data[$i]);
+	if(date('Y/m/d', strtotime($article[0])) >= date('Y/m/d') && $nextflag == FALSE) {
+		$next = '<font size="3">次回の練習日</font>'
+			. '<font size="2" color="'.COLOR_THEME.'"><p>'.date('n月j日',strtotime($article[0])).'('.$weekjp[date('w',strtotime($article[0]))].')&nbsp;'.str_replace('-','～',$article[1])."&nbsp;".$article[2]."&nbsp;".$article[3].'</p></font>';
+		$after .= date('n月j日',strtotime($article[0])).'('.$weekjp[date('w',strtotime($article[0]))].')&nbsp;'.str_replace('-','～',$article[1])."&nbsp;".$article[2]."&nbsp;".$article[3].'<br>';
+		$nextflag = TRUE;
+	}elseif(date('Y/m/d', strtotime($article[0])) >= date('Y/m/d')) {
+		if($tmp != date('n',strtotime($article[0])) && $tmp != ""){
+			$after .= "<br>";
+		}
+		$after .= date('n月j日',strtotime($article[0])).'('.$weekjp[date('w',strtotime($article[0]))].') '.str_replace('-','～',$article[1])."&nbsp;".$article[2]."&nbsp;".$article[3]."<br>";
+		$tmp = date('n',strtotime($article[0]));
+	}
+}
+
+//日付が1桁の時は空白を挿入
+$next = preg_replace('/月([1-9])日/','月&nbsp;&nbsp;$1日',$next);
+$after = preg_replace('/月([1-9])日/','月&nbsp;&nbsp;$1日',$after);
+$contents['article'] .= $next . $after.'</p></font>';
+
+//表示処理
+require_once('./template/template.inc');

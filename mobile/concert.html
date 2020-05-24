@@ -1,0 +1,14 @@
+<?php
+//初期設定読み込み
+require("./inc/init.inc");
+require("./inc/load.inc");
+
+for($i=$inc['start'];$i<count($data);$i++){
+	if($data[$i] != ""){
+		unset($article);
+		$article = explode("<>",$data[$i]);
+		$contents['article'] .= '<font size="3">'.strip_tags($article[0],'<br><a><p>').'</font><font size="2"><p>'.strip_tags($article[1],'<br><a><p>').'</p></font>';
+	}
+}
+//表示処理
+require_once('./template/template.inc');
