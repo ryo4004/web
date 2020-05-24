@@ -1,0 +1,3 @@
+<FilesMatch "\.ics$">
+  AddType application/x-httpd-php .ics
+</FilesMatch>
