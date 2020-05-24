@@ -1,0 +1,137 @@
+<?php
+
+function makeEvent ($data) {
+  for($i=0;$i<count($data);$i++) {
+    $each = $data[$i];
+    echo 'BEGIN:VEVENT'."\r\n";
+    $startDateObject = new DateTime($each['starttimestamp']);
+    $startDateObject->setTimeZone(new DateTimeZone('UTC'));
+    $endDateObject = new DateTime($each['endtimestamp']);
+    $endDateObject->setTimeZone(new DateTimeZone('UTC'));
+    echo 'DTSTART:'.$startDateObject->format('Ymd\THis\Z')."\r\n";
+    echo 'DTEND:'.$endDateObject->format('Ymd\THis\Z')."\r\n";
+    echo 'DTSTAMP:20190101T000000Z'."\r\n";
+    echo 'UID:'.'winds'.md5($startDateObject->format('Ymd\THis\Z'))."\r\n";
+    // echo 'CREATED:20190530T042829Z'."\r\n";
+    // echo 'DESCRIPTION:'."\r\n";
+    // echo 'LAST-MODIFIED:20190530T042829Z'."\r\n";
+    echo 'LOCATION:'.$each['place'].' '.$each['studio']."\r\n";
+    // echo 'SEQUENCE:0'."\r\n";
+    // echo 'STATUS:CONFIRMED'."\r\n";
+    echo 'SUMMARY:'.'ウィンズ練習'."\r\n";
+    // echo 'TRANSP:OPAQUE'."\r\n";
+    echo 'BEGIN:VALARM'."\r\n";
+    echo 'ACTION:DISPLAY'."\r\n";
+    echo 'DESCRIPTION:'.'ウィンズ練習'."\r\n";
+    echo 'TRIGGER:'.$startDateObject->format('Ymd\THis\Z')."\r\n";
+    echo 'END:VALARM'."\r\n";
+    echo 'END:VEVENT'."\r\n";
+  }
+}
+
+// データ保存場所
+$dir['data'] = DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+
+// データ取得
+$list = file(dirname(__FILE__).$dir['data'].'schedule.inc',FILE_IGNORE_NEW_LINES);
+
+//コンテンツ処理(schedule)
+$weekjp = ['日', '月', '火', '水', '木', '金', '土'];
+$weeken = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+$contents['next'] = '直近の練習予定はありません。';
+$contents['article'] = '';
+$timestamp['present'] = date('Y/m/d H:i');
+$timestamp['today'] = date('Y/m/d');
+
+$nextflag = FALSE;
+
+unset($json);
+
+$timedata['date'] = date('Y-m-d');
+$timedata['time'] = date('H:i');
+
+$timedata['year'] = date('Y');
+$timedata['month'] = date('m');
+$timedata['day'] = date('d');
+$timedata['hour'] = date('H');
+$timedata['minute'] = date('i');
+
+$json['timestamp'] = $timedata;
+$json['today'] = false;
+
+for($i=0;$i<count($list);$i++) {
+  $timestamp['end'] = date('Y/m/d H:i',strtotime(explode('<>',$list[$i]) [0].' '. explode('-', explode('<>',$list[$i])[1] ) [1] ));
+  $date = explode('<>',$list[$i])[0];
+  $start = explode('-',explode('<>',$list[$i])[1])[0];
+  $end = explode('-',explode('<>',$list[$i])[1])[1];
+  $place = explode('<>',$list[$i])[2];
+  $studio = explode('<>',$list[$i])[3];
+  // $studio = preg_replace('/第(.*)スタジオ/','第<span>$1</span>スタジオ',$studio);
+  $memo = explode('<>',$list[$i])[4];
+  if($timestamp['end'] >= $timestamp['present'] && $nextflag == FALSE) {
+    if(strtotime($timestamp['today']) === strtotime($date)){
+      $json['today'] = true;
+    }
+    $data['date'] = $date;
+    $data['year'] = explode('-',$date)[0];
+    $data['month'] = explode('-',$date)[1];
+    $data['day'] = explode('-',$date)[2];
+    $data['weekjp'] = $weekjp[date('w',strtotime($date))];
+    $data['weeken'] = $weeken[date('w',strtotime($date))];
+    $data['place'] = $place;
+    $time['start'] = $start;
+    $time['end'] = $end;
+    $data['time'] = $time;
+    $data['studio'] = $studio;
+    $data['memo'] = $memo != '' ? $memo : false;
+
+    $json['next'] = $data;
+
+    $nextflag = explode('-',$date)[1];
+  }
+  if($nextflag) {
+    if(explode('-',$date)[1] > $nextflag || ($nextflag == '12' && explode('-',$date)[1] < $nextflag)) {
+      $nextflag = preg_replace('/0([1-9])/','$1',explode('-',$date)[1]);
+    }
+
+    $data['starttimestamp'] = date('Y/m/d H:i:s',strtotime(explode('<>',$list[$i]) [0].' '. explode('-', explode('<>',$list[$i])[1] ) [0] ));    
+    $data['endtimestamp'] = date('Y/m/d H:i:s',strtotime(explode('<>',$list[$i]) [0].' '. explode('-', explode('<>',$list[$i])[1] ) [1] ));
+    $data['date'] = $date;
+    $data['weekjp'] = $weekjp[date('w',strtotime($date))];
+    $data['weeken'] = $weeken[date('w',strtotime($date))];
+    $data['place'] = $place;
+    $time['start'] = $start;
+    $time['end'] = $end;
+    $data['time'] = $time;
+    $data['studio'] = $studio;
+    $data['memo'] = $memo != '' ? $memo : false;
+
+    $month = explode('-',$date)[0].'-'.explode('-',$date)[1];
+
+    $json['list'][] = $data;
+    $json['schedule'][$month][] = $data;
+  }
+}
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: "Origin, X-Requested-With, Content-Type, Accept"');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+
+header('Content-type: text/calendar');
+
+if(isset($json)){
+  echo 'BEGIN:VCALENDAR'."\r\n";
+  echo 'PRODID:-//The Wind Ensemble//Winds Schedule//EN'."\r\n";
+  echo 'VERSION:2.0'."\r\n";
+  echo 'CALSCALE:GREGORIAN'."\r\n";
+  echo 'METHOD:PUBLISH'."\r\n";
+  echo 'X-WR-CALNAME:ウィンズ練習日程'."\r\n";
+  echo 'X-WR-TIMEZONE:Asia/Tokyo'."\r\n";
+  echo 'X-WR-CALDESC:ウィンズの練習日程'."\r\n";
+  echo makeEvent($json['list']);
+  echo 'END:VCALENDAR'."\r\n";
+}else{
+  echo '';
+}
+
+exit();
