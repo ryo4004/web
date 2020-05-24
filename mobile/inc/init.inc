@@ -113,7 +113,7 @@
 
 /*** base end ***/
 
-	require(dirname(__FILE__)."/../../html/inc/init.inc");
+	//require(dirname(__FILE__)."/../../html/inc/init.inc");
 	//init.incにて読み込む
 	//require(dirname(__FILE__)."/../../inc/function.inc");
 
