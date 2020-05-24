@@ -1,4 +1,7 @@
 <?php
+
+  require('../../secrets/bbs.php');
+
   // 初期設定
   // if(isset($_COOKIE['BBS'])){
   //   $message['title'] = '団員専用掲示板';
@@ -19,7 +22,7 @@
   //   $message['text'] = '';
   // }
 
-  if ($_POST['api'] === 'Wct5RRmoRwL8mysm4yChUcfkXGcm0fwPJSTrJPqbLGJnFDe9kSQuvPMNKa0rgky9pKukd7mMmZVds3RtimrXZ48UcfiVlvKq699OK662f2uOjP1B99jqJjMCIRrE9QdF') {
+  if ($_POST['api'] === $BBS_APIPASS) {
 
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Headers: "Origin, X-Requested-With, Content-Type, Accept"');
