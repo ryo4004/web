@@ -1,6 +1,6 @@
 <?php
 
-  require('../../secrets/bbs.php');
+  require('../../../secrets/bbs.php');
 
   // 初期設定
   // if(isset($_COOKIE['BBS'])){
