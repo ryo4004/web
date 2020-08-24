@@ -5,32 +5,6 @@ body {
 /************************************************************************/
 /****** Setting for member login form                              ******/
 /************************************************************************/
-div.box-alert {
-  width: 100%;
-  padding: 40px 0 0;
-  background: rgb(250,249,245)!important
-}
-div.close-alert {
-  position: relative;
-  display: block;
-  left: 0;
-  right: 0;
-  bottom: auto;
-	width: calc(100% - 80px - 2px);
-  max-width: 600px;
-  max-height: 300px;
-  margin: 40px auto 0;
-  padding: 0;
-	border: 0px solid rgba(0,0,0,0.2);
-  border-radius: 24px;
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  z-index: 11;
-}
-div.alert {
-  padding: 1.5em;
-}
 div.box {
   width: 100%;
   padding: 40px 0;
