@@ -526,6 +526,65 @@ body {
   }
 }
 
+.information .infection-measure {
+  position: relative;
+  width: 90%;
+  max-width: calc(800px - 2.5%);
+  margin: 20px auto 8px;
+  padding-bottom: 0;
+  /* color: #fff; */
+  color: #231815;
+  font-size: 1em;
+  font-family: "kan48typos-std",sans-serif;
+}
+
+@media (max-width: 767px) {
+  .information .infection-measure {
+    width: 100%;
+    max-width: auto;
+    margin: 20px auto;
+    padding: 0;
+  }
+}
+
+.information .infection-measure .step {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.information .infection-measure .step .item {
+  max-width: 200px;
+  margin: 16px 8px;
+  background: #433c35;
+}
+
+@media (max-width: 767px) {
+  .information .infection-measure .step .item {
+    max-width: 100px;
+    margin: 8px 6px;
+  }  
+}
+
+.information .infection-measure .step .item img {
+  width: calc(100% - 16px);
+  margin: 8px;
+  border-radius: .25rem;
+}
+
+.information .infection-measure .step .item p {
+  margin: 0 8px 8px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+}
+
+@media (max-width: 767px) {
+  .information .infection-measure .step .item p {
+    font-size: 12px;
+  }  
+}
+
 .overview-information {
   max-width: 800px;
   margin: 0 auto;
