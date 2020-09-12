@@ -1,16 +1,18 @@
 .policy {
   h2 {
-    margin-top: 12px;
+    margin-top: 24px;
     font-size: 24px;
   }
 
   h3 {
+    margin-top: 12px;
     font-size: 20px;
   }
 
   ul {
-    margin-left: 1em;
-    list-style: inside;
+    margin: 8px 0;
+    padding-left: 1em;
+    list-style: disc;
   }
 
   .update {
