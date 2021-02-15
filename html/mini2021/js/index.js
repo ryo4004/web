@@ -8,16 +8,16 @@ $('.overlay').click(function() {
 window.setTimeout(() => {
   $('.title.fadezoomin').removeClass('fadezoomin')
   $('.logo.fadein').removeClass('fadein')
+  $('.clef.fadein').removeClass('fadein')
 }, 500)
+
+window.setTimeout(() => {
+  $('.clef.fadein').removeClass('fadein')
+}, 200)
 
 window.setTimeout(() => {
   $('.eventday-frame.hidden').removeClass('hidden')
 }, 2000)
-
-
-// window.setTimeout(() => {
-//   $('.main-title.year').removeClass('opacity-0')
-// }, 3200)
 
 /* smooth scroll */
 $(function() {

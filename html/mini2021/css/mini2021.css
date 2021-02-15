@@ -66,6 +66,15 @@ body {
   /* background: rgba(255,255,255,0.6); */
 }
 
+.clef {
+  opacity: 1;
+  transition: all ease-out 2s;
+}
+
+.clef.fadein {
+  opacity: 0;
+}
+
 .background-frame img {
   /* position: relative; */
   z-index: 1;
@@ -546,6 +555,9 @@ p span:last-child {
     width: 95%;
     font-size: 1em;
   }
+}
+.map-frame {
+  padding: 0 12px;
 }
 #map {
   position: relative;
