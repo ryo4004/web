@@ -1,3 +1,12 @@
+const overlay = document.getElementById('overlay')
+
+if (overlay) {
+  overlay.addEventListener('click', () => {
+    const overlay = document.getElementById('overlay')
+    overlay.classList.add('opacity-0')
+  })  
+}
+
 const filter = () => {
   const doc = document.getElementById('home')
   const currentScroll = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop)
