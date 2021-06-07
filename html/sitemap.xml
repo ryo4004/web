@@ -7,10 +7,6 @@
   <priority>1.0</priority>
 </url>
 <url>
-  <loc>https://winds-n.com/32ndconcert</loc>
-  <priority>1.0</priority>
-</url>
-<url>
   <loc>https://winds-n.com/about</loc>
   <priority>1.0</priority>
 </url>
@@ -23,12 +19,24 @@
   <priority>0.8</priority>
 </url>
 <url>
+  <loc>https://winds-n.com/30thconcert</loc>
+  <priority>0.2</priority>
+</url>
+<url>
   <loc>https://winds-n.com/31stconcert</loc>
   <priority>0.2</priority>
 </url>
 <url>
-  <loc>https://winds-n.com/30thconcert</loc>
+  <loc>https://winds-n.com/32ndconcert</loc>
   <priority>0.2</priority>
+</url>
+<url>
+  <loc>https://winds-n.com/33rdconcert</loc>
+  <priority>0.2</priority>
+</url>
+<url>
+  <loc>https://winds-n.com/34thconcert</loc>
+  <priority>1.0</priority>
 </url>
 <url>
   <loc>https://winds-n.com/mini2017</loc>
@@ -40,6 +48,10 @@
 </url>
 <url>
   <loc>https://winds-n.com/mini2019</loc>
+  <priority>0.2</priority>
+</url>
+<url>
+  <loc>https://winds-n.com/mini2021</loc>
   <priority>0.2</priority>
 </url>
 
