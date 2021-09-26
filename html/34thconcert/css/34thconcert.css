@@ -253,6 +253,26 @@ body::before {
 .home section.about .text p {
   margin: 0.5em 0;
 }
+.home section.information .contents div {
+  margin: 16px 0 16px;
+}
+.home section.information .contents div span.date {
+  font-family: "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
+  white-space: pre-line;
+}
+.home section.information .contents div span.link {
+  margin-left: 0.5em;
+  padding-left: 0.5em;
+  border-left: 0.55px solid #ccc;
+  white-space: nowrap;
+}
+.home section.information .contents div span.link a {
+  color: #fff;
+  text-decoration: none;
+}
+.home section.information .contents div span.link a:hover {
+  opacity: 0.6;
+}
 .home section.program .contents div {
   margin: 16px 0 16px;
 }
