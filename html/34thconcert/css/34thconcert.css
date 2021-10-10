@@ -269,6 +269,7 @@ body::before {
 .home section.information .contents div span.link a {
   color: #fff;
   text-decoration: none;
+  white-space: pre-wrap;
 }
 .home section.information .contents div span.link a:hover {
   opacity: 0.6;
