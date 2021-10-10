@@ -4,6 +4,9 @@ if (overlay) {
   overlay.addEventListener('click', () => {
     const overlay = document.getElementById('overlay')
     overlay.classList.add('opacity-0')
+    setTimeout(() => {
+      overlay.classList.add('remove')
+    }, 1000)
   })  
 }
 

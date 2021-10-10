@@ -37,6 +37,9 @@
 .opacity-0 {
   opacity: 0!important;
 }
+.remove {
+  display: none;
+}
 
 body {
   background: #fff;
