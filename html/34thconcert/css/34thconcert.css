@@ -6,7 +6,7 @@
   position: fixed;
   width: 100%;
   height: 100vh;
-  background: rgba(0,0,0,.8);
+  background: rgba(0,0,0,0.9);
   color: white;
   text-align: center;
   z-index: 99;
@@ -14,9 +14,6 @@
 }
 .overlay div {
   margin-bottom: 48px;
-}
-.overlay div p span {
-  white-space: nowrap;
 }
 .overlay div p:first-child {
   margin: 8px;
@@ -36,6 +33,9 @@
 }
 .opacity-0 {
   opacity: 0!important;
+}
+.remove {
+  display: none;
 }
 
 body {
