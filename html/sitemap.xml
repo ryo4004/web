@@ -36,7 +36,7 @@
 </url>
 <url>
   <loc>https://winds-n.com/34thconcert</loc>
-  <priority>1.0</priority>
+  <priority>0.2</priority>
 </url>
 <url>
   <loc>https://winds-n.com/mini2017</loc>
@@ -53,6 +53,10 @@
 <url>
   <loc>https://winds-n.com/mini2021</loc>
   <priority>0.2</priority>
+</url>
+<url>
+  <loc>https://winds-n.com/mini2022</loc>
+  <priority>1.0</priority>
 </url>
 
 </urlset>
