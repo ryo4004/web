@@ -1,0 +1,168 @@
+<?php
+
+$timestamp['present'] = strtotime(date('Y/m/d H:i'));
+$timestamp['end'] = strtotime('2022-05-07 15:00');
+
+$end = false;
+
+if ($timestamp['present'] > $timestamp['end']) {
+  $end = true;
+}
+
+?><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1.0">
+<meta name="description" content="ザ・ウィンド・アンサンブルでは2022年5月7日(土)に春のミニコンサートを開催いたします。ぜひ長岡リリックホールにお越しください！">
+<meta name="keywords" content="ウィンズ,春のミニコンサート,ウインズ,長岡市,nagaoka,リリックホール,新潟県,ザウィンドアンサンブル,ザ・ウィンド・アンサンブル,ザウインドアンサンブル,ザ・ウインド・アンサンブル,吹奏楽,winds,thewindensemble">
+<meta property="fb:app_id" content="1477708412318886">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:url" content="https://winds-n.com/mini2022/">
+<meta property="og:title" content="ザ・ウィンド・アンサンブル春のミニコンサート">
+<meta property="og:description" content="ザ・ウィンド・アンサンブルでは2022年5月7日(土)に春のミニコンサートを開催いたします。ぜひ長岡リリックホールにお越しください！">
+<meta property="og:image" content="https://winds-n.com/mini2022/img/poster.jpg">
+<meta property="og:image:alt" content="2022 spring mini concert">
+<meta name="author" content="The Wind Ensemble">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@winds_nagaoka">
+<meta name="twitter:domain" content="winds-n.com">
+<meta name="twitter:creator" content="@winds_nagaoka">
+<meta name="twitter:title" content="春のミニコンサートを開催します">
+<meta name="twitter:description" content="2022年5月7日(土)、新潟県長岡市(リリックホール)で演奏いたします。詳細はクリック！">
+<meta name="twitter:image" content="https://winds-n.com/mini2022/img/poster.jpg">
+<title>春のミニコンサート2022｜ザ・ウィンド・アンサンブル</title>
+<link rel="stylesheet" href="../css/reset.css">
+<link rel="stylesheet" href="../css/style_old.css">
+<link rel="stylesheet" href="css/mini2022.css">
+<link rel="shortcut icon" href="../image/favicon.ico">
+<link rel="apple-touch-icon" href="../image/icon/apple-icon.png">
+<link rel="icon" type="image/png" href="../image/icon/android-chrome.png">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
+<link href="https://fonts.googleapis.com/earlyaccess/roundedmplus1c.css" rel="stylesheet" />
+</head>
+<body>
+
+<?php if ($end) {
+?>
+<div class="overlay">
+  <div>
+    <p>この演奏会は終演いたしました</p>
+    <p><span>ご来場くださいました皆さま</span><span class="punctuation-mark">、</span><span>ありがとうございました</span></p>
+  </div>
+</div>
+<?php
+}
+?>
+
+<div class="background-frame">
+  <div class="clef fadein">
+    <img src="img/clef.png">
+  </div>
+</div>
+
+<div class="title-frame">
+  <div class="main-title">
+    <div class="logo fadein">
+      <a href="https://winds-n.com">
+        <?php require('../image/logo/logo.svg'); ?>
+      </a>
+    </div>
+    <div class="title fadezoomin">
+      <img src="img/title.png">
+    </div>
+  </div>
+</div>
+
+<div class="information">
+  <div class="eventday-frame hidden">
+    <div class="eventday"><span>2022</span><span>年</span><span>5</span><span>月</span><span>7</span><span>日</span><span>(土)</span></div>
+    <div class="eventday-bg"><div class="bg">&nbsp;</div></div>
+  </div>
+  <div class="sns-button">
+    <!-- Twitter -->
+    <a href="https://twitter.com/share?url=https://winds-n.com/mini2022&text=ザ・ウィンド・アンサンブルの春のミニコンサートは5月7日(土)に長岡リリックホールにて開催いたします！&related=winds_nagaoka" target="_blank" class="twitter"><i class="fab fa-twitter-square"></i></a>
+
+		<!-- Facebook -->
+    <a href="http://www.facebook.com/share.php?u=https://winds-n.com/mini2022" rel="nofollow" target="_blank" class="facebook"><i class="fab fa-facebook-square"></i></a>
+
+		<!-- LINE -->
+		<a href="http://line.me/R/msg/text/?ザ・ウィンド・アンサンブル春のミニコンサート%0D%0A詳細はこちら！%0D%0Ahttps://winds-n.com/mini2022" target="_blank" class="line"><i class="fab fa-line"></i></a>
+    <div>このページをシェアしてね</div>
+  </div>
+
+  <div class="poster-frame">
+    <div class="poster">
+      <a href="img/poster.png">ポスターはこちら</a>
+    </div>
+  </div>
+
+  <div class="note">
+    <div>
+      <img src="img/note.png">
+    </div>
+  </div>
+
+  <div class="concert-information">
+    <h2>ミニコンサート概要</h2>
+    <p><span>場所</span><span>リリックホール「ポケットステージ」</span></p>
+    <p class="small"><span>雨天時</span><span>リリックホール コンサートホール(公開練習)</span></p>
+    <p><span>日時</span><span>2022年5月7日(土)</span></p>
+    <p><span>時間</span><span>14時頃</span></p>
+    <p><span>入場料</span><span>なし</span></p>
+    <p><span>主催</span><span>ザ・ウィンド・アンサンブル</span></p>
+  </div>
+  <div class="program">
+    <h2>プログラム</h2>
+    <p>ドラゴンクエストより序曲</p>
+    <p>ヒットソング プレイバック90's</p>
+    <p>ディープパープルメドレー</p>
+    <p>ディズニーメドレーⅡ</p>
+    <p><span>指揮</span><span>今井優太・髙橋亮</span></p>
+  </div>
+  <div class="access">
+    <h2>会場へのアクセス</h2>
+    <div class="map-frame">
+      <div id="map"></div>
+      <a href="https://www.google.co.jp/maps/dir//%E9%95%B7%E5%B2%A1%E3%83%AA%E3%83%AA%E3%83%83%E3%82%AF%E3%83%9B%E3%83%BC%E3%83%AB%E3%80%81%E3%80%92940-2108+%E6%96%B0%E6%BD%9F%E7%9C%8C%E9%95%B7%E5%B2%A1%E5%B8%82%E5%8D%83%E7%A7%8B%EF%BC%93%E4%B8%81%E7%9B%AE%EF%BC%91%EF%BC%93%EF%BC%95%EF%BC%96%E2%88%92%EF%BC%96/@37.4649032,138.8269598,17z" target="_blank" class="button">リリックホールへのルートを検索<i class="fas fa-external-link-alt"></i></a>
+    </div>
+    <div>
+      <p>〒940-2108</p>
+      <p>新潟県長岡市千秋3丁目1356番地6</p>
+      <p>長岡リリックホール <a href="http://www.nagaoka-caf.or.jp/" target="_blank">Webサイト<i class="fas fa-external-link-alt"></i></a></p>
+      <ul>
+        <li>JR長岡駅大手口より</li>
+        <span>下記いずれかの方法でアクセスできます</span>
+        <ul>
+          <li>8番線から中央循環バスで、（内回り／近代美術館、外回り／ハイブ長岡）バス停下車、徒歩3分。</li>
+          <li>2番線から（日赤病院経由）江陽団地行きバスで、ハイブ長岡バス停下車、徒歩3分。</li>
+          <li>2番線から江陽環状線バスで、（大手大橋先回り／ハイブ長岡）バス停下車、徒歩3分。</li>
+          <li>2番線から（日赤病院経由）出雲崎行きバスで、近代美術館バス停下車、徒歩3分。</li>
+        </ul>
+        <li>関越・北陸自動車道より</li>
+        <ul>
+          <li>長岡インターチェンジから車で約10分</li>
+        </ul>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="cat">
+  <div>
+    <img src="img/cat.png">
+  </div>
+</div>
+
+<div class="back"><a href="/" class="back-to-home tap"><i class="fas fa-home"></i>ホームへもどる</a></div>
+<a href="#" id="bottomlink" class="top-scroll tap">BACK TO TOP</a>
+<footer class="footer">&copy; The Wind Ensemble 1985-<?php echo date('Y'); ?> All Rights Reserved.</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCV0-BnYAJ4B3a7GG6sTh2lIh4PCtb5qZc&callback=initMap" async defer></script>
+<?php include('../js/analytics.js'); ?>
+</body>
+</html>
