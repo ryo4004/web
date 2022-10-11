@@ -17,13 +17,14 @@ class History extends React.Component {
   }
 
   componentDidMount () {
-    this.setState({loading: true})
-    superagent
-    .post('https://app.winds-n.com/web/concert')
-    .end((err, res) => {
-      if (err) return this.setState({loading: false, err: {type: 'networkError'}})
-      this.setState({loading: false, list: res.body.list.reverse()})
-    })
+    ;(async () => {
+      this.setState({loading: true})
+      const response = await fetch('https://app.winds-n.com/web/concert', {
+        method: "POST"
+      })
+      const list = await response.json()
+      this.setState({loading: false, list: list.list.reverse()})  
+    })()
   }
 
   updateSearch (text) {
@@ -173,7 +174,7 @@ class History extends React.Component {
         <details key={each.id + i} className={'concert-item ' + each.type + ' ' + each.id}>
           <summary onTouchStart={() => {}}><h2>{each.detail.title}</h2></summary>
           <div>
-            <div class='detail'>
+            <div className='detail'>
               <div className='poster'>
                 {poster}
               </div>
@@ -246,7 +247,7 @@ class History extends React.Component {
       return (
         <React.Fragment>
           {topBar}
-          <div class='loading'>読み込み中</div>
+          <div className='loading'>読み込み中</div>
         </React.Fragment>
       )
     }
