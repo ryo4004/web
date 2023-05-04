@@ -446,6 +446,10 @@ p.small {
   font-size: .8em;
 }
 
+p.small-guide {
+  font-size: .8em!important;
+}
+
 ul {
   margin: 0;
   padding: 2px 12px;
