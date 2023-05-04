@@ -356,6 +356,7 @@ a.line:active {
 
 .poster-frame {
   padding: 10px 0;
+  text-align: center;
 }
 
 .poster {
@@ -384,6 +385,17 @@ a.line:active {
 }
 .poster a:active {
   background: rgba(245,173,27,.6);
+}
+
+.poster span {
+  display: block;
+  margin-top: 0.2em;
+}
+
+.poster-frame .old-poster {
+  display: inline-block;
+  margin-top: 1em;
+  font-size: 0.8em;
 }
 
 .note {
@@ -444,6 +456,10 @@ p {
 
 p.small {
   font-size: .8em;
+}
+
+p.small-guide {
+  font-size: .8em!important;
 }
 
 ul {
