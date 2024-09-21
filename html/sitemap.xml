@@ -40,10 +40,14 @@
 </url>
 <url>
   <loc>https://winds-n.com/35thconcert</loc>
-  <priority>1.0</priority>
+  <priority>0.2</priority>
 </url>
 <url>
   <loc>https://winds-n.com/36thconcert</loc>
+  <priority>0.2</priority>
+</url>
+<url>
+  <loc>https://winds-n.com/37thconcert</loc>
   <priority>1.0</priority>
 </url>
 <url>
@@ -64,6 +68,14 @@
 </url>
 <url>
   <loc>https://winds-n.com/mini2022</loc>
+  <priority>0.2</priority>
+</url>
+<url>
+  <loc>https://winds-n.com/mini2023</loc>
+  <priority>0.2</priority>
+</url>
+<url>
+  <loc>https://winds-n.com/mini2024</loc>
   <priority>0.2</priority>
 </url>
 
